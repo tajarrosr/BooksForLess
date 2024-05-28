@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
+    // registration
     public function showRegistrationForm()
     {
         return view('admin.register');
@@ -28,6 +29,7 @@ class AdminController extends Controller
         return redirect()->route('admin.login')->with('success', 'Registration successful! Please log in.');
     }
 
+    // login
     public function showLoginForm()
     {
         return view('admin.login');
@@ -54,6 +56,12 @@ class AdminController extends Controller
         ], [
             'password.confirmed' => 'The password confirmation does not match.',
         ]);
+    }
+
+    // dashboard
+    public function dashboard()
+    {
+        return view('admin.dashboard');
     }
 }
 

@@ -18,3 +18,9 @@ Route::post('admin/registration', [AdminController::class, 'register'])->name('a
 // Route for Admin Login
 Route::get('admin/login', [AdminController::class, 'showLoginForm']);
 Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login');
+
+
+// Route for Admin Dashboard
+Route::middleware('auth:admin')->group(function () {
+    Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+});
