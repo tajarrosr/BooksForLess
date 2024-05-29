@@ -6,5 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Landing Page</title>
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    @vite('./resources/js/app.js')
 </head>
 <body>

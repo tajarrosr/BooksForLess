@@ -1,13 +1,13 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
+Route::redirect('/', '/browse-books');
 
-// Route For Landing Page
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route For Browse Products
+Route::get('/browse-books', [BookController::class, 'index'])->name('show-all.books');
 
 
 // Route for Admin Registration
