@@ -1,26 +1,31 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BooksController;
 use Illuminate\Support\Facades\Route;
-
 
 // Route For Landing Page
 Route::get('/', function () {
     return view('welcome');
 });
 
-
 // Route for Admin Registration
 Route::get('admin/registration', [AdminController::class, 'showRegistrationForm']);
 Route::post('admin/registration', [AdminController::class, 'register'])->name('admin.register');
 
-
 // Route for Admin Login
-Route::get('admin/login', [AdminController::class, 'showLoginForm']);
-Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login');
-
+Route::get('admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login'); 
+Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login.post');
 
 // Route for Admin Dashboard
 Route::middleware('auth:admin')->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    
+    // Inventory Routes
+    Route::get('/admin/inventory', [BooksController::class, 'index'])->name('admin.inventory.index');
+    Route::get('/admin/inventory/create', [BooksController::class, 'create'])->name('admin.inventory.create');
+    Route::post('/admin/inventory', [BooksController::class, 'store'])->name('admin.inventory.store');
+    Route::get('/admin/inventory/{book:title}/edit', [BooksController::class, 'edit'])->name('admin.inventory.edit');
+    Route::put('/admin/inventory/{book:title}', [BooksController::class, 'update'])->name('admin.inventory.update');
+    Route::delete('/admin/inventory/{book:title}', [BooksController::class, 'destroy'])->name('admin.inventory.destroy');
 });

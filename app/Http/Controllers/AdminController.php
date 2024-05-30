@@ -61,8 +61,14 @@ class AdminController extends Controller
     // dashboard
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $admin = Auth::guard('admin')->user();
+        return view('admin.dashboard', compact('admin'));
+    }
+
+    // inventory books
+    public function inventory()
+    {
+        $admin = Auth::guard('admin')->user();
+        return view('admin.inventory.index', compact('admin'));
     }
 }
-
-

@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container mt-5">
-    <h2>Welcome to Admin Dashboard</h2>
-    <div class="card">
-        <div class="card-header">Dashboard</div>
-        <div class="card-body">
-            <p>Welcome, {{ Auth::guard('admin')->user()->name }}!</p>
-            <p>This is the admin dashboard.</p>
-        </div>
+@extends('admin.layouts.app')
+
+@section('content')
+<h2>Admin Dashboard</h2>
+<div class="card mt-3">
+    <div class="card-body">
+        <p>Welcome, {{ $admin->name }}!</p>
     </div>
 </div>
-</body>
-</html>
+<div class="card mt-3">
+    <div class="card-body">
+        <a href="{{ route('admin.inventory.index') }}">
+            <h5>Inventory Management</h5>
+            <p>Add, edit, and remove books from your inventory.</p>
+        </a>
+    </div>
+</div>
+@endsection
