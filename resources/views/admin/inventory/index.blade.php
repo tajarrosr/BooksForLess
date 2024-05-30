@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <h2 class="mb-4 text-center">Inventory Management</h2>
+    <h2 class="mb-4 text-center">Books Inventory Management</h2>
     <div class="d-flex justify-content-end mb-3">
         <a href="{{ route('admin.inventory.create') }}" class="btn btn-primary">Add New Book</a>
     </div>
