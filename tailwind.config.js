@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'selector',
   content: [
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
@@ -72,7 +73,16 @@ export default {
         800: 'rgb(var(--accent-800))',
         900: 'rgb(var(--accent-900))',
         950: 'rgb(var(--accent-950))',
-      },
+        },
+        'error': {
+          700: 'rgb(var(--error))',
+        },
+        'success': {
+          700: 'rgb(var(--success))',
+        },
+        'badge': {
+          800: 'rgb(var(--badge))'
+        }
       },
       fontFamily: {
         sans: ['Merriweather', 'serif'],
