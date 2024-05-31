@@ -9,14 +9,15 @@ class Book extends Model
 {
     use HasFactory;
 
-    // Add the fillable property to allow mass assignment
+    // Combine the fillable properties from both models
     protected $fillable = [
-        'title',
-        'author',
-        'genre',
-        'description',
-        'price',
-        'quantity',
-        'picture',
+        'book_name',
+        'book_author',
+        'book_price',
+        'book_desc',
+        'book_tmb',
+        'book_isbn',
+        'genre',        // Add genre
+        'quantity'      // Add quantity
     ];
 }
