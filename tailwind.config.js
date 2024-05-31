@@ -76,7 +76,7 @@ export default {
       },
       fontFamily: {
         sans: ['Merriweather', 'serif'],
-      },
+      },  
       fontWeight: {
         light: 300,
         normal: 400,
