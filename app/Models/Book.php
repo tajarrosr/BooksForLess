@@ -11,13 +11,13 @@ class Book extends Model
 
     // Combine the fillable properties from both models
     protected $fillable = [
-        'book_name',
+        'book_title',
         'book_author',
         'book_price',
         'book_desc',
         'book_tmb',
         'book_isbn',
-        'genre',        // Add genre
-        'quantity'      // Add quantity
+        'book_genres',        // Add genre
+        'stock'      // Add quantity
     ];
 }

@@ -36,7 +36,7 @@
         <input type="number" name="price" class="form-control" required>
     </div>
     <div class="form-group">
-        <label for="quantity">Quantity</label>
+        <label for="quantity">Stock</label>
         <input type="number" name="quantity" class="form-control" required>
     </div>
     <div class="form-group">

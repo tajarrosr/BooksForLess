@@ -2,38 +2,38 @@
 
 @section('content')
 <h2>Edit Book</h2>
-<form action="{{ route('admin.inventory.update', $book->title) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.inventory.update', $book->book_title) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text" name="title" class="form-control" value="{{ $book->title }}" required>
+        <label for="book_title">Title</label>
+        <input type="text" name="book_title" class="form-control" value="{{ $book->book_title }}" required>
     </div>
     <div class="form-group">
-        <label for="author">Author</label>
-        <input type="text" name="author" class="form-control" value="{{ $book->author }}" required>
+        <label for="book_author">Author</label>
+        <input type="text" name="book_author" class="form-control" value="{{ $book->book_author }}" required>
     </div>
     <div class="form-group">
-        <label for="genre">Genre</label>
-        <input type="text" name="genre" class="form-control" value="{{ $book->genre }}" required>
+        <label for="book_genre">Genre</label>
+        <input type="text" name="book_genre" class="form-control" value="{{ $book->book_genres }}" required>
     </div>
     <div class="form-group">
-        <label for="description">Description</label>
-        <textarea name="description" class="form-control" required>{{ $book->description }}</textarea>
+        <label for="book_desc">Description</label>
+        <textarea name="book_desc" class="form-control" required>{{ $book->book_desc }}</textarea>
     </div>
     <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" name="price" class="form-control" value="{{ $book->price }}" required>
+        <label for="book_price">Price</label>
+        <input type="number" name="book_price" class="form-control" value="{{ $book->book_price }}" required>
     </div>
     <div class="form-group">
-        <label for="quantity">Quantity</label>
-        <input type="number" name="quantity" class="form-control" value="{{ $book->quantity }}" required>
+        <label for="book_stock">Quantity</label>
+        <input type="number" name="book_stock" class="form-control" value="{{ $book->book_stock }}" required>
     </div>
     <div class="form-group">
-        <label for="picture">Picture</label>
-        <input type="file" name="picture" class="form-control">
-        @if($book->picture)
-            <img src="{{ asset('storage/' . $book->picture) }}" alt="{{ $book->title }}" width="100">
+        <label for="book_tmb">Picture</label>
+        <input type="file" name="book_tmb" class="form-control">
+        @if($book->book_tmb)
+            <img src="{{ asset('storage/' . $book->book_tmb) }}" alt="{{ $book->book_title }}" width="100">
         @endif
     </div>
     <button type="submit" class="btn btn-primary">Update Book</button>

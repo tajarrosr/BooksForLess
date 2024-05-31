@@ -2,18 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class BooksController extends Controller
 {
-    // Display a listing of the resource.
+    // * customer front-end
     public function index()
     {
-        $books = Book::all();
-        return view('admin.inventory.index', compact('books'));
+        $books = array("books" => DB::table('books')->orderBy('created_at', 'desc')->paginate());
+        return view('public.browse_books', $books);
     }
+
+    // * admin front-end
+    public function indexAdmin()
+    {
+        $books = array('books' => DB::table('books')->orderBy('created_at', 'desc')->paginate());
+        return view('admin.inventory.index', $books);
+    }
+    
 
     // Show the form for creating a new resource.
     public function create()
@@ -25,25 +34,25 @@ class BooksController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'genre' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-            'picture' => 'required|image', 
+            'book_title' => 'required',
+            'book_author' => 'required',
+            'book_genre' => 'required',
+            'book_desc' => 'required',
+            'book_price' => 'required|numeric',
+            'book_stock' => 'required|integer',
+            'book_tmb' => 'required|image', 
         ]);
 
-        $path = $request->file('picture')->store('pictures', 'public');
+        $path = $request->file('book_tmb')->store('pictures', 'public');
 
         Book::create([
-            'title' => $request->title,
-            'author' => $request->author,
-            'genre' => $request->genre,
-            'description' => $request->description,
-            'price' => $request->price,
-            'quantity' => $request->quantity,
-            'picture' => $path,
+            'book_title' => $request->book_title,
+            'book_author' => $request->book_author,
+            'book_genre' => $request->book_genre,
+            'book_desc' => $request->book_desc,
+            'book_price' => $request->book_price,
+            'book_stock' => $request->book_stock,
+            'book_tmb' => $path,
         ]);
 
         return redirect()->route('admin.inventory.index')->with('success', 'Book created successfully.');
@@ -58,28 +67,28 @@ class BooksController extends Controller
     public function update(Request $request, Book $book)
     {
         $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'genre' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-            'picture' => 'nullable|image',
+            'book_title' => 'required',
+            'book_author' => 'required',
+            'book_genre' => 'required',
+            'book_desc' => 'required',
+            'book_price' => 'required|numeric',
+            'book_stock' => 'required|integer',
+            'book_tmb' => 'nullable|image',
         ]);
 
-        if ($request->hasFile('picture')) {
-            Storage::disk('public')->delete($book->picture);
-            $path = $request->file('picture')->store('pictures', 'public');
-            $book->picture = $path;
+        if ($request->hasFile('book_tmb')) {
+            Storage::disk('public')->delete($book->book_tmb);
+            $path = $request->file('book_tmb')->store('pictures', 'public');
+            $book->book_tmb = $path;
         }
 
         $book->update([
-            'title' => $request->title,
-            'author' => $request->author,
-            'genre' => $request->genre,
-            'description' => $request->description,
-            'price' => $request->price,
-            'quantity' => $request->quantity,
+            'book_title' => $request->book_title,
+            'book_author' => $request->book_author,
+            'book_genre' => $request->book_genre,
+            'book_desc' => $request->book_desc,
+            'book_price' => $request->book_price,
+            'book_stock' => $request->book_stock,
         ]);
 
         return redirect()->route('admin.inventory.index')->with('success', 'Book updated successfully.');
@@ -88,7 +97,7 @@ class BooksController extends Controller
     // Remove the specified resource from storage.
     public function destroy(Book $book)
     {
-        Storage::disk('public')->delete($book->picture);
+        Storage::disk('public')->delete($book->book_tmb);
         $book->delete();
 
         return redirect()->route('admin.inventory.index')->with('success', 'Book deleted successfully.');

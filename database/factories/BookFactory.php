@@ -17,18 +17,24 @@ class BookFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
+    
     {
         $faker = FakerFactory::create();
         $faker->addProvider(new BookProvider($faker));
 
-        // * 'book_name', 'book_price', 'book_desc', 'book_tmb', 'book_isbn', book_author
+        $bookGenres = config('book_genres');
+
+
+        // * book_author, book_title, book_tmb, book_isbn, book_stock, book_genres, book_desc, book_price,
         return [
-            'book_name' => $faker->bookTitle(),
+            'book_title' => $faker->bookTitle(),
             'book_isbn' => $faker->ISBN(),
             'book_tmb' => $faker->bookThumbnail(),
             'book_author' => $faker->bookAuthor(),
             'book_price' => $faker->bookPrice(),
             'book_desc' => $faker->bookSummary(),
+            'book_genres' => $faker->randomElement($bookGenres),
+            'book_stock' => $faker->numberBetween(0, 20)
         ];
     }
 }

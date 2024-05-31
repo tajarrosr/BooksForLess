@@ -4,9 +4,10 @@
         @foreach ($books as $book)
         <div class="bg-white shadow-md rounded-lg p-4">
             <img src="{{$book->book_tmb}}" alt="Book Cover" class="mx-auto">
-            <h3 class="text-lg font-semibold mt-2">{{$book->book_name}}</h3>
+            <h3 class="text-lg font-semibold mt-2">{{$book->book_title}}</h3>
             <p class="text-gray-600">{{$book->book_author}}</p>
             <p class="text-gray-600">{{$book->book_price}}</p>
+            <p class="text-rose-600 font-bold">In Stock: {{$book->book_stock}}</p>
             <button class="bg-blue-500 text-white px-4 py-2 mt-4 rounded hover:bg-blue-600"><a href="#">Add to Cart</a></button>
         </div>
         @endforeach

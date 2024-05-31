@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Inventory Management')
+@section('book_title', 'Inventory Management')
 
 @section('content')
 <div class="container mt-5">
@@ -19,7 +19,7 @@
                         <th class="text-center">Genre</th>
                         <th class="text-center">Description</th>
                         <th class="text-center">Price</th>
-                        <th class="text-center">Quantity</th>
+                        <th class="text-center">Stock</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -27,19 +27,19 @@
                     @foreach($books as $book)
                         <tr>
                             <td class="text-center align-middle">
-                                <a href="{{ asset('storage/' . $book->picture) }}" target="_blank">
-                                    <img src="{{ asset('storage/' . $book->picture) }}" alt="{{ $book->title }}" class="img-fluid" style="width: 100px; height: auto;">
+                                <a href="{{ asset('storage/' . $book->book_tmb) }}" target="_blank">
+                                    <img src="{{ asset('storage/' . $book->book_tmb) }}" alt="{{ $book->book_title }}" class="img-fluid" style="width: 100px; height: auto;">
                                 </a>
                             </td>
-                            <td class="align-middle text-center">{{ $book->title }}</td>
-                            <td class="align-middle text-center">{{ $book->author }}</td>
-                            <td class="align-middle text-center">{{ $book->genre }}</td>
-                            <td class="align-middle text-center">{{ Str::limit($book->description, 50) }}</td>
-                            <td class="align-middle text-end">₱{{ number_format($book->price, 2) }}</td>
-                            <td class="align-middle text-center">{{ $book->quantity }}</td>
+                            <td class="align-middle text-center">{{ $book->book_title }}</td>
+                            <td class="align-middle text-center">{{ $book->book_author }}</td>
+                            <td class="align-middle text-center">{{ $book->book_genres }}</td>
+                            <td class="align-middle text-center">{{ Str::limit($book->book_desc, 50) }}</td>
+                            <td class="align-middle text-end">₱{{ number_format($book->book_price, 2) }}</td>
+                            <td class="align-middle text-center">{{ $book->book_stock }}</td>
                             <td class="align-middle text-center">
-                                <a href="{{ route('admin.inventory.edit', $book->title) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('admin.inventory.destroy', $book->title) }}" method="POST" style="display:inline-block;" class="delete-form">
+                                <a href="{{ route('admin.inventory.edit', $book->book_title) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <form action="{{ route('admin.inventory.destroy', $book->book_title) }}" method="POST" style="display:inline-block;" class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
