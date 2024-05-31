@@ -1,5 +1,6 @@
 @include('partials.__header')
-    <main class="grid-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-auto">
+    <x-nav/>
+    <section class="grid-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-auto">
         @foreach ($books as $book)
         <div class="bg-white shadow-md rounded-lg p-4">
             <img src="{{$book->book_tmb}}" alt="Book Cover" class="mx-auto">
@@ -9,5 +10,5 @@
             <button class="bg-blue-500 text-white px-4 py-2 mt-4 rounded hover:bg-blue-600"><a href="#">Add to Cart</a></button>
         </div>
         @endforeach
-    </main>
+    </section>
 @include('partials.__footer')

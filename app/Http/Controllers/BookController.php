@@ -11,8 +11,7 @@ class BookController extends Controller
     // the retrieval of book controller for books is here
     public function index()
     {
-        $data = array("books" => DB::table('books')->orderBy('created_at', 'desc')->paginate());
-
-        return view('public.browse_books', $data);
+        $books = array("books" => DB::table('books')->orderBy('created_at', 'desc')->paginate());
+        return view('public.browse_books', $books);
     }
 }

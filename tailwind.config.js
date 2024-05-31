@@ -74,6 +74,15 @@ export default {
         950: 'rgb(var(--accent-950))',
       },
       },
+      fontFamily: {
+        sans: ['Merriweather', 'serif'],
+      },
+      fontWeight: {
+        light: 300,
+        normal: 400,
+        bold: 700,
+        black: 900,
+      }
     }
   }
 }
