@@ -84,5 +84,6 @@ export default {
         black: 900,
       }
     }
-  }
+  },
+  plugins: [require('daisyui'),]
 }
