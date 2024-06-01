@@ -12,8 +12,8 @@ class BooksController extends Controller
     // * customer front-end
     public function index()
     {
-        $books = array("books" => DB::table('books')->orderBy('created_at', 'desc')->paginate(30));
-        return view('public.browse_books', $books);
+        $books = Book::all();
+        return view('public.browse_books', compact('books'));
     }
 
     // * admin front-end
