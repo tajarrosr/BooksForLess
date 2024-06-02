@@ -1,6 +1,21 @@
 @include('partials.__header')
 
     <style>
+
+        .cart-container {
+            @apply fixed top-0 right-0 h-full bg-white transition-all duration-300 z-50;
+            width: 30%; /* Set the width of the drawer */
+        }
+
+        /* CSS for the navbar */
+        .navbar {
+            @apply transition-margin-left duration-300;
+        }
+
+        /* CSS for the main content area */
+        .main-content {
+            @apply transition-margin-right duration-300;
+        }
         .active .cart {
             left: calc(100% - 40%);
         }
@@ -24,55 +39,18 @@
             font-weight: bold;
             cursor: pointer;
         }
+
+        .item-1 {
+            grid-row: 1 / 2;
+            grid-column: 1 / 2;
+        }
+
     </style>
 
 <body class="bg-background-50">
     
     {{-- * NAVIGATION BAR --}}
-        <div class="navbar bg-background-200">
-    <div class="flex-1">
-        <a class="btn btn-ghost text-xl text-secondary-950">BooksForLess</a>
-    </div>
-    <div class="flex-none">
-        <x-dark-toggle/>
-        <div class="dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-            <div class="indicator">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" class="fill-text-950"><path d="M240-80q-33 0-56.5-23.5T160-160v-480q0-33 23.5-56.5T240-720h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800-640v480q0 33-23.5 56.5T720-80H240Zm0-80h480v-480h-80v80q0 17-11.5 28.5T600-520q-17 0-28.5-11.5T560-560v-80H400v80q0 17-11.5 28.5T360-520q-17 0-28.5-11.5T320-560v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480-800q-33 0-56.5 23.5T400-720ZM240-160v-480 480Z"/></svg>          
-            <span class="badge badge-sm indicator-item bg-badge-800 text-text-50 dark:text-text-950">0</span>
-            </div>
-        </div>
-        <div tabindex="0" class="mt-3 z-[1] text-text-500 card card-compact dropdown-content w-52 bg-base-100 shadow">
-            <div class="card-body">
-            <span class="font-bold text-lg">8 Items</span>
-            <span class="text-info">Subtotal: $999</span>
-            <div class="card-actions">
-                <button class="btn btn-primary btn-block">View cart</button>
-            </div>
-            </div>
-        </div>
-        </div>
-        <div class="dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-            <div class="w-10 rounded-full">
-            <img alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
-        </div>
-        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-            <li>
-            <a class="justify-between">
-                Profile
-                <span class="badge bg-badge-800 text-text-50 dark:text-text-950">New</span>
-            </a>
-            </li>
-            <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
-        </ul>
-        </div>
-    </div>
-    </div>
-
-    {{-- <x-nav/> --}}
+    <x-nav/>
 
     {{-- * WEBPAGE TITLE --}}
     <header class="page-title text-center">
@@ -81,13 +59,20 @@
 
         
     {{-- * ADD TO CART SLIDER (LEFT) --}}
-    <div class="cart fixed top-0 left-full w-2/5 bg-background-900 border-l-2 border-solid border-accent-700 h-dvh transition-all">
-        <h1 class="uppercase text-4xl text-text-900 m-0 pt-0 pr-5 h-20 flex items-center">Cart</h1>
-        <ul class="list-cart"></ul>
-        <div class="check-out absolute bottom-0 w-full grid grid-cols-2">
-            <div class="total">0</div>
-            <div class="close-cart">close</div>
-            {{-- cursor-pointer text-text-50 bg-primary-900 w-full h-16 flex items-center justify-center font-bold even:bg-gray-100 --}}
+    <div class="cart-container">
+        <div class="cart fixed top-0 left-full w-2/5 bg-background-100 border-l-2 border-solid border-accent-700 h-dvh transition-all">
+            <h1 class="uppercase text-4xl text-text-900 m-0 ml-5 pt-0 pr-5 h-20 flex items-center">Cart</h1>
+            <ul class="list-cart h-4/5 overflow-y-auto"></ul>
+            <div class="check-out-container absolute bottom-0 w-full grid grid-cols-2 grid-rows-2 text-text-800">
+                <div class="total-label text-center capitalize item-1">Total:</div>
+                <div class="total item-2 text-center">₱0</div>
+                <div class="close-cart item-3 uppercase text-center cursor-pointer" onclick="toggleCartDrawer()">close</div>
+                <div class="check-out-button item-4 uppercase text-center">
+                    <button onclick="" class="uppercase">checkout</button></div>
+                {{-- cursor-pointer text-text-50 bg-primary-900 w-full h-16 flex items-center justify-center font-bold even:bg-gray-100 --}}
+            </div>
+
+            <x-cart-card/>
         </div>
     </div>
 
@@ -100,7 +85,7 @@
                 <p class="text-secondary-600">{{$book->book_author}}</p>
                 <p class="text-secondary-600">{{$book->book_price}}</p>
                 <p class="text-success-700 font-bold">In Stock: {{$book->book_stock}}</p>
-                <button class="bg-primary-500 text-text-50 px-4 py-2 mt-4 rounded hover:bg-primary-800"><a href="#">Add to Cart</a></button>
+                <button onclick="addToCart({{$book}})" class="bg-primary-500 text-text-50 px-4 py-2 mt-4 rounded hover:bg-primary-800">Add to Cart</button>
             </div>
             @endforeach
         </section>
@@ -111,67 +96,149 @@
         const openCart = document.querySelector(".open-cart");
         const closeCart = document.querySelector(".close-cart");
         const checkOut = document.querySelector(".check-out");
-        const total = document.querySelector(".total");
+        const cartTotal = document.querySelector(".total");
         const listCart = document.querySelector(".list-cart");
         const body = document.querySelector("body");
 
-        const books = @json($books);
-
         // * passes the retrieved data from local_db to client-side (js)
-
-    document.addEventListener('DOMContentLoaded', function() {
         const books = @json($books);
+        // console.log(books);
 
-        if (Array.isArray(books)) {
-            // Transform the books array into the desired format
-            let booksArr = books.map(book => ({
-                id: book.id,
-                bookTitle: book.book_title,
-                bookThumbnail: book.book_tmb,
-                bookPrice: book.book_price,
-                bookISBN: book.book_isbn,
-                bookStock: book.book_stock,
-                bookDescription: book.book_desc,
-                bookAuthor: book.book_author,
-                bookGenres: book.book_genres,
-                // * fields of each individual book
-            }));
+        // openCart.addEventListener('click', () => {
+        //     body.classList.add("active");
+        // });
 
-            // Log the transformed booksArr array
-            console.log('Books Array:', booksArr);
+        // closeCart.addEventListener('click', () => {
+        //     body.classList.remove("active");
+        // });
 
-        } else {
-            console.error('Books is not an array:', books);
+        const roundUp = (num) => {
+            return Math.round((num + Number.EPSILON) * 100) / 100
         }
-    }); // end of DOMContentLoaded listener
-
-        openCart.addEventListener('click', () => {
-            body.classList.add("active");
-        });
-
-        closeCart.addEventListener('click', () => {
-            body.classList.remove("active");
-        });
-
 
         let listCard = [];
-        const addToBag = (key) => {
-            if (listCard[key] == null) {
-                listCard[key] = JSON.parse(JSON.stringify(booksArr[key]));
-                listCard[key].quantity = 1;
+        const addToCart = (book) => {
+            // Check if the book already exists in the cart
+            const existingBookIndex = listCard.findIndex(item => item.book_title === book.book_title);
+
+            if (existingBookIndex !== -1) {
+                // If the book already exists, increase its quantity
+                if (listCard[existingBookIndex].quantity < book.book_stock) {
+                    listCard[existingBookIndex].quantity++;
+                } else {
+                    // state: quantity added > in stock books
+                    alert("You can't add more of this book. Limited stock available.")
+                }
+
+            } else {
+                // If the book does not exist, add it to the cart
+                listCard.push({
+                    ...book,
+                    quantity: 1
+                });
             }
-            reloadCard();
-        }
 
-        const reloadCard = () => {
-            listCard.innerHTML = "";
-            let count = 0;
-            let totalPrice = 0;
+            // Reload the cart display
+            reloadCart();
 
-            listCard.forEach((value, key) => {
-                totalPrice = totalPrice 
-            })
+            // Update the cart item count (badge)
+            updateCartItemCount();
+        } // end of addToCart()
+
+
+const reloadCart = () => {
+    // Clear previous contents of the cart
+    listCart.innerHTML = "";
+    
+    let total = 0;
+    let subtotalForEachBook = {}; // Object to store subtotal for each book
+
+    // Create a new unordered list element
+    const cartList = document.createElement('ul');
+
+    // Iterate over the listCard array
+    listCard.forEach(book => {
+        // Create a new list item element
+        const listItem = document.createElement('li');
+        // Set the inner HTML of the list item with book details
+        listItem.innerHTML = `
+            <span>${book.book_title}</span>
+            <span>Quantity: ${book.quantity}</span>
+            <span>Price: ${book.book_price * book.quantity}</span>
+        `;
+        // Append the list item to the unordered list
+        cartList.appendChild(listItem);
+        
+        // Calculate subtotal for each book
+        const subtotal = book.book_price * book.quantity;
+        
+        // Add the subtotal to the subtotalForEachBook object
+        if (subtotalForEachBook.hasOwnProperty(book.book_title)) {
+            subtotalForEachBook[book.book_title] += subtotal;
+        } else {
+            subtotalForEachBook[book.book_title] = subtotal;
         }
+    });
+
+    // Sum up the subtotal for each book to calculate the total
+    total = Object.values(subtotalForEachBook).reduce((acc, curr) => acc + curr, 0);
+
+    // Round up the total to the nearest two decimal places.
+    total = roundUp(total);
+
+    stringTotal = "₱" + String(total);
+
+    // Append the results to the div.total element
+    cartTotal.innerHTML = stringTotal;
+
+    // Append the unordered list to the listCart element
+    listCart.appendChild(cartList);
+
+    // Print total for debug
+    // console.log(total);
+};
+
+        // function responsible for getting the subtotal items in the cart.
+        const getTotalItemsInCart = () => {
+            let totalItems = 0;
+
+            listCard.forEach(book => {
+                totalItems += book.quantity;
+            });
+
+            return totalItems;
+        };
+
+        const updateCartItemCount = () => {
+            const cartItemCountElement = document.getElementById('cart-item-count');
+            const totalItemsInCart = getTotalItemsInCart(); // Assuming you have a function getTotalItemsInCart that returns the subtotal items in the cart
+
+            cartItemCountElement.innerText = totalItemsInCart;
+
+            // console.log(totalItemsInCart);
+        };
+
+        const toggleCartDrawer = () => {
+            const cartContainer = document.querySelector('.cart-container');
+            const mainContent = document.querySelector('.main-content');
+            const navbar = document.querySelector('.navbar');
+
+            // Toggle 'active' class on the body to open or close the cart drawer
+            document.body.classList.toggle('active');
+
+            // Adjust the width and margin of the main content area and navbar based on the state of the cart drawer
+            if (document.body.classList.contains('active')) {
+                mainContent.classList.add('md:mr-1/3'); // Reduce the width of the main content area on medium screens and above
+                mainContent.classList.add('-ml-1/3'); // Adjust the left margin of the main content area
+                navbar.classList.add('md:mr-1/3'); // Reduce the width of the navbar on medium screens and above
+                navbar.classList.add('-ml-1/3'); // Adjust the left margin of the navbar
+            } else {
+                mainContent.classList.remove('md:mr-1/3'); // Reset the width of the main content area
+                mainContent.classList.remove('-ml-1/3'); // Reset the left margin of the main content area
+                navbar.classList.remove('md:mr-1/3'); // Reset the width of the navbar
+                navbar.classList.remove('-ml-1/3'); // Reset the left margin of the navbar
+            }
+        };
     </script>
 
 @include('partials.__footer')
