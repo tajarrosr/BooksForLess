@@ -85,7 +85,7 @@
                 <p class="text-secondary-600">{{$book->book_author}}</p>
                 <p class="text-secondary-600">{{$book->book_price}}</p>
                 <p class="text-success-700 font-bold">In Stock: {{$book->book_stock}}</p>
-                <button onclick="addToCart({{$book}})" class="bg-primary-500 text-text-50 px-4 py-2 mt-4 rounded hover:bg-primary-800">Add to Cart</button>
+                <button onclick="addToCart({{$book}})" class="bg-primary-500 text-text-900 dark:text-text-50 px-4 py-2 mt-4 rounded hover:bg-primary-300">Add to Cart</button>
             </div>
             @endforeach
         </section>
