@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('book_title');
             $table->decimal('book_price', 8, 2);
             $table->string('book_isbn');
-            $table->integer('book_stock');
+            $table->integer('book_stock')->default(0); 
             $table->enum('book_genres', $bookGenres);
             $table->string('book_desc');
             $table->string('book_tmb');

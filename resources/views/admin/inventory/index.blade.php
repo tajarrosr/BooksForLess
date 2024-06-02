@@ -28,7 +28,7 @@
                         <tr>
                             <td class="text-center align-middle">
                                 <a href="{{ asset('storage/' . $book->book_tmb) }}" target="_blank">
-                                    <img src="{{ asset('storage/' . $book->book_tmb) }}" alt="{{ $book->book_title }}" class="img-fluid" style="width: 100px; height: auto;">
+                                <img src="{{ asset('storage/' . $book->book_tmb) }}" alt="{{ $book->book_title }}" class="img-fluid" style="width: 100px; height: auto;">
                                 </a>
                             </td>
                             <td class="align-middle text-center">{{ $book->book_title }}</td>

@@ -2,7 +2,7 @@
 
 @section('content')
 <h2>Edit Book</h2>
-<form action="{{ route('admin.inventory.update', $book->book_title) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.inventory.update', $book->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="form-group">

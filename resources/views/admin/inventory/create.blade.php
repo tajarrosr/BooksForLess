@@ -16,32 +16,36 @@
 <form action="{{ route('admin.inventory.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text" name="title" class="form-control" required>
+        <label for="book_title">Title</label>
+        <input type="text" name="book_title" class="form-control" required>
     </div>
     <div class="form-group">
-        <label for="author">Author</label>
-        <input type="text" name="author" class="form-control" required>
+        <label for="book_author">Author</label>
+        <input type="text" name="book_author" class="form-control" required>
     </div>
     <div class="form-group">
-        <label for="genre">Genre</label>
-        <input type="text" name="genre" class="form-control" required>
+        <label for="book_genres">Genre</label>
+        <input type="text" name="book_genres" class="form-control" required>
     </div>
     <div class="form-group">
-        <label for="description">Description</label>
-        <textarea name="description" class="form-control" required></textarea>
+        <label for="book_desc">Description</label>
+        <textarea name="book_desc" class="form-control" required></textarea>
     </div>
     <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" name="price" class="form-control" required>
+        <label for="book_price">Price</label>
+        <input type="number" name="book_price" class="form-control" required>
     </div>
     <div class="form-group">
-        <label for="quantity">Stock</label>
-        <input type="number" name="quantity" class="form-control" required>
+        <label for="book_stock">Stock</label>
+        <input type="number" name="book_stock" class="form-control" required>
     </div>
     <div class="form-group">
-        <label for="picture">Picture</label>
-        <input type="file" name="picture" class="form-control" required>
+        <label for="book_isbn">ISBN</label>
+        <input type="text" name="book_isbn" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="book_tmb">Picture</label>
+        <input type="file" name="book_tmb" class="form-control" required>
     </div>
     <button type="submit" class="btn btn-primary">Add Book</button>
 </form>

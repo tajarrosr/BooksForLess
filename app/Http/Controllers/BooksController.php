@@ -40,11 +40,12 @@ class BooksController extends Controller
             'book_desc' => 'required',
             'book_price' => 'required|numeric',
             'book_stock' => 'required|integer',
-            'book_tmb' => 'required|image', 
+            'book_isbn' => 'required',
+            'book_tmb' => 'required|image',
         ]);
-
+    
         $path = $request->file('book_tmb')->store('pictures', 'public');
-
+    
         Book::create([
             'book_title' => $request->book_title,
             'book_author' => $request->book_author,
@@ -52,11 +53,14 @@ class BooksController extends Controller
             'book_desc' => $request->book_desc,
             'book_price' => $request->book_price,
             'book_stock' => $request->book_stock,
+            'book_isbn' => $request->book_isbn ?? 'N/A',
             'book_tmb' => $path,
         ]);
-
+    
         return redirect()->route('admin.inventory.index')->with('success', 'Book created successfully.');
     }
+    
+    
 
     // Show the form for editing the specified resource.
     public function edit(Book $book)
@@ -64,35 +68,26 @@ class BooksController extends Controller
         return view('admin.inventory.edit', compact('book'));
     }
 
-    public function update(Request $request, Book $book)
-    {
-        $request->validate([
-            'book_title' => 'required',
-            'book_author' => 'required',
-            'book_genre' => 'required',
-            'book_desc' => 'required',
-            'book_price' => 'required|numeric',
-            'book_stock' => 'required|integer',
-            'book_tmb' => 'nullable|image',
-        ]);
+    public function update(Request $request, $id)
+{
+    // Find the book by ID
+    $book = Book::findOrFail($id);
 
-        if ($request->hasFile('book_tmb')) {
-            Storage::disk('public')->delete($book->book_tmb);
-            $path = $request->file('book_tmb')->store('pictures', 'public');
-            $book->book_tmb = $path;
-        }
+    // Update the book attributes
+    $book->update([
+        'book_title' => $request->book_title,
+        'book_author' => $request->book_author,
+        'book_genre' => $request->book_genre,
+        'book_desc' => $request->book_desc,
+        'book_price' => $request->book_price,
+        'book_stock' => $request->book_stock,
+        // Update other attributes as needed
+    ]);
 
-        $book->update([
-            'book_title' => $request->book_title,
-            'book_author' => $request->book_author,
-            'book_genre' => $request->book_genre,
-            'book_desc' => $request->book_desc,
-            'book_price' => $request->book_price,
-            'book_stock' => $request->book_stock,
-        ]);
+    // Redirect back with a success message
+    return redirect()->route('admin.inventory.index')->with('success', 'Book updated successfully.');
+}
 
-        return redirect()->route('admin.inventory.index')->with('success', 'Book updated successfully.');
-    }
 
     // Remove the specified resource from storage.
     public function destroy(Book $book)
