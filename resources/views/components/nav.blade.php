@@ -1,4 +1,9 @@
 {{-- * NAVIGATION BAR --}}
+<style>
+    .badge {
+        z-index: 0;
+    }
+</style>
 <div class="navbar bg-background-200">
     <div class="flex-1">
         <a class="btn btn-ghost text-xl text-secondary-950">BooksForLess</a>
