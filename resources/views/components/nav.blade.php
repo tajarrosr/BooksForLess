@@ -4,7 +4,7 @@
         z-index: 0;
     }
 </style>
-<div class="navbar bg-background-200 sticky top-0 z-2">
+<div class="navbar bg-background-200 sticky top-0 z-2 border-b-2 border-accent-500 shadow-2xl">
     <div class="flex-1">
         <a class="btn btn-ghost text-xl text-secondary-950">BooksForLess</a>
     </div>

@@ -59,14 +59,14 @@
         
     {{-- * ADD TO CART SLIDER (LEFT) --}}
     <div class="cart-container">
-        <div class="cart fixed top-0 left-full w-2/5 bg-background-100 border-l-2 border-solid border-accent-700 h-dvh transition-all">
+        <div class="cart fixed top-0 left-full w-2/5 bg-background-100 border-l-2 border-solid border-accent-500 h-dvh transition-all shadow-2xl">
             <h1 class="uppercase text-4xl text-text-900 m-0 ml-5 pt-0 pr-5 h-20 flex items-center">Cart</h1>
 
             {{-- * FRAGMENTS --}}
             <x-cart-card/>
 
 
-            <div class="check-out-container absolute bottom-0 w-full grid grid-cols-2 grid-rows-2 text-text-800">
+            <div class="check-out-container border-solid border-t-2 border-accent-500 absolute bottom-0 w-full grid grid-cols-2 grid-rows-2 text-text-800 shadow-inner">
                 <div class="total-label text-center capitalize item-1">Total:</div>
                 <div class="total item-2 text-center">₱0</div>
                 <div class="close-cart item-3 uppercase text-center cursor-pointer" onclick="toggleCartDrawer()">close</div>
@@ -89,7 +89,10 @@
                 <button onclick="addToCart({{$book}})" class="bg-primary-500 text-text-900 dark:text-text-50 px-4 py-2 mt-4 rounded hover:bg-primary-300">Add to Cart</button>
             </div>
             @endforeach
+            <x-scroll-to-top/>
         </section>
+
+        
 </body>
     
 
