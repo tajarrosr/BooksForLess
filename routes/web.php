@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to browse-books
@@ -30,3 +31,8 @@ Route::middleware('auth:admin')->group(function () {
     Route::put('/admin/inventory/{book}', [BooksController::class, 'update'])->name('admin.inventory.update');
     Route::delete('/admin/inventory/{book:title}', [BooksController::class, 'destroy'])->name('admin.inventory.destroy');
 });
+
+// Route for Checkout Page
+Route::get('/checkout', [CheckoutController::class, 'checkoutPage']);
+Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::get('/order-confirmed', [CheckoutController::class, 'success'])->name('checkout.order_confirmed');
