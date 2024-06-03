@@ -45,6 +45,10 @@
             grid-column: 1 / 2;
         }
 
+        .item-cover {
+            grid-row: 1 / 4;
+            grid-column: 1 / 4;
+        }
     </style>
 
 <body class="bg-background-50">
@@ -62,7 +66,7 @@
     <div class="cart-container">
         <div class="cart fixed top-0 left-full w-2/5 bg-background-100 border-l-2 border-solid border-accent-700 h-dvh transition-all">
             <h1 class="uppercase text-4xl text-text-900 m-0 ml-5 pt-0 pr-5 h-20 flex items-center">Cart</h1>
-            <ul class="list-cart h-4/5 overflow-y-auto"></ul>
+            <x-cart-card/>
             <div class="check-out-container absolute bottom-0 w-full grid grid-cols-2 grid-rows-2 text-text-800">
                 <div class="total-label text-center capitalize item-1">Total:</div>
                 <div class="total item-2 text-center">₱0</div>
@@ -71,8 +75,6 @@
                     <button onclick="" class="uppercase">checkout</button></div>
                 {{-- cursor-pointer text-text-50 bg-primary-900 w-full h-16 flex items-center justify-center font-bold even:bg-gray-100 --}}
             </div>
-
-            <x-cart-card/>
         </div>
     </div>
 
@@ -156,15 +158,20 @@ const reloadCart = () => {
     // Create a new unordered list element
     const cartList = document.createElement('ul');
 
+    
     // Iterate over the listCard array
     listCard.forEach(book => {
         // Create a new list item element
         const listItem = document.createElement('li');
+        listItem.classList.add('grid', 'grid-col-4', 'grid-rows-5', 'bg-accent-100', 'shadow-md', 'rounded-lg', 'p-4', 'my-2', 'gap-0', 'auto-rows-auto');
         // Set the inner HTML of the list item with book details
         listItem.innerHTML = `
-            <span>${book.book_title}</span>
-            <span>Quantity: ${book.quantity}</span>
-            <span>Price: ${book.book_price * book.quantity}</span>
+            <img src="${book.book_tmb}" alt="Book Cover" class="item-cover rounded-xl mx-auto w-20">
+            <span class="item-title">${book.book_title}</span>
+            <span class="item-author">${book.book_author}</span>
+            <span class="item-price">${book.book_price}</span>
+            <span class="item-subtotal">Subtotal: ${book.book_price * book.quantity}</span>
+            <span class="item-quantity">Quantity: ${book.quantity}</span>
         `;
         // Append the list item to the unordered list
         cartList.appendChild(listItem);
