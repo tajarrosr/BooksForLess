@@ -60,7 +60,7 @@
     {{-- * ADD TO CART SLIDER (LEFT) --}}
     <div class="cart-container">
         <div class="cart fixed top-0 left-full w-2/5 bg-background-100 border-l-2 border-solid border-accent-500 h-dvh transition-all shadow-2xl">
-            <h1 class="uppercase text-4xl text-text-900 m-0 ml-5 pt-0 pr-5 h-20 flex items-center">Cart</h1>
+            <h1 class="uppercase text-4xl text-text-900 m-0 ml-5 pt-0 pr-5 h-20 flex items-center">Bag</h1>
 
             {{-- * FRAGMENTS --}}
             <x-cart-card/>
