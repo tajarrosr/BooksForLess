@@ -46,29 +46,29 @@
         }
     </style>
 
-<body class="bg-background-50">
+<body class="bg-background-50 transition-all duration-300">
     
     {{-- * NAVIGATION BAR --}}
     <x-nav/>
 
     {{-- * WEBPAGE TITLE --}}
-    <header class="page-title text-center">
-        <h1 class="uppercase text-4xl text-text-700 py-12">browse books</h1>
+    <header class="page-title text-center font-butler-stencil">
+        <h1 class="uppercase text-6xl text-text-700 py-12">browse books</h1>
     </header>
 
         
     {{-- * ADD TO CART SLIDER (LEFT) --}}
     <div class="cart-container">
         <div class="cart fixed top-0 left-full w-2/5 bg-background-100 border-l-2 border-solid border-accent-500 h-dvh transition-all shadow-2xl">
-            <h1 class="uppercase text-4xl text-text-900 m-0 ml-5 pt-0 pr-5 h-20 flex items-center">Bag</h1>
+            <h1 class="uppercase text-4xl text-text-900 m-0 ml-5 pt-0 pr-5 h-20 flex items-center font-butler">Bag</h1>
 
             {{-- * FRAGMENTS --}}
             <x-cart-card/>
 
 
-            <div class="check-out-container border-solid border-t-2 border-accent-500 absolute bottom-0 w-full grid grid-cols-2 grid-rows-2 text-text-800 shadow-inner">
+            <div class="check-out-container border-solid border-t-2 border-accent-500 absolute bottom-0 w-full grid grid-cols-2 grid-rows-2 text-text-800 shadow-inner font-semibold">
                 <div class="total-label text-center capitalize item-1">Total:</div>
-                <div class="total item-2 text-center">₱0</div>
+                <div class="total item-2 text-center font-bold">₱0</div>
                 <div class="close-cart item-3 uppercase text-center cursor-pointer" onclick="toggleCartDrawer()">close</div>
                 <div class="check-out-button item-4 uppercase text-center">
                     <button onclick="" class="uppercase">checkout</button></div>
@@ -78,19 +78,22 @@
     </div>
 
         {{-- * PRODUCTS IN A GRID --}}
-        <section class="grid-container grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-auto">
-            @foreach ($books as $book)
-            <div class="bg-accent-100 shadow-md rounded-lg p-4">
+    <section class="grid-container grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-auto">
+        @foreach ($books as $book)
+        <div class="bg-accent-100 shadow-md rounded-lg p-4 flex flex-col justify-between"> <!-- Added flex utilities -->
+            <div> <!-- Wrapping content to allow vertical alignment -->
                 <img src="{{$book->book_tmb}}" alt="Book Cover" class="rounded-xl mx-auto">
                 <h3 class="text-lg font-semibold mt-2 text-text-950">{{$book->book_title}}</h3>
                 <p class="text-secondary-600">{{$book->book_author}}</p>
-                <p class="text-secondary-600">{{$book->book_price}}</p>
+                <p class="text-secondary-600">₱{{$book->book_price}}</p>
                 <p class="text-success-700 font-bold">In Stock: {{$book->book_stock}}</p>
-                <button onclick="addToCart({{$book}})" class="bg-primary-500 text-text-900 dark:text-text-50 px-4 py-2 mt-4 rounded hover:bg-primary-300">Add to Cart</button>
             </div>
-            @endforeach
-            <x-scroll-to-top/>
-        </section>
+            <button onclick="addToCart({{$book}})" class="bg-primary-500 text-text-900 dark:text-text-50 px-4 py-2 rounded hover:bg-primary-300 font-iphone font-semibold hover:font-serif mt-4">Add to Cart</button>
+        </div>
+        @endforeach
+        <x-scroll-to-top/>
+    </section>
+
 
         
 </body>
@@ -106,15 +109,6 @@
 
         // * passes the retrieved data from local_db to client-side (js)
         const books = @json($books);
-        // console.log(books);
-
-        // openCart.addEventListener('click', () => {
-        //     body.classList.add("active");
-        // });
-
-        // closeCart.addEventListener('click', () => {
-        //     body.classList.remove("active");
-        // });
 
         const roundUp = (num) => {
             return Math.round((num + Number.EPSILON) * 100) / 100
@@ -170,17 +164,17 @@ const reloadCart = () => {
         listItem.innerHTML = `
             <img src="${book.book_tmb}" alt="Book Cover" class="item-cover rounded-xl w-auto col-start-1 col-end-2 row-span-5">
 
-            <span class="item-title font-bold col-start-2 col-end-5 row-span-2">${book.book_title}</span>
+            <span class="item-title text-xl font-bold col-start-2 col-end-5 row-span-2 font-merriweather">${book.book_title}</span>
 
-            <span class="item-author text-sm col-start-2 col-end-5 row-span-1">Author: ${book.book_author}</span>
+            <span class="item-author text-md col-start-2 col-end-5 row-span-1">Author: ${book.book_author}</span>
 
-            <span class="item-price text-sm col-start-2 col-end-5 row-span-1">Unit Price: ${book.book_price}</span>
+            <span class="item-price text-md col-start-2 col-end-5 row-span-1">Unit Price: ${book.book_price}</span>
 
             <div class="relative col-start-2 col-end-5">
             
-                <span class="item-subtotal relative text-sm col-start-2 col-end-5 ">Subtotal: ${book.book_price * book.quantity}</span>
+                <span class="item-subtotal relative text-md col-start-2 col-end-5 ">Subtotal: ${book.book_price * book.quantity}</span>
         
-                <span class="item-quantity text-text-900 dark:text-text-950 text-3xl p-2 col-start-4 absolute col-end-5 right-1 bottom-0">×${book.quantity}
+                <span class="item-quantity text-text-900 dark:text-text-950 text-3xl p-2 col-start-4 absolute col-end-5 right-1 bottom-0 font-merriweather">×${book.quantity}
                 </span>
             
             </div>

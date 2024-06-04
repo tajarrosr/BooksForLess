@@ -2,8 +2,211 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 
+/** FONT DEFINITIONS */
+@font-face {
+    font-family: 'Butler';
+    src: url('Butler-UltraLight.woff2') format('woff2'),
+        url('Butler-UltraLight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler';
+    src: url('Butler-Medium.woff2') format('woff2'),
+        url('Butler-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler';
+    src: url('Butler-Light.woff2') format('woff2'),
+        url('Butler-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler';
+    src: url('Butler-Black.woff2') format('woff2'),
+        url('Butler-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler';
+    src: url('Butler-Bold.woff2') format('woff2'),
+        url('Butler-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler';
+    src: url('Butler-ExtraBold.woff2') format('woff2'),
+        url('Butler-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler';
+    src: url('Butler.woff2') format('woff2'),
+        url('Butler.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler Stencil';
+    src: url('ButlerStencil-Medium.woff2') format('woff2'),
+        url('ButlerStencil-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler Stencil';
+    src: url('ButlerStencil.woff2') format('woff2'),
+        url('ButlerStencil.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler Stencil';
+    src: url('ButlerStencil-ExtraBold.woff2') format('woff2'),
+        url('ButlerStencil-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler Stencil';
+    src: url('ButlerStencil-Black.woff2') format('woff2'),
+        url('ButlerStencil-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler Stencil';
+    src: url('ButlerStencil-UltraLight.woff2') format('woff2'),
+        url('ButlerStencil-UltraLight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler Stencil';
+    src: url('ButlerStencil-Bold.woff2') format('woff2'),
+        url('ButlerStencil-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Butler Stencil';
+    src: url('ButlerStencil-Light.woff2') format('woff2'),
+        url('ButlerStencil-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Voguella';
+    src: url('/public/assets/fonts/serif/voguella/Voguella.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stonewaller';
+  src: url('/public/assets/fonts/serif/stonewaller/Stonewaller.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Elegante Classica';
+  src: url('/public/assets/fonts/serif/elegante_classica/EleganteClassica.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Iphone';
+  src: url('/public/assets/fonts/serif/iPhone/iPhone/MYRIADPRO-BOLD.otf') format('otf');
+  font-weight: bold; font-style: normal;
+}
+
+@font-face {
+  font-family: 'Iphone';
+  src: url('/public/assets/fonts/serif/iPhone/iPhone/MYRIADPRO-REGULAR.otf') format('otf');
+  font-weight: normal; font-style: normal;
+}
+
+@font-face {
+  font-family: 'Iphone';
+  src: url('/public/assets/fonts/serif/iPhone/iPhone/MYRIADPRO-SEMIBOLD.otf') format('otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.merriweather-light {
+  font-family: "Merriweather", serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.merriweather-regular {
+  font-family: "Merriweather", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.merriweather-bold {
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.merriweather-black {
+  font-family: "Merriweather", serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.merriweather-light-italic {
+  font-family: "Merriweather", serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.merriweather-regular-italic {
+  font-family: "Merriweather", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.merriweather-bold-italic {
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.merriweather-black-italic {
+  font-family: "Merriweather", serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+
+/** LAYER COLOR DEFINITIONS */
 @layer base {
   :root {
     --text-50: 249 248 235;
