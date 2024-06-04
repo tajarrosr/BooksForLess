@@ -122,8 +122,23 @@
                 <!-- Step 4: Confirmation -->
                 <div x-show="step === 4" class="bg-white shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Confirmation</h2>
+                    <!-- Display Billing Information -->
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Billing Information</h3>
+                        <p><strong>Name:</strong> <span x-text="billing.name"></span></p>
+                        <p><strong>Email:</strong> <span x-text="billing.email"></span></p>
+                        <p><strong>Phone Number:</strong> <span x-text="billing.phone_number"></span></p>
+                        <p><strong>Address:</strong> <span x-text="billing.address"></span></p>
+                        <p><strong>City:</strong> <span x-text="billing.city"></span></p>
+                        <p><strong>Zip Code:</strong> <span x-text="billing.zip"></span></p>
+                    </div>
+                    <!-- Display Payment Method -->
+                    <div class="mt-4">
+                        <h3 class="text-lg font-semibold mb-2">Payment Method</h3>
+                        <p><strong>Selected Payment Method:</strong> <span x-text="paymentMethod"></span></p>
+                    </div>
                     <!-- Confirmation details go here -->
-                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md">Submit</button>
+                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">Submit</button>
                 </div>
             </form>
         </div>
