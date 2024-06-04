@@ -19,9 +19,7 @@ class CheckoutController extends Controller
             'address' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'zip' => 'required|string|max:10',
-            // 'card_number' => 'required|string|max:16',
-            // 'card_expiry' => 'required|string|max:5',
-            // 'card_cvc' => 'required|string|max:3',
+            'payment_method' => 'required|in:Gcash,PayPal,MayaPay',
         ]);
         
         return redirect()->route('checkout.order_confirmed');
