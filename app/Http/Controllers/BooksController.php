@@ -23,7 +23,6 @@ class BooksController extends Controller
         return view('admin.inventory.index', $books);
     }
     
-
     // Show the form for creating a new resource.
     public function create()
     {
@@ -59,8 +58,6 @@ class BooksController extends Controller
     
         return redirect()->route('admin.inventory.index')->with('success', 'Book created successfully.');
     }
-    
-    
 
     // Show the form for editing the specified resource.
     public function edit(Book $book)
@@ -69,25 +66,23 @@ class BooksController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    // Find the book by ID
-    $book = Book::findOrFail($id);
+    {
+        // Find the book by ID
+        $book = Book::findOrFail($id);
 
-    // Update the book attributes
-    $book->update([
-        'book_title' => $request->book_title,
-        'book_author' => $request->book_author,
-        'book_genre' => $request->book_genre,
-        'book_desc' => $request->book_desc,
-        'book_price' => $request->book_price,
-        'book_stock' => $request->book_stock,
-        // Update other attributes as needed
-    ]);
+        // Update the book attributes
+        $book->update([
+            'book_title' => $request->book_title,
+            'book_author' => $request->book_author,
+            'book_genre' => $request->book_genre,
+            'book_desc' => $request->book_desc,
+            'book_price' => $request->book_price,
+            'book_stock' => $request->book_stock,
+        ]);
 
-    // Redirect back with a success message
-    return redirect()->route('admin.inventory.index')->with('success', 'Book updated successfully.');
-}
-
+        // Redirect back with a success message
+        return redirect()->route('admin.inventory.index')->with('success', 'Book updated successfully.');
+    }
 
     // Remove the specified resource from storage.
     public function destroy(Book $book)

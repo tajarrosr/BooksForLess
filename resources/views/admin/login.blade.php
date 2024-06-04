@@ -22,12 +22,12 @@
         }
     </style>
 </head>
-<body style="background-image: url('/images/admin/admin_login_big.jpg'); background-size: cover; background-position: center;">
-    <div class="flex justify-center items-center h-screen">
-        <div class="max-w-4xl w-full bg-white p-8 rounded-lg shadow-lg transform translate-y-0 opacity-100 transition-transform duration-500 animate-slide-in flex">
-            <div class="w-1/2 bg-cover bg-center" style="background-image: url('/images/admin/admin_login_small.jpg');"></div>
+<body style="background-image: url('/assets/images/admin/admin_login_big.jpg'); background-size: cover; background-position: center;">
+    <div class="flex justify-center items-center min-h-screen p-4">
+        <div class="max-w-4xl w-full bg-white p-8 rounded-lg shadow-lg transform translate-y-0 opacity-100 transition-transform duration-500 animate-slide-in flex flex-col md:flex-row">
+            <div class="w-full md:w-1/2 bg-cover bg-center" style="background-image: url('/assets/images/admin/admin_login_small.jpg');"></div>
 
-            <div class="w-1/2 p-8">
+            <div class="w-full md:w-1/2 p-8">
                 <h2 class="text-3xl font-bold text-gray-900 mb-8">Admin Login</h2>
                 @if ($errors->any())
                     <div class="alert alert-danger">

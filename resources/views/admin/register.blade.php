@@ -17,9 +17,9 @@
         }
     </style>
 </head>
-<body class="flex min-h-screen bg-gray-200 bg-cover bg-center" style="background-image: url('/images/admin/admin_register.jpg');">
-    <div class="w-full flex items-center justify-center p-8">
-        <div class="max-w-xl w-full bg-white p-10 rounded-lg shadow-lg animate-fade-in">
+<body class="flex min-h-screen bg-gray-200 bg-cover bg-center" style="background-image: url('/assets/images/admin/admin_register.jpg');">
+    <div class="w-full flex items-center justify-center p-4 sm:p-8">
+        <div class="max-w-xl w-full bg-white p-6 sm:p-10 rounded-lg shadow-lg animate-fade-in">
             <div class="text-center mb-8">
                 <h2 class="text-3xl font-bold text-gray-900">Admin Registration</h2>
                 <p class="text-gray-600">Welcome to the BooksForLess Admin Registration</p>
@@ -54,9 +54,9 @@
                     <label for="password_confirmation" class="sr-only">Confirm Password</label>
                     <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required class="appearance-none rounded-full w-full px-4 py-3 bg-gray-100 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Confirm Password">
                 </div>
-                <div>
+                <div class="flex items-center mb-4">
                     <input type="checkbox" class="form-check-input" id="show_password">
-                    <label class="form-check-label" for="show_password">Show Password</label>
+                    <label class="form-check-label ml-2" for="show_password">Show Password</label>
                 </div>
                 <div>
                     <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300">
@@ -64,8 +64,8 @@
                     </button>
                 </div>
             </form>
-            <div class="mt-3">
-            Already have an account? <a href="{{ route('admin.login') }}" class="text-blue-500 hover:text-blue-700 font-bold"> Sign in here</a>
+            <div class="mt-3 text-center">
+                Already have an account? <a href="{{ route('admin.login') }}" class="text-blue-500 hover:text-blue-700 font-bold">Sign in here</a>
             </div>
         </div>
     </div>

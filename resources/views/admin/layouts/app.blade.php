@@ -1,29 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #343a40;
-            color: #fff;
-        }
-        .card {
-            background-color: #495057;
-        }
-        .card a {
-            color: #fff;
-            text-decoration: none;
-        }
-        .navbar, .navbar-brand, .nav-link {
-            color: #fff;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100 text-gray-900">
     @include('admin.admin_navigation')
-    <div class="container mt-5">
-        @yield('content')
-    </div>
 </body>
 </html>

@@ -12,7 +12,7 @@ class Book extends Model
     protected $fillable = [
         'book_title',
         'book_author',
-        'book_genres', // Updated
+        'book_genres',
         'book_desc',
         'book_price',
         'book_stock',
@@ -20,4 +20,3 @@ class Book extends Model
         'book_tmb',
     ];
 }
-
