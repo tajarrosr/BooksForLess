@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Step Checkout</title>
+    <title>Checkout</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2" defer></script>
 </head>
@@ -30,8 +30,8 @@
 
             <!-- Steps Content -->
             <div x-show="step === 1" class="bg-white shadow-md rounded-lg p-6">
-                <h2 class="text-xl font-semibold mb-4">Product Information</h2>
-                <!-- Product details go here -->
+                <h2 class="text-xl font-semibold mb-4">Order Details</h2>
+                <!-- Order details go here -->
             </div>
 
             <div x-show="step === 2" class="bg-white shadow-md rounded-lg p-6">
