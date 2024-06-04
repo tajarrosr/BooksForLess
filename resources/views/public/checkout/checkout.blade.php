@@ -114,6 +114,10 @@
                                 <input type="radio" name="payment_method" value="MayaPay" class="form-radio" required x-model="paymentMethod">
                                 <span class="ml-2">MayaPay</span>
                             </label>
+                            <label class="inline-flex items-center ml-4">
+                                <input type="radio" name="cod" value="COD" class="form-radio" required x-model="paymentMethod">
+                                <span class="ml-2">Cash on Delivery (COD)</span>
+                            </label>
                         </div>
                         @error('payment_method')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                     </div>
