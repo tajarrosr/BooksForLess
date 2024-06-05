@@ -49,7 +49,7 @@ Route::middleware('auth:admin')->group(function () {
 });
 
 // Route for Checkout Page
-Route::get('/checkout', [CheckoutController::class, 'checkoutPage']);
+Route::get('/checkout', [CheckoutController::class, 'checkoutPage'])->name('checkout');
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
 Route::get('/order-confirmed', [CheckoutController::class, 'success'])->name('checkout.order_confirmed');
 

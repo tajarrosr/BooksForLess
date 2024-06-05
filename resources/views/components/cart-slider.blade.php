@@ -11,7 +11,8 @@
                         <div class="total item-2 text-center font-bold">₱0</div>
                         <div class="close-cart item-3 uppercase text-center cursor-pointer" onclick="toggleCartDrawer()">close</div>
                         <div class="check-out-button item-4 uppercase text-center">
-                            <button onclick="" class="uppercase">checkout</button></div>
+                            <button class="uppercase"><a href="{{route('checkout')}}">checkout</a></button>
+                        </div>
                         {{-- cursor-pointer text-text-50 bg-primary-900 w-full h-16 flex items-center justify-center font-bold even:bg-gray-100 --}}
                     </div>
                 </div>
