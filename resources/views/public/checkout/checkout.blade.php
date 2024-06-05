@@ -1,5 +1,5 @@
 @include('partials.__header')
-<body class="bg-background-300 h-screen">
+<body class="bg-background-300 h-full">
 
     <x-nav/>
 
@@ -133,29 +133,24 @@
                 <!-- Step 4: Confirmation -->
                 <div x-show="step === 4" class="bg-background-200 shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Confirmation</h2>
-                    <!-- Billing Information -->
-                    <div class="flex flex-wrap">
-                        <div class="flex flex-wrap">
-                            <div class="w-full md:w-1/2">
-                                <h3 class="text-lg font-semibold mb-2">Billing Information</h3>
-                                <p><strong>Name:</strong> <span x-text="billing.name"></span></p>
-                                <p><strong>Email:</strong> <span x-text="billing.email"></span></p>
-                                <p><strong>Phone Number:</strong> <span x-text="billing.phone_number"></span></p>
-                                <p><strong>Address:</strong> <span x-text="billing.address"></span></p>
-                                <p><strong>City:</strong> <span x-text="billing.city"></span></p>
-                                <p><strong>Zip Code:</strong> <span x-text="billing.zip"></span></p>
-                            </div>
+                    <!-- Flex Container -->
+                    <div class="flex flex-wrap w-full bg-background-100 p-4 rounded-lg shadow">
+                        <!-- Billing Information -->
+                        <div class="w-full md:w-1/2 p-4 border-r border-accent-950">
+                            <h3 class="text-lg font-semibold mb-2">Billing Information</h3>
+                            <p><strong>Name:</strong> <span x-text="billing.name"></span></p>
+                            <p><strong>Email:</strong> <span x-text="billing.email"></span></p>
+                            <p><strong>Phone Number:</strong> <span x-text="billing.phone_number"></span></p>
+                            <p><strong>Address:</strong> <span x-text="billing.address"></span></p>
+                            <p><strong>City:</strong> <span x-text="billing.city"></span></p>
+                            <p><strong>Zip Code:</strong> <span x-text="billing.zip"></span></p>
                         </div>
-                        
                         <!-- Payment Method -->
-                        <div class="flex flex-wrap mt-4">
-                            <div class="w-full md:w-1/3">
-                                <h3 class="text-lg font-semibold mb-2">Payment Method</h3>
-                                <p><strong>Selected Payment Method:</strong> <span x-text="paymentMethod"></span></p>
-                            </div>
+                        <div class="w-full md:w-1/2 p-4">
+                            <h3 class="text-lg font-semibold mb-2">Payment Method</h3>
+                            <p><strong>Selected Payment Method:</strong> <span x-text="paymentMethod"></span></p>
                         </div>
                     </div>
-                    <!-- Confirmation details go here -->
                     <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">Submit</button>
                 </div>
             </form>
