@@ -96,178 +96,163 @@
 </body>
     
 
-    <script>
-        const openCart = document.querySelector(".open-cart");
-        const closeCart = document.querySelector(".close-cart");
-        const checkOut = document.querySelector(".check-out");
-        const cartTotal = document.querySelector(".total");
-        const listCart = document.querySelector(".list-cart");
-        const body = document.querySelector("body");
+<script>
+    const openCart = document.querySelector(".open-cart");
+    const closeCart = document.querySelector(".close-cart");
+    const checkOut = document.querySelector(".check-out");
+    const cartTotal = document.querySelector(".total");
+    const listCart = document.querySelector(".list-cart");
+    const body = document.querySelector("body");
 
-        // * passes the retrieved data from local_db to client-side (js)
-        const books = @json($books);
-        // console.log(books);
+    // * passes the retrieved data from local_db to client-side (js)
+    const books = @json($books);
 
-        // openCart.addEventListener('click', () => {
-        //     body.classList.add("active");
-        // });
+    // Function to round up numbers to 2 decimal places
+    const roundUp = (num) => {
+        return Math.round((num + Number.EPSILON) * 100) / 100;
+    }
 
-        // closeCart.addEventListener('click', () => {
-        //     body.classList.remove("active");
-        // });
+    let listCard = [];
 
-        const roundUp = (num) => {
-            return Math.round((num + Number.EPSILON) * 100) / 100
-        }
+    // Function to add a book to the cart
+    const addToCart = (book) => {
+        const existingBookIndex = listCard.findIndex(item => item.book_title === book.book_title);
 
-        let listCard = [];
-        const addToCart = (book) => {
-            // Check if the book already exists in the cart
-            const existingBookIndex = listCard.findIndex(item => item.book_title === book.book_title);
-
-            if (existingBookIndex !== -1) {
-                // If the book already exists, increase its quantity
-                if (listCard[existingBookIndex].quantity < book.book_stock) {
-                    listCard[existingBookIndex].quantity++;
-                } else {
-                    // state: quantity added > in stock books
-                    alert("You can't add more of this book. Limited stock available.")
-                }
-
+        if (existingBookIndex !== -1) {
+            if (listCard[existingBookIndex].quantity < book.book_stock) {
+                listCard[existingBookIndex].quantity++;
             } else {
-                // If the book does not exist, add it to the cart
-                listCard.push({
-                    ...book,
-                    quantity: 1
-                });
+                alert("You can't add more of this book. Limited stock available.");
             }
-
-            // Reload the cart display
-            reloadCart();
-
-            // Update the cart item count (badge)
-            updateCartItemCount();
-        } // end of addToCart()
-
-
-const reloadCart = () => {
-    // Clear previous contents of the cart
-    listCart.innerHTML = "";
-    
-    let total = 0;
-    let subtotalForEachBook = {}; // Object to store subtotal for each book
-
-    // Create a new unordered list element
-    const cartList = document.createElement('ul');
-
-    
-    // Iterate over the listCard array
-    listCard.forEach(book => {
-        // Create a new list item element
-        const listItem = document.createElement('li');
-        listItem.classList.add('grid', 'grid-cols-4', 'bg-accent-100', 'shadow-md', 'rounded-lg', 'p-2', 'w-11/12', 'mb-2', 'mx-auto', 'text-text-950', 'gap-1');
-        // Set the inner HTML of the list item with book details
-        listItem.innerHTML = `
-            <img src="${book.book_tmb}" alt="Book Cover" class="item-cover rounded-xl w-auto col-start-1 col-end-2 row-span-5">
-
-            <span class="item-title font-bold col-start-2 col-end-5 row-span-2">${book.book_title}</span>
-
-            <span class="item-author text-sm col-start-2 col-end-5 row-span-1">Author: ${book.book_author}</span>
-
-            <span class="item-price text-sm col-start-2 col-end-5 row-span-1">Unit Price: ${book.book_price}</span>
-
-            <div class="relative col-start-2 col-end-5">
-            
-                <span class="item-subtotal relative text-sm col-start-2 col-end-5 ">Subtotal: ${book.book_price * book.quantity}</span>
-        
-                <span class="item-quantity text-text-900 dark:text-text-950 text-3xl p-2 col-start-4 absolute col-end-5 right-1 bottom-0">×${book.quantity}
-                </span>
-            
-            </div>
-
-           
-            <strong class="bg-badge-800 text-text-50 text-2xl font-bold dark:text-text-50 px-4 py-2 rounded hover:bg-primary-300  col-start-1 col-end-6 justify-center items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" class="fill-text-50"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg></strong>
-
-            <button onclick="updateQuantity(${book.book_title})" class="bg-success-700 text-text-50 text-2xl font-bold dark:text-text-50 px-4 py-2 rounded hover:bg-primary-300 col-start-5 row-start-1 row-span-3 w-full h-full">+</button>
-
-            <button onclick="removeFromCart(${book.book_title})" class="bg-error-700 text-text-50 text-2xl font-bold  dark:text-text-50 px-4 py-4 rounded hover:bg-primary-300 col-start-5 col-end-6 row-start-4 row-span-2 w-full h-full">-</button>
-
-
-        `;
-        // Append the list item to the unordered list
-        cartList.appendChild(listItem);
-        
-        // Calculate subtotal for each book
-        const subtotal = book.book_price * book.quantity;
-        
-        // Add the subtotal to the subtotalForEachBook object
-        if (subtotalForEachBook.hasOwnProperty(book.book_title)) {
-            subtotalForEachBook[book.book_title] += subtotal;
         } else {
-            subtotalForEachBook[book.book_title] = subtotal;
-        }
-    });
-
-    // Sum up the subtotal for each book to calculate the total
-    total = Object.values(subtotalForEachBook).reduce((acc, curr) => acc + curr, 0);
-
-    // Round up the total to the nearest two decimal places.
-    total = roundUp(total);
-
-    stringTotal = "₱" + String(total);
-
-    // Append the results to the div.total element
-    cartTotal.innerHTML = stringTotal;
-
-    // Append the unordered list to the listCart element
-    listCart.appendChild(cartList);
-
-    // Print total for debug
-    // console.log(total);
-};
-
-        // function responsible for getting the subtotal items in the cart.
-        const getTotalItemsInCart = () => {
-            let totalItems = 0;
-
-            listCard.forEach(book => {
-                totalItems += book.quantity;
+            listCard.push({
+                ...book,
+                quantity: 1
             });
+        }
 
-            return totalItems;
-        };
+        reloadCart();
+        updateCartItemCount();
+    }
 
-        const updateCartItemCount = () => {
-            const cartItemCountElement = document.getElementById('cart-item-count');
-            const totalItemsInCart = getTotalItemsInCart(); // Assuming you have a function getTotalItemsInCart that returns the subtotal items in the cart
+    // Function to remove all instances of a book from the cart
+    const removeAll = (bookTitle) => {
+        listCard = listCard.filter(book => book.book_title !== bookTitle);
+        reloadCart();
+        updateCartItemCount();
+    }
 
-            cartItemCountElement.innerText = totalItemsInCart;
+    // Function to update the quantity of a book in the cart
+    const updateQuantity = (bookTitle) => {
+        const bookIndex = listCard.findIndex(item => item.book_title === bookTitle);
 
-            // console.log(totalItemsInCart);
-        };
-
-        const toggleCartDrawer = () => {
-            const cartContainer = document.querySelector('.cart-container');
-            const mainContent = document.querySelector('.main-content');
-            const navbar = document.querySelector('.navbar');
-
-            // Toggle 'active' class on the body to open or close the cart drawer
-            document.body.classList.toggle('active');
-
-            // Adjust the width and margin of the main content area and navbar based on the state of the cart drawer
-            if (document.body.classList.contains('active')) {
-                mainContent.classList.add('md:mr-1/3'); // Reduce the width of the main content area on medium screens and above
-                mainContent.classList.add('-ml-1/3'); // Adjust the left margin of the main content area
-                navbar.classList.add('md:mr-1/3'); // Reduce the width of the navbar on medium screens and above
-                navbar.classList.add('-ml-1/3'); // Adjust the left margin of the navbar
+        if (bookIndex !== -1) {
+            if (listCard[bookIndex].quantity < listCard[bookIndex].book_stock) {
+                listCard[bookIndex].quantity++;
             } else {
-                mainContent.classList.remove('md:mr-1/3'); // Reset the width of the main content area
-                mainContent.classList.remove('-ml-1/3'); // Reset the left margin of the main content area
-                navbar.classList.remove('md:mr-1/3'); // Reset the width of the navbar
-                navbar.classList.remove('-ml-1/3'); // Reset the left margin of the navbar
+                alert("You can't add more of this book. Limited stock available.");
             }
-        };
-    </script>
+        }
+
+        reloadCart();
+        updateCartItemCount();
+    }
+
+    // Function to remove one instance of a book from the cart
+    const removeOneFromCart = (bookTitle) => {
+        const bookIndex = listCard.findIndex(item => item.book_title === bookTitle);
+
+        if (bookIndex !== -1) {
+            if (listCard[bookIndex].quantity > 1) {
+                listCard[bookIndex].quantity--;
+            } else {
+                listCard = listCard.filter(book => book.book_title !== bookTitle);
+            }
+        }
+
+        reloadCart();
+        updateCartItemCount();
+    }
+
+    // Function to reload the cart display
+    const reloadCart = () => {
+        listCart.innerHTML = "";
+        let total = 0;
+        let subtotalForEachBook = {};
+
+        const cartList = document.createElement('ul');
+
+        listCard.forEach(book => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('grid', 'grid-cols-4', 'bg-accent-100', 'shadow-md', 'rounded-lg', 'p-2', 'w-11/12', 'mb-2', 'mx-auto', 'text-text-950', 'gap-1');
+
+            listItem.innerHTML = `
+                <img src="${book.book_tmb}" alt="Book Cover" class="item-cover rounded-xl w-auto col-start-1 col-end-2 row-span-5">
+                <span class="item-title font-bold col-start-2 col-end-5 row-span-2">${book.book_title}</span>
+                <span class="item-author text-sm col-start-2 col-end-5 row-span-1">Author: ${book.book_author}</span>
+                <span class="item-price text-sm col-start-2 col-end-5 row-span-1">Unit Price: ${book.book_price}</span>
+                <div class="relative col-start-2 col-end-5">
+                    <span class="item-subtotal relative text-sm col-start-2 col-end-5">Subtotal: ${book.book_price * book.quantity}</span>
+                    <span class="item-quantity text-text-900 dark:text-text-950 text-3xl p-2 col-start-4 absolute col-end-5 right-1 bottom-0">×${book.quantity}</span>
+                </div>
+                <strong class="bg-badge-800 text-text-50 text-2xl font-bold dark:text-text-50 px-4 py-2 rounded hover:bg-primary-300 col-start-1 col-end-6 justify-center items-center" onclick="removeAll('${book.book_title}')">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" class="fill-text-50"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                </strong>
+                <button onclick="updateQuantity('${book.book_title}')" class="bg-success-700 text-text-50 text-2xl font-bold dark:text-text-50 px-4 py-2 rounded hover:bg-primary-300 col-start-5 row-start-1 row-span-3 w-full h-full">+</button>
+                <button onclick="removeOneFromCart('${book.book_title}')" class="bg-error-700 text-text-50 text-2xl font-bold dark:text-text-50 px-4 py-4 rounded hover:bg-primary-300 col-start-5 col-end-6 row-start-4 row-span-2 w-full h-full">-</button>
+            `;
+            cartList.appendChild(listItem);
+
+            const subtotal = book.book_price * book.quantity;
+
+            if (subtotalForEachBook.hasOwnProperty(book.book_title)) {
+                subtotalForEachBook[book.book_title] += subtotal;
+            } else {
+                subtotalForEachBook[book.book_title] = subtotal;
+            }
+        });
+
+        total = Object.values(subtotalForEachBook).reduce((acc, curr) => acc + curr, 0);
+        total = roundUp(total);
+        const stringTotal = "₱" + String(total);
+
+        cartTotal.innerHTML = stringTotal;
+        listCart.appendChild(cartList);
+    };
+
+    const getTotalItemsInCart = () => {
+        let totalItems = 0;
+        listCard.forEach(book => {
+            totalItems += book.quantity;
+        });
+        return totalItems;
+    };
+
+    const updateCartItemCount = () => {
+        const cartItemCountElement = document.getElementById('cart-item-count');
+        const totalItemsInCart = getTotalItemsInCart();
+        cartItemCountElement.innerText = totalItemsInCart;
+    };
+
+    const toggleCartDrawer = () => {
+        const cartContainer = document.querySelector('.cart-container');
+        const mainContent = document.querySelector('.main-content');
+        const navbar = document.querySelector('.navbar');
+
+        document.body.classList.toggle('active');
+
+        if (document.body.classList.contains('active')) {
+            mainContent.classList.add('md:mr-1/3');
+            mainContent.classList.add('-ml-1/3');
+            navbar.classList.add('md:mr-1/3');
+            navbar.classList.add('-ml-1/3');
+        } else {
+            mainContent.classList.remove('md:mr-1/3');
+            mainContent.classList.remove('-ml-1/3');
+            navbar.classList.remove('md:mr-1/3');
+            navbar.classList.remove('-ml-1/3');
+        }
+    };
+</script>
 
 @include('partials.__footer')
