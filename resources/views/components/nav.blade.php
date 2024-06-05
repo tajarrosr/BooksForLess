@@ -6,7 +6,7 @@
 </style>
 <div class="navbar bg-background-200 sticky top-0 z-2 border-b-2 border-accent-500 shadow-2xl">
     <div class="flex-1">
-        <a class="btn btn-ghost text-2xl text-secondary-950 font-merriweather font-400">BooksForLess</a>
+        <a class="btn btn-ghost text-2xl text-secondary-950 font-merriweather font-400"><img src={{ asset('assets/images/landing-page/BOOKS4LESS-LOGO.png')}} alt="missing logo" class="w-12"></a>
     </div>
     
     <div class="flex-none">
