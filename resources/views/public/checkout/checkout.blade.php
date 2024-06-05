@@ -1,49 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Step Checkout</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2" defer></script>
-<style>
-    
-</style>
-</head>
-<body class="bg-background-100">
+@include('partials.__header')
+<body class="bg-background-300 vh-100">
 
-    <header>
-        <!-- Header content -->
-    </header>
+    <x-nav/>
 
     <main class="container mx-auto mt-10">
         <div x-data="{
-                step: 1,
-                orderDetailsConfirmed: false,
-                billing: {
-                    name: '',
-                    email: '',
-                    phone_number: '',
-                    address: '',
-                    city: '',
-                    zip: ''
-                },
-                paymentMethod: '',
-                isBillingComplete() {
-                    return this.billing.name !== '' && this.billing.email !== '' &&
-                        this.billing.phone_number !== '' && this.billing.address !== '' &&
-                        this.billing.city !== '' && this.billing.zip !== '';
-                }
-            }" class="space-y-8">
-            <!-- Step Navigation -->
-            <div class="flex justify-between items-center mb-8">
-                <button :disabled="step === 1" @click="step--" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md">Previous</button>
-                <span class="text-lg font-semibold">Step <span x-text="step"></span> of 4</span>
-                <button :disabled="(step === 1 && !orderDetailsConfirmed) || 
-                                  (step === 2 && !isBillingComplete()) || 
-                                  (step === 3 && paymentMethod === '')" 
-                        @click="step++" class="bg-blue-500 text-white py-2 px-4 rounded-md">Next</button>
-            </div>
+            step: 1,
+            orderDetailsConfirmed: false,
+            billing: {
+                name: '',
+                email: '',
+                phone_number: '',
+                address: '',
+                city: '',
+                zip: ''
+            },
+            paymentMethod: '',
+            isBillingComplete() {
+                return this.billing.name !== '' && this.billing.email !== '' &&
+                    this.billing.phone_number !== '' && this.billing.address !== '' &&
+                    this.billing.city !== '' && this.billing.zip !== '';
+            },
+            showError: false
+        }" class="space-y-8">
+        <!-- Step Navigation -->
+        <div class="flex justify-between items-center mb-8">
+            <button :disabled="step === 1" @click="step = step > 1 ? step - 1 : step" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md">Previous</button>
+            <span class="text-lg font-semibold">Step <span x-text="step"></span> of 4</span>
+            <button :disabled="(step === 1 && !orderDetailsConfirmed) || 
+                              (step === 2 && !isBillingComplete()) || 
+                              (step === 3 && paymentMethod === '')" 
+                    @click="showError = true; if((step === 1 && !orderDetailsConfirmed) || 
+                              (step === 2 && !isBillingComplete()) || 
+                              (step === 3 && paymentMethod === '')) return; step = step < 4 ? step + 1 : step;" 
+                    class="bg-blue-500 text-white py-2 px-4 rounded-md">Next</button>
+        </div>
 
             <!-- Progress Bar -->
             <div class="w-full bg-gray-200 rounded-full">
@@ -51,18 +42,24 @@
             </div>
 
             <!-- Multi-Step Form -->
-            <form action="{{ route('checkout.process') }}" method="POST">
+            <form action="{{ route('checkout.process') }}" method="POST"
+            >
                 @csrf
 
                 <!-- Step 1: Order Details -->
-                <div x-show="step === 1" class="bg-white shadow-md rounded-lg p-6">
+                <div x-show="step === 1" class="bg-background-200 shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Order Details</h2>
                     <input type="checkbox" id="confirm" name="confirm" value="Confirm Order Details" required x-model="orderDetailsConfirmed">
                     <label>Confirm Order Details</label>
+                    <div x-show="showError" class="mt-4" x-cloak>
+                        <template x-if="step === 1 && !orderDetailsConfirmed">
+                            <p class="text-red-500 text-sm">Please confirm order details to proceed.</p>
+                        </template>
+                    </div>
                 </div>
 
                 <!-- Step 2: Billing Information -->
-                <div x-show="step === 2" class="bg-white shadow-md rounded-lg p-6">
+                <div x-show="step === 2" class="bg-background-200 shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Billing Information</h2>
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
@@ -93,11 +90,16 @@
                         <label for="zip" class="block text-sm font-medium text-gray-700">Zip Code</label>
                         <input type="number" name="zip" id="zip" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.zip">
                         @error('zip')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                        <div x-show="showError" class="mt-4" x-cloak>
+                            <template x-if="step === 2 && !isBillingComplete()">
+                                <p class="text-red-500 text-sm">Please fill out all billing information to proceed.</p>
+                            </template>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Step 3: Payment Method -->
-                <div x-show="step === 3" class="bg-white shadow-md rounded-lg p-6">
+                <div x-show="step === 3" class="bg-background-200 shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Payment Method</h2>
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700">Select Payment Method</label>
@@ -115,16 +117,21 @@
                                 <span class="ml-2">MayaPay</span>
                             </label>
                             <label class="inline-flex items-center ml-4">
-                                <input type="radio" name="cod" value="COD" class="form-radio" required x-model="paymentMethod">
+                                <input type="radio" name="payment_method" value="COD" class="form-radio" required x-model="paymentMethod">
                                 <span class="ml-2">Cash on Delivery (COD)</span>
                             </label>
                         </div>
                         @error('payment_method')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                        <div x-show="showError" class="mt-4" x-cloak>
+                            <template x-if="step === 3 && paymentMethod === ''">
+                                <p class="text-red-500 text-sm">Please select a payment method to .</p>
+                            </template>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Step 4: Confirmation -->
-                <div x-show="step === 4" class="bg-white shadow-md rounded-lg p-6">
+                <div x-show="step === 4" class="bg-background-200 shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Confirmation</h2>
                     <!-- Display Billing Information -->
                     <div>
@@ -153,4 +160,4 @@
     </footer>
 
 </body>
-</html>
+@include('partials.__footer')
