@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      lineHeight: {
+        '85': '85%',
+      },
       colors: {
         'text': {
           50: 'rgb(var(--text-50))',
@@ -110,5 +113,83 @@ export default {
       },
     }
   },
-  plugins: [require('daisyui'),]
+  plugins: [require('daisyui'),
+    function ({ addUtilities }) { 
+      const newUtilities = {
+        '.util-loader-props': {
+          position: 'fixed',
+          width: '100dvw',
+          height: '100dvh',
+          backgroundColor: '#000',
+          pointerEvents: 'none',
+          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        },
+        '.util-loader-imgs-container-props': {
+          width: '150%',
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          translate: '-50% -50%',
+          gap: '0.625rem',
+          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+          display: 'flex',
+        },
+        '.util-imgs-wrapper-props': {
+          position: 'relative',
+          flex: 1,
+          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        },
+        '.util-img-props': {
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        },
+        '.util-hero-props': {
+          width: '100%',
+          position: 'absolute',
+          top: '45%',
+          transform: 'translateY(-50%)',
+          textTransform: 'uppercase',
+          fontFamily: 'butler-stencil',
+          
+        },
+        '.util-h1-wrapper-props': {
+          width: '100%',
+          textAlign: 'center',
+          fontSize: '4vw',
+          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+          fontFamily: 'butler',
+        },
+        '.util-h1-props': {
+          position: 'relative',
+          fontWeight: '500',
+          lineHeight: '85',
+        },
+        '.util-emphasis-props': {
+          fontFamily: 'elegante-classica',
+          fontWeight: '700',
+        },
+        '.util-footer-props': {
+          width: '100%',
+          position: 'absolute',
+          bottom: '1.875rem',
+          right: '1.875rem',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gap: '0.625rem',
+          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        },
+        '.util-items-props': {
+          position: 'relative',
+          width: '6.25rem',
+          height: '6.25rem',
+          
+        },
+        '.util-button-props': {
+          
+        }
+      };
+      addUtilities(newUtilities, ['responsive', 'hover']);
+    }
+  ]
 }

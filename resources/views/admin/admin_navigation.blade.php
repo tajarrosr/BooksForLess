@@ -3,7 +3,7 @@
 <head>
     <title>Admin Navigation</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
+    <style scoped>
         body {
             background-color: #343a40;
             color: #fff;
