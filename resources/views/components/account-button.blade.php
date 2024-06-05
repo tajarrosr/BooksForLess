@@ -27,7 +27,7 @@
                             $selectedAvatar = $avatarFilenames[$randomIndex];
 
                             // Construct the URL of the selected avatar
-                            $avatarURL = asset('./' . $selectedAvatar);
+                            $avatarURL = asset('/' . $selectedAvatar);
                         @endphp
 
                         <!-- Display the random avatar -->
@@ -37,12 +37,12 @@
             </div>
             <ul tabindex="0" class="font-iphone menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 <li>
-                <a class="justify-between">
+                <a href="{{route('login')}}" class="justify-between">
                     Login
                     <span class="badge bg-badge-800 font-semibold text-text-50 dark:text-text-950">New</span>
                 </a>
                 </li>
-                <li><a>Register</a></li>
+                <li><a href="{{route('register')}}">Register</a></li>
                 <li><a>Logout</a></li>
             </ul>
         </div>
