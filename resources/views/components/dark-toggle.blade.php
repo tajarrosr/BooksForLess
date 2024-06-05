@@ -13,7 +13,6 @@
     </label>
 </div>
 
-
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // Get the theme controller checkbox
