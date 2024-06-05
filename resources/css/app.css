@@ -348,8 +348,8 @@ html, body {
   padding: 0;
   box-sizing: border-box;
   background-color: rgb(var(--white));
-opacity: 1;
-background-image:  linear-gradient(rgb(var(--accent-600)) 1px, transparent 1px), linear-gradient(to right, rgb(var(--accent-600)) 1px,  rgb(var(--white)) 1px);
-background-size: 20px 20px;
+  opacity: 1;
+  background-image:  linear-gradient(rgb(var(--accent-600)) 1px, transparent 1px), linear-gradient(to right, rgb(var(--accent-600)) 1px,  rgb(var(--white)) 1px);
+  background-size: 20px 20px;
 }
 
