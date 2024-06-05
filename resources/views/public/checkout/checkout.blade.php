@@ -1,10 +1,10 @@
 @include('partials.__header')
-<body class="bg-background-100">
+<body class="bg-background-300 h-screen">
 
     {{-- * NAVBAR --}}
     <x-nav/>
 
-    <main class="container mx-auto mt-10">
+    <main class="container mx-auto mt-10 ">
         <div x-data="{
                 step: 1,
                 orderDetailsConfirmed: false,
