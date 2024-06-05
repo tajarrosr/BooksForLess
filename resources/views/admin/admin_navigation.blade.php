@@ -6,13 +6,14 @@
     <title>Admin Navigation</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link id="theme-link" rel="stylesheet" href="{{ asset('assets/css/admin_light_mode.css') }}">
     <style>
         .sidebar {
-            background-color: #f0f4f8;
+            background-color: var(--sidebar-bg);
             min-height: 100vh;
-            transition: width 0.3s;
-            border-right: 1px solid #ccc;
+            transition: width 0.3s, background-color 0.3s;
             width: 250px;
+            color: #a0aec0;
         }
         .sidebar.collapsed {
             width: 80px; 
@@ -29,9 +30,9 @@
         .content.shifted {
             margin-left: 35px;
         }
-        #toggle-button {
-            background-color: #f0f4f8;
+        .button {
             padding: 0.5rem 1rem;
+            background-color: var(--button-bg);
             border: none;
             cursor: pointer;
         }
@@ -39,12 +40,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #f0f4f8;
-            padding: 0.5rem 1rem; 
-            border-bottom: 1px solid #ccc;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
-            z-index: 10; 
+            z-index: 10;
+            height: 64px; /* Set a consistent height */
         }
         .logo {
             width: 100px;
@@ -59,12 +60,12 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            text-align: left; 
+            text-align: left;
         }
         .sidebar ul li {
             display: flex;
             align-items: center;
-            padding: 1rem 0; 
+            padding: 1rem 0;
         }
         .sidebar ul li a {
             display: flex;
@@ -72,16 +73,14 @@
             width: 100%;
             padding: 0.5rem 1rem;
             transition: background-color 0.3s, color 0.3s;
+            color: inherit;
         }
         .sidebar ul li a:hover {
-            background-color: #e2e8f0; 
-            color: #1a202c;
-        }
-        .sidebar ul li a .fas {
-            margin-right: 8px;
+            background-color: #4a5568;
+            color: #edf2f7;
         }
         .sidebar.collapsed ul {
-            text-align: center; 
+            text-align: center;
         }
         .sidebar.collapsed ul li {
             justify-content: center;
@@ -92,27 +91,74 @@
         .sidebar.collapsed ul li a .fas {
             margin-right: 0;
         }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            border: 1px solid var(--border-color);
+            min-width: 160px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .theme-toggle-wrapper {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        .theme-toggle-wrapper label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            cursor: pointer;
+        }
+        .theme-toggle-wrapper input[type="checkbox"] {
+            display: none;
+        }
+        .admin-box {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem; /* Adjusted padding for better spacing */
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            background-color: var(--admin-box-bg); /* Use the variable for background color */
+            color: var(--top-nav-color);
+            height: 100%; /* Match the height of top-nav */
+        }
+        .admin-box span {
+            margin-right: 0.5rem; /* Add spacing between name and caret */
+        }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body>
 
 <div class="flex">
     <aside id="sidebar" class="sidebar p-4">
         <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center space-y-2 mb-4">
             <img src="{{ asset('assets/images/admin/BooksForLess_Logo.png') }}" alt="Logo" class="logo">
-            <span class="text-lg font-bold brand">BooksForLess</span>
+            <span class="text-lg font-bold text-white brand">BooksForLess</span>
         </a>
         <ul>
             <li class="py-2">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-2">
                     <i class="fas fa-home w-6 h-6"></i>
                     <span class="sidebar-text">Dashboard</span>
                 </a>
             </li>
             <li class="py-2">
-                <a href="{{ route('admin.inventory.index') }}" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
+                <a href="{{ route('admin.inventory.index') }}" class="flex items-center space-x-2">
                     <i class="fas fa-book w-6 h-6"></i>
-                    <span class="sidebar-text">Books Inventory Management</span>
+                    <span class="sidebar-text">Books Inventory</span>
                 </a>
             </li>
         </ul>
@@ -120,13 +166,30 @@
     <main class="flex-grow">
         <nav class="top-nav">
             <div class="flex items-center space-x-4">
-                <button id="toggle-button" class="text-gray-700 focus:outline-none">
+                <button id="toggle-button" class="button">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
-            <span class="text-gray-700">{{ Auth::guard('admin')->user()->name }}</span>
+            <div class="flex items-center space-x-4">
+                <div class="theme-toggle-wrapper">
+                    <label>
+                        <input type="checkbox" id="theme-toggle">
+                        <span id="theme-icon" class="fas fa-moon w-6 h-6 text-gray-500"></span>
+                    </label>
+                </div>
+                <div class="relative dropdown admin-box">
+                    <span>{{ Auth::guard('admin')->user()->name }}</span>
+                    <i class="fas fa-caret-down"></i>
+                    <div class="dropdown-menu">
+                        <a href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                        <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                </div>
+            </div>
         </nav>
-        <div id="content" class="content p-4" style="margin-top: 0;"> 
+        <div id="content" class="content p-4 flex-grow">
             @yield('content')
         </div>
     </main>
@@ -136,6 +199,42 @@
     document.getElementById('toggle-button').addEventListener('click', function() {
         document.getElementById('sidebar').classList.toggle('collapsed');
         document.getElementById('content').classList.toggle('shifted');
+    });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeLink = document.getElementById('theme-link');
+    const themeIcon = document.getElementById('theme-icon');
+
+    // Function to set theme based on local storage
+    function setTheme(theme) {
+        if (theme === 'dark') {
+            themeLink.setAttribute('href', "{{ asset('assets/css/admin_dark_mode.css') }}");
+            themeIcon.classList.remove('fa-moon', 'text-gray-500');
+            themeIcon.classList.add('fa-sun', 'text-yellow-500');
+            themeToggle.checked = true;
+        } else {
+            themeLink.setAttribute('href', "{{ asset('assets/css/admin_light_mode.css') }}");
+            themeIcon.classList.remove('fa-sun', 'text-yellow-500');
+            themeIcon.classList.add('fa-moon', 'text-gray-500');
+            themeToggle.checked = false;
+        }
+    }
+
+    // Set theme on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        const storedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(storedTheme);
+    });
+
+    // Toggle theme and save to local storage
+    themeToggle.addEventListener('change', function() {
+        if (themeToggle.checked) {
+            setTheme('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            setTheme('light');
+            localStorage.setItem('theme', 'light');
+        }
     });
 </script>
 </body>

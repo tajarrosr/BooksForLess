@@ -71,4 +71,13 @@ class AdminController extends Controller
         $admin = Auth::guard('admin')->user();
         return view('admin.inventory.index', compact('admin'));
     }
+
+    // logout
+    public function logout(Request $request)
+{
+    Auth::guard('admin')->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect()->route('admin.login');
+}
 }

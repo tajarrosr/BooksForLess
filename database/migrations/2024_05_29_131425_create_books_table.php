@@ -12,23 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
-
-            // reference the pre-configured genres at config folder.
-            $bookGenres = config('book_genres');
-
-            // fields for each books
+            // fields for each book
             $table->id();
             $table->string('book_author');
             $table->string('book_title');
             $table->decimal('book_price', 8, 2);
             $table->string('book_isbn');
             $table->integer('book_stock')->default(0); 
-            $table->enum('book_genres', $bookGenres);
+            $table->json('book_genres');
             $table->string('book_desc');
             $table->string('book_tmb');
             $table->timestamps();
-
-            // * book_author, book_title, book_tmb, book_isbn, book_stock, book_genres, book_desc, book_price,
         });
     }
 

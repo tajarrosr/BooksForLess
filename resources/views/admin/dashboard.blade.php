@@ -1,12 +1,11 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<div class="flex flex-col items-start"> <!-- Aligned items to start -->
-    <h2 class="text-2xl font-bold mb-4 uppercase">Dashboard</h2>
-    <div class="bg-blue-200 p-4 rounded-lg shadow-md text-center w-48">
-        <h3 class="text-xl">Total Books</h3>
-        <p class="text-3xl">5</p>
-        <a href="{{ route('admin.inventory.index') }}" class="text-blue-600">View Details</a>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg card">
+        <h3 class="text-xl font-semibold mb-2 dark:text-gray-300">Total Books</h3>
+        <p class="text-3xl font-bold mb-4 dark:text-gray-100">5</p>
+        <a href="{{ route('admin.inventory.index') }}" class="text-blue-600 dark:text-blue-400 hover:underline">View Details</a>
     </div>
 </div>
 @endsection

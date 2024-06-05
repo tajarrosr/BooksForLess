@@ -3,16 +3,16 @@
 @section('title', 'Inventory Management')
 
 @section('content')
-<div class="container mt-2"> <!-- Adjusted margin-top for container -->
-    <h2 class="mb-4 text-center">Books Inventory Management</h2>
-    <div class="d-flex justify-content-end mb-3">
-        <a href="{{ route('admin.inventory.create') }}" class="btn btn-primary">Add New Book</a>
+<div class="container mt-8"> 
+    <h2 class="mb-4 text-3xl font-bold text-center dark:text-white">Books Inventory Management</h2>
+    <div class="flex justify-end mb-6">
+        <a href="{{ route('admin.inventory.create') }}" class="btn btn-primary bg-blue-500 text-white py-2 px-4 rounded-md shadow hover:bg-blue-600">Add New Book</a>
     </div>
-    <div class="card shadow">
+    <div class="card shadow-lg">
         <div class="card-body p-0">
-            <table class="table table-hover table-bordered table-striped mb-0">
-                <thead class="table-dark">
-                <tr>
+            <table class="table-auto w-full mb-0">
+                <thead class="custom-bg text-color">
+                    <tr>
                         <th class="py-2 px-4 text-center">Image</th>
                         <th class="py-2 px-4 text-center">Title</th>
                         <th class="py-2 px-4 text-center">Author</th>
@@ -20,29 +20,31 @@
                         <th class="py-2 px-4 text-center">Description</th>
                         <th class="py-2 px-4 text-center">Price</th>
                         <th class="py-2 px-4 text-center">Stock</th>
+                        <th class="py-2 px-4 text-center">ISBN</th>
                         <th class="py-2 px-4 text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="custom-bg">
                     @foreach($books as $book)
-                        <tr>
-                        <td class="py-2 px-4 text-center">
+                        <tr class="border">
+                            <td class="py-2 px-4 text-center">
                                 <a href="{{ asset('storage/' . $book->book_tmb) }}" target="_blank">
-                                    <img src="{{ asset('storage/' . $book->book_tmb) }}" alt="{{ $book->book_title }}" class="img-fluid w-20 h-auto">
+                                    <img src="{{ asset('storage/' . $book->book_tmb) }}" alt="{{ $book->book_title }}" class="w-20 h-28 object-cover rounded-md shadow-md">
                                 </a>
                             </td>
                             <td class="py-2 px-4 text-center">{{ $book->book_title }}</td>
                             <td class="py-2 px-4 text-center">{{ $book->book_author }}</td>
-                            <td class="py-2 px-4 text-center">{{ $book->book_genres }}</td>
+                            <td class="py-2 px-4 text-center">{{ implode(', ', json_decode($book->book_genres)) }}</td>
                             <td class="py-2 px-4 text-center">{{ Str::limit($book->book_desc, 50) }}</td>
                             <td class="py-2 px-4 text-right">₱{{ number_format($book->book_price, 2) }}</td>
                             <td class="py-2 px-4 text-center">{{ $book->book_stock }}</td>
-                            <td class="align-middle text-center">
-                            <a href="{{ route('admin.inventory.edit', $book->id) }}" class="btn btn-warning btn-sm bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600">Edit</a>
+                            <td class="py-2 px-4 text-center">{{ $book->book_isbn }}</td>
+                            <td class="py-2 px-4 text-center">
+                                <a href="{{ route('admin.inventory.edit', $book->id) }}" class="btn btn-warning btn-sm bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600">Edit</a>
                                 <form action="{{ route('admin.inventory.destroy', $book->id) }}" method="POST" style="display:inline-block;" class="delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -54,7 +56,7 @@
 </div>
 
 <!-- Scroll-to-Top Button -->
-<button id="scrollToTopBtn" class="btn btn-primary">
+<button id="scrollToTopBtn" class="btn btn-primary fixed bottom-4 right-4 z-50 bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-blue-600">
     &#8679;
 </button>
 
@@ -74,7 +76,7 @@
         const scrollToTopBtn = document.getElementById('scrollToTopBtn');
         window.addEventListener('scroll', function() {
             if (window.pageYOffset > 300) {
-                scrollToTopBtn.style.display = 'block';
+                scrollToTopBtn.style.display = 'flex';
             } else {
                 scrollToTopBtn.style.display = 'none';
             }
@@ -92,22 +94,6 @@
 <style>
     #scrollToTopBtn {
         display: none;
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 100;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        font-size: 24px;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    #scrollToTopBtn:hover {
-        background-color: #0056b3;
     }
 </style>
 @endsection

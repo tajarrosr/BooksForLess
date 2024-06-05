@@ -31,6 +31,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/inventory/{book}/edit', [BooksController::class, 'edit'])->name('admin.inventory.edit');
     Route::put('/admin/inventory/{book}', [BooksController::class, 'update'])->name('admin.inventory.update');
     Route::delete('/admin/inventory/{book}', [BooksController::class, 'destroy'])->name('admin.inventory.destroy');
+
+     // Admin Logout
+     Route::post('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 });
 
 // Route for Checkout Page

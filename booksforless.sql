@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2024 at 05:34 PM
+-- Generation Time: Jun 05, 2024 at 07:21 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,7 +42,27 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Ritchmond James Tajarros', 'tajarrosritchmond2002@gmail.com', '$2y$12$AKMR7QfhEkN/O2ZYIZIJ9e9vB5b31N4wp1l2oo9vNlU8sIv75CkBy', NULL, '2024-05-28 07:17:05', '2024-05-28 07:17:05');
+(1, 'Ritchmond James Tajarros', 'tajarrosritchmond2002@gmail.com', '$2y$12$9EFB5zlGmS8r0Mc7H/jcOOUuekiJFX9BLHqFqL9LKENA1odCus8yO', NULL, '2024-06-02 07:08:40', '2024-06-02 07:08:40');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `books`
+--
+
+CREATE TABLE `books` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `book_author` varchar(255) NOT NULL,
+  `book_title` varchar(255) NOT NULL,
+  `book_price` decimal(8,2) NOT NULL,
+  `book_isbn` varchar(255) NOT NULL,
+  `book_stock` int(11) NOT NULL,
+  `book_genres` enum('Fantasy','Historical Fiction','Thriller','Romance','Science Fiction','Mystery','Poetry','Drama','Classics','Comedy/Humor','Religion/Spirituality','Philosophy','Psychology','Business','Young Adult','Children Literature','Memoir','Autobiography','Biography','Self-Help','Home & Garden','Western','Outdoors','Fairy Tale','Dystopian','Travel','Cookbooks','Action','Adventure','Horror','Military','Sports','History','Popular Science','Satire','Art','Health & Wellness','Mythic Fiction','Unidentified') NOT NULL,
+  `book_desc` varchar(255) NOT NULL,
+  `book_tmb` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -83,6 +103,64 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `genres`
+--
+
+CREATE TABLE `genres` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `genres`
+--
+
+INSERT INTO `genres` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Fantasy', NULL, NULL),
+(2, 'Historical Fiction', NULL, NULL),
+(3, 'Thriller', NULL, NULL),
+(4, 'Romance', NULL, NULL),
+(5, 'Science Fiction', NULL, NULL),
+(6, 'Mystery', NULL, NULL),
+(7, 'Poetry', NULL, NULL),
+(8, 'Drama', NULL, NULL),
+(9, 'Classics', NULL, NULL),
+(10, 'Comedy/Humor', NULL, NULL),
+(11, 'Religion/Spirituality', NULL, NULL),
+(12, 'Philosophy', NULL, NULL),
+(13, 'Psychology', NULL, NULL),
+(14, 'Business', NULL, NULL),
+(15, 'Young Adult', NULL, NULL),
+(16, 'Children Literature', NULL, NULL),
+(17, 'Memoir', NULL, NULL),
+(18, 'Autobiography', NULL, NULL),
+(19, 'Biography', NULL, NULL),
+(20, 'Self-Help', NULL, NULL),
+(21, 'Home & Garden', NULL, NULL),
+(22, 'Western', NULL, NULL),
+(23, 'Outdoors', NULL, NULL),
+(24, 'Fairy Tale', NULL, NULL),
+(25, 'Dystopian', NULL, NULL),
+(26, 'Travel', NULL, NULL),
+(27, 'Cookbooks', NULL, NULL),
+(28, 'Action', NULL, NULL),
+(29, 'Adventure', NULL, NULL),
+(30, 'Horror', NULL, NULL),
+(31, 'Military', NULL, NULL),
+(32, 'Sports', NULL, NULL),
+(33, 'History', NULL, NULL),
+(34, 'Popular Science', NULL, NULL),
+(35, 'Satire', NULL, NULL),
+(36, 'Art', NULL, NULL),
+(37, 'Health & Wellness', NULL, NULL),
+(38, 'Mythic Fiction', NULL, NULL),
+(39, 'Unidentified', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -139,7 +217,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '0001_01_01_000000_create_users_table', 1),
 (2, '0001_01_01_000001_create_cache_table', 1),
 (3, '0001_01_01_000002_create_jobs_table', 1),
-(4, '2024_05_28_150649_create_admins_table', 2);
+(4, '2024_05_28_150649_create_admins_table', 1),
+(5, '2024_05_29_131425_create_books_table', 1),
+(6, '2024_06_05_044139_create_genres_and_book_genre_tables', 2);
 
 -- --------------------------------------------------------
 
@@ -173,7 +253,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('uzQQAkzfP0yubWO5fuN3GnaeZQxE3r8PzjofDdl8', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoibTc4SjJsY1dxTDBKZkhJS25HdFRsWGZzMHNJdEROTTY0MVdBTmplMCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1716909651);
+('hHAcp0coA8q9ddXtHEtUBPP1R6Oib6pv0jiq2YOr', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiR2xpcjhVT3lRbjRLaFdEV1JMMGc0RzJlWmRXZXFkNnM5MlpBTXk1NyI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjQ0OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4vaW52ZW50b3J5L2NyZWF0ZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1717564723);
 
 -- --------------------------------------------------------
 
@@ -204,6 +284,12 @@ ALTER TABLE `admins`
   ADD UNIQUE KEY `admins_email_unique` (`email`);
 
 --
+-- Indexes for table `books`
+--
+ALTER TABLE `books`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `cache`
 --
 ALTER TABLE `cache`
@@ -221,6 +307,12 @@ ALTER TABLE `cache_locks`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `genres`
+--
+ALTER TABLE `genres`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `jobs`
@@ -270,13 +362,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `books`
+--
+ALTER TABLE `books`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `genres`
+--
+ALTER TABLE `genres`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -288,7 +392,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`

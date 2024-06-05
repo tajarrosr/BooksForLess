@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class BooksController extends Controller
 {
@@ -35,7 +36,8 @@ class BooksController extends Controller
         $request->validate([
             'book_title' => 'required',
             'book_author' => 'required',
-            'book_genre' => 'required',
+            'book_genre' => ['required', 'array'],
+            'book_genre.*' => [Rule::in(config('book_genres'))],
             'book_desc' => 'required',
             'book_price' => 'required|numeric',
             'book_stock' => 'required|integer',
@@ -48,7 +50,7 @@ class BooksController extends Controller
         Book::create([
             'book_title' => $request->book_title,
             'book_author' => $request->book_author,
-            'book_genre' => $request->book_genre,
+            'book_genres' => json_encode($request->book_genre),
             'book_desc' => $request->book_desc,
             'book_price' => $request->book_price,
             'book_stock' => $request->book_stock,
@@ -58,6 +60,9 @@ class BooksController extends Controller
     
         return redirect()->route('admin.inventory.index')->with('success', 'Book created successfully.');
     }
+    
+    
+    
 
     // Show the form for editing the specified resource.
     public function edit(Book $book)
