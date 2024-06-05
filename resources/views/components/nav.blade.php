@@ -4,7 +4,7 @@
         z-index: 0;
     }
 </style>
-<div class="navbar sticky top-0 z-2 bg-background-50 nav-item transition-all duration-300">
+<div class="navbar sticky top-0 z-10 bg-background-50 nav-item transition-all duration-300">
     {{-- ? DARK MODE BUTTON --}}
     <x-dark-toggle/>
 
@@ -32,6 +32,7 @@
         </a>
     </div>
     
+    {{-- ? LOGO BUTTON TO HOME --}}
     <div class="flex-1 justify-center nav-item">
         <a href="{{route('landing')}}" class="btn btn-ghost text-[2.5rem] text-secondary-950 font-butler-stencil font-bold"><img src={{ asset('assets/images/landing-page/BOOKS4LESS-LOGO.png')}} alt="missing logo" class="w-12"></a>
     </div>
@@ -49,23 +50,7 @@
         </div>  
         </div>
 
-        {{-- ? ACCOUNT AVATAR BUTTON --}}
-        <div class="dropdown dropdown-end nav-item">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar nav-item">
-            <div class="w-10 rounded-full">
-            <img alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
-        </div>
-        <ul tabindex="0" class="font-iphone menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-            <li>
-            <a class="justify-between">
-                Profile
-                <span class="badge bg-badge-800 font-semibold text-text-50 dark:text-text-950">New</span>
-            </a>
-            </li>
-            <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
-        </ul>
-        </div>
+        {{-- ? USER ICON BUTTON --}}
+        <x-account-button/>
     </div>
-    </div>
+</div>

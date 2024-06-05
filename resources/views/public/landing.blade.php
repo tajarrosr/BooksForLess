@@ -1,6 +1,6 @@
 @include('partials.__header')
 
-    <body>
+    <body class="overflow-x-hidden">
         <div class="container font-butler">
             <div class="loader util-loader-props">
                 <div class="loader-imgs util-loader-imgs-container-props">
