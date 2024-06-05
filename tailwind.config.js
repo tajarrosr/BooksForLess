@@ -183,11 +183,8 @@ export default {
           position: 'relative',
           width: '6.25rem',
           height: '6.25rem',
-          
+          objectFit: 'fit',
         },
-        '.util-button-props': {
-          
-        }
       };
       addUtilities(newUtilities, ['responsive', 'hover']);
     }

@@ -272,6 +272,7 @@
     --error: 225, 29, 72;
     --success: 22, 163, 74;
     --badge: 189, 17, 54;
+    --white: 248, 247, 236;
   }
   .dark {
     --text-50: 20 19 6;
@@ -337,6 +338,7 @@
     --error: 190 18 60;
     --success: 21 128 61;
     --badge: 172 8 44;
+    --white: 12, 12, 11;
     
   }
 }
@@ -346,5 +348,9 @@ html, body {
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
+  background-color: rgb(var(--white));
+opacity: 1;
+background-image:  linear-gradient(rgb(var(--accent-600)) 1px, transparent 1px), linear-gradient(to right, rgb(var(--accent-600)) 1px,  rgb(var(--white)) 1px);
+background-size: 20px 20px;
 }
 

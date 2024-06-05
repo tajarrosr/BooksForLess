@@ -22,29 +22,36 @@
 
                 <div class="util-hero-props text-text-950">
 
-                    <div class="util-h1-wrapper-props">
-                        <h1 class="util-h1-wrapper-props">we sell</h1>
+                    <div class="util-h1-wrapper-props shadow-4xl">
+                        <h1 class="util-h1-wrapper-props dark:text-text-800">we sell</h1>
                     </div>
 
-                    <div class="util-h1-wrapper-props">
-                        <h1 class="util-h1-wrapper-props"><span class="util-emphasis-props">preowned</span> books at an</h1>
+                    <div class="util-h1-wrapper-props shadow-4xl">
+                        <h1 class="util-h1-wrapper-props"><span class="util-emphasis-props shadow-inner text-primary-500 hover:text-primary-950 bg-accent-600">preowned</span> books at an</h1>
                     </div>
 
-                    <div class="util-h1-wrapper-props">
-                        <h1 class="util-h1-wrapper-props"><span class="util-emphasis-props">affordable</span> price</h1>
+                    <div class="util-h1-wrapper-props shadow-4xl">
+                        <h1 class="util-h1-wrapper-props "><span class="util-emphasis-props shadow-inner text-primary-500 hover:text-primary-950 bg-accent-600">affordable</span> price</h1>
                     </div>
+
+                    <div class="util-h1-wrapper-props flex justify-center">
+                        <button class="w-1/2 hover:font-bold border border-solid border-accent-900 rounded-2xl px-4 py-2 bg-primary-500 hover:bg-primary-400 text-text-900">
+                            Shop Now!
+                        </button>
+                    </div>
+
                 </div>
 
                 <x-footer/>
 
             </div>
         </div>  <!--* END OF CONTAINER DIV -->
-    {{-- <script>
+    <script>
             document.addEventListener('DOMContentLoaded', function () {
                 gsap.set(".img", {y: 500});
                 gsap.set(".loader-imgs", {x: 500});
                 gsap.set(".nav-item", {y: 25, opacity: 0});
-                gsap.set("h1, .item, footer", {y: 200});
+                gsap.set("h1, .item, footer, button", {y: 200});
 
                 const tl = gsap.timeline({
                     delay: 1
@@ -75,7 +82,7 @@
                 ease: "power3.inOut",
             }, "-=0.5")
             
-            .to(".nav-item, h1, footer, .item", {
+            .to(".nav-item, h1, footer, .item, button", {
                 y: 0,
                 opacity: 1,
                 duration: 1,
@@ -83,7 +90,7 @@
                 ease: "power3.inOut",
             })
         });
-    </script> --}}
+    </script>
     </body>
 
 @include('partials.__footer')
