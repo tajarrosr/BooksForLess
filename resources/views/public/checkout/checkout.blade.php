@@ -4,8 +4,6 @@
     {{-- * NAVBAR --}}
     <x-nav/>
 
-    <x-nav/>
-
     <main class="container mx-auto mt-10">
         <div x-data="{
                 step: 1,
