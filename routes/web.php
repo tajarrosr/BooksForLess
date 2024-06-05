@@ -7,8 +7,12 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// Redirect root to browse-books
-Route::redirect('/', '/browse-books');
+// Redirect root to landing page
+Route::redirect('/', '/');
+
+Route::get('/', function () {
+    return view('public.landing');
+ })->name('landing');
 
 // Route For Browse Products
 Route::get('/browse-books', [BooksController::class, 'index'])->name('show-all.books');
