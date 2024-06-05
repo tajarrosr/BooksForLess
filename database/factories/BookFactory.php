@@ -33,7 +33,7 @@ class BookFactory extends Factory
             'book_author' => $faker->bookAuthor(),
             'book_price' => $faker->bookPrice(),
             'book_desc' => $faker->bookSummary(),
-            'book_genres' => $faker->randomElement($bookGenres),
+            'book_genres' => json_encode($faker->randomElements($bookGenres, $faker->numberBetween(1, 5))),
             'book_stock' => $faker->numberBetween(0, 20)
         ];
     }
