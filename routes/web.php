@@ -1,13 +1,18 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// Redirect root to browse-books
-Route::redirect('/', '/browse-books');
+// Redirect root to landing page
+Route::redirect('/', '/');
+
+Route::get('/', function () {
+    return view('public.landing');
+ })->name('landing');
 
 // Route For Browse Products
 Route::get('/browse-books', [BooksController::class, 'index'])->name('show-all.books');
@@ -22,7 +27,9 @@ Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login
 
 // Route for Admin Dashboard
 Route::middleware('auth:admin')->group(function () {
-    Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    
+    
     
     // Inventory Routes
     Route::get('/admin/inventory', [BooksController::class, 'indexAdmin'])->name('admin.inventory.index');
@@ -31,6 +38,11 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/inventory/{book}/edit', [BooksController::class, 'edit'])->name('admin.inventory.edit');
     Route::put('/admin/inventory/{book}', [BooksController::class, 'update'])->name('admin.inventory.update');
     Route::delete('/admin/inventory/{book}', [BooksController::class, 'destroy'])->name('admin.inventory.destroy');
+
+    Route::get('/admin/customers', [UserController::class, 'index'])->name('admin.customers.index');
+    Route::get('/admin/customers/{user}/edit', [UserController::class, 'edit'])->name('admin.customers.edit');
+    Route::put('/admin/customers/{user}', [UserController::class, 'update'])->name('admin.customers.update');
+    Route::delete('/admin/customers/{user}', [UserController::class, 'destroy'])->name('admin.customers.destroy');
 
      // Admin Logout
      Route::post('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');

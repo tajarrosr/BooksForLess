@@ -3,6 +3,7 @@
 @section('title', 'Inventory Management')
 
 @section('content')
+<title>Admin - Books Inventory</title>
 <div class="container mt-8"> 
     <h2 class="mb-4 text-3xl font-bold text-center dark:text-white">Books Inventory Management</h2>
     <div class="flex justify-end mb-6">

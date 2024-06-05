@@ -1,43 +1,42 @@
 @include('partials.__header')
-<body class="bg-background-300 vh-100">
+<body class="bg-background-100">
+
+    {{-- * NAVBAR --}}
+    <x-nav/>
 
     <x-nav/>
 
     <main class="container mx-auto mt-10">
         <div x-data="{
-            step: 1,
-            orderDetailsConfirmed: false,
-            billing: {
-                name: '',
-                email: '',
-                phone_number: '',
-                address: '',
-                city: '',
-                zip: ''
-            },
-            paymentMethod: '',
-            isBillingComplete() {
-                return this.billing.name !== '' && this.billing.email !== '' &&
-                    this.billing.phone_number !== '' && this.billing.address !== '' &&
-                    this.billing.city !== '' && this.billing.zip !== '';
-            },
-            showError: false
-        }" class="space-y-8">
-        <!-- Step Navigation -->
-        <div class="flex justify-between items-center mb-8">
-            <button :disabled="step === 1" @click="step = step > 1 ? step - 1 : step" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md">Previous</button>
-            <span class="text-lg font-semibold">Step <span x-text="step"></span> of 4</span>
-            <button :disabled="(step === 1 && !orderDetailsConfirmed) || 
-                              (step === 2 && !isBillingComplete()) || 
-                              (step === 3 && paymentMethod === '')" 
-                    @click="showError = true; if((step === 1 && !orderDetailsConfirmed) || 
-                              (step === 2 && !isBillingComplete()) || 
-                              (step === 3 && paymentMethod === '')) return; step = step < 4 ? step + 1 : step;" 
-                    class="bg-blue-500 text-white py-2 px-4 rounded-md">Next</button>
-        </div>
+                step: 1,
+                orderDetailsConfirmed: false,
+                billing: {
+                    name: '',
+                    email: '',
+                    phone_number: '',
+                    address: '',
+                    city: '',
+                    zip: ''
+                },
+                paymentMethod: '',
+                isBillingComplete() {
+                    return this.billing.name !== '' && this.billing.email !== '' &&
+                        this.billing.phone_number !== '' && this.billing.address !== '' &&
+                        this.billing.city !== '' && this.billing.zip !== '';
+                }
+            }" class="space-y-8">
+            <!-- Step Navigation -->
+            <div class="flex justify-between items-center mb-8">
+                <button :disabled="step === 1" @click="step--" class="bg-background-300 text-text-700 py-2 px-4 rounded-md">Previous</button>
+                <span class="text-lg font-semibold">Step <span x-text="step"></span> of 4</span>
+                <button :disabled="(step === 1 && !orderDetailsConfirmed) || 
+                                  (step === 2 && !isBillingComplete()) || 
+                                  (step === 3 && paymentMethod === '')" 
+                        @click="step++" class="bg-background-500 text-text-50 py-2 px-4 rounded-md">Next</button>
+            </div>
 
             <!-- Progress Bar -->
-            <div class="w-full bg-gray-200 rounded-full">
+            <div class="w-full bg-accent-200 rounded-full">
                 <div class="h-2 bg-blue-500 rounded-full" :style="'width:' + ((step - 1) * 33.33) + '%'"></div>
             </div>
 
@@ -47,7 +46,7 @@
                 @csrf
 
                 <!-- Step 1: Order Details -->
-                <div x-show="step === 1" class="bg-background-200 shadow-md rounded-lg p-6">
+                <div x-show="step === 1" class="bg-background-100 shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Order Details</h2>
                     <input type="checkbox" id="confirm" name="confirm" value="Confirm Order Details" required x-model="orderDetailsConfirmed">
                     <label>Confirm Order Details</label>

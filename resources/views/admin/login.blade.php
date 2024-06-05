@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
+    <style scoped>
         @keyframes slideIn {
             from {
                 transform: translateX(-1rem);
@@ -55,7 +55,7 @@
                         <label class="form-check-label" for="remember">Remember Me</label>
                     </div>
                     <div>
-                        <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg hover:bg-gradient-to-r from-green-500 to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300">
+                        <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg hover:bg-gradient-to-r focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300">
                             Login
                         </button>
                     </div>

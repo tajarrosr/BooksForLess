@@ -1,66 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Navigation</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link id="theme-link" rel="stylesheet" href="{{ asset('assets/css/admin_light_mode.css') }}">
-    <style>
-        .sidebar {
-            background-color: var(--sidebar-bg);
-            min-height: 100vh;
-            transition: width 0.3s, background-color 0.3s;
-            width: 250px;
-            color: #a0aec0;
-        }
-        .sidebar.collapsed {
-            width: 80px; 
-        }
-        .sidebar.collapsed .sidebar-text, 
-        .sidebar.collapsed .brand {
-            display: none;
-        }
-        .content {
-            flex-grow: 1;
-            transition: margin-left 0.3s;
-            margin-left: 35px; 
-        }
-        .content.shifted {
-            margin-left: 35px;
-        }
-        .button {
-            padding: 0.5rem 1rem;
-            background-color: var(--button-bg);
-            border: none;
-            cursor: pointer;
-        }
-        .top-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            height: 64px; /* Set a consistent height */
-        }
-        .logo {
-            width: 100px;
-            height: 100px;
-            transition: width 0.3s, height 0.3s;
-        }
-        .sidebar.collapsed .logo {
-            width: 80px;
-            height: 80px;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            text-align: left;
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style scoped>
+        body {
+            background-color: #343a40;
+            color: #fff;
         }
         .sidebar ul li {
             display: flex;
@@ -159,6 +105,12 @@
                 <a href="{{ route('admin.inventory.index') }}" class="flex items-center space-x-2">
                     <i class="fas fa-book w-6 h-6"></i>
                     <span class="sidebar-text">Books Inventory</span>
+                </a>
+            </li>
+            <li class="py-2">
+                <a href="{{ route('admin.customers.index') }}" class="flex items-center space-x-2">
+                    <i class="fas fa-user w-6 h-6"></i>
+                    <span class="sidebar-text">Customers Management</span>
                 </a>
             </li>
         </ul>
