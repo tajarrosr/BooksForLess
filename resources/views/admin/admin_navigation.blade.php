@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Navigation</title>
+    <!-- <title>Admin Navigation</title> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link id="theme-link" rel="stylesheet" href="{{ asset('assets/css/admin_light_mode.css') }}">
@@ -159,6 +159,12 @@
                 <a href="{{ route('admin.inventory.index') }}" class="flex items-center space-x-2">
                     <i class="fas fa-book w-6 h-6"></i>
                     <span class="sidebar-text">Books Inventory</span>
+                </a>
+            </li>
+            <li class="py-2">
+                <a href="{{ route('admin.customers.index') }}" class="flex items-center space-x-2">
+                    <i class="fas fa-user w-6 h-6"></i>
+                    <span class="sidebar-text">Customers Management</span>
                 </a>
             </li>
         </ul>

@@ -4,55 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function showRegistrationForm()
+    // Other methods...
+
+    public function index()
     {
-        return view('user.register');
+        $users = User::all();
+        return view('admin.customers.index', compact('users'));
     }
 
-    public function register(Request $request)
+    public function edit(User $user)
+    {
+        return view('admin.customers.edit', compact('user'));
+    }
+
+    public function update(Request $request, User $user)
     {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $user->update($request->only('first_name', 'last_name', 'username', 'email'));
 
-        return redirect()->route('login');
+        return redirect()->route('admin.customers.index')->with('success', 'Customer updated successfully.');
     }
 
-    public function showLoginForm()
+    public function destroy(User $user)
     {
-        return view('user.login');
-    }
-
-    public function login(Request $request)
-    {
-        $credentials = $request->only('username', 'password');
-
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
-        }
-
-        return redirect()->back()->withErrors(['username' => 'The provided credentials do not match our records.']);
+        $user->delete();
+        return redirect()->route('admin.customers.index')->with('success', 'Customer deleted successfully.');
     }
 }

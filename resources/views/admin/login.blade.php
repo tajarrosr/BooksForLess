@@ -55,7 +55,7 @@
                         <label class="form-check-label" for="remember">Remember Me</label>
                     </div>
                     <div>
-                        <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg hover:bg-gradient-to-r from-green-500 to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300">
+                        <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg hover:bg-gradient-to-r focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300">
                             Login
                         </button>
                     </div>

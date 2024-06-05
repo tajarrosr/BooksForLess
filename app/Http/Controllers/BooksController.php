@@ -20,10 +20,17 @@ class BooksController extends Controller
     // * admin front-end
     public function indexAdmin()
     {
-        $books = array('books' => DB::table('books')->orderBy('created_at', 'desc')->paginate());
-        return view('admin.inventory.index', $books);
+        $books = DB::table('books')->orderBy('created_at', 'desc')->paginate();
+        return view('admin.inventory.index', compact('books'));
     }
     
+    // * admin dashboard
+    public function dashboard()
+    {
+        $totalBooks = Book::count();
+        return view('admin.dashboard', compact('totalBooks'));
+    }
+
     // Show the form for creating a new resource.
     public function create()
     {
@@ -60,9 +67,6 @@ class BooksController extends Controller
     
         return redirect()->route('admin.inventory.index')->with('success', 'Book created successfully.');
     }
-    
-    
-    
 
     // Show the form for editing the specified resource.
     public function edit(Book $book)

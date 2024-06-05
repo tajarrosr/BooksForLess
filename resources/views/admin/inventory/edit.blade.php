@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
+<title>Edit - Books Inventory</title>
 <h2 class="custom-label mb-8 text-3xl font-bold text-center dark:text-white">Edit a Book Information</h2>
 
 @if ($errors->any())
