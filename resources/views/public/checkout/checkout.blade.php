@@ -1,10 +1,13 @@
 @include('partials.__header')
 
-<body class="bg-background-300 h-screen">
+<body style="background-image: url('/assets/images/check-out/CheckoutBackground.jpg'); background-size: cover; background-position: center;" class="bg-background-300 h-auto min-h-screen">
 
     <x-nav/>
 
-    <main class="container mx-auto mt-10 ">
+    <main class="container mx-auto mt-10 bg-background-100 p-4 rounded-2xl">
+        <div>
+
+        </div>
         <div x-data="{
             step: 1,
             orderDetailsConfirmed: false,
@@ -43,13 +46,28 @@
             </div>
 
             <!-- Multi-Step Form -->
-            <form action="{{ route('checkout.process') }}" method="POST"
-            >
+            <form action="{{ route('checkout.process') }}" method="POST">
                 @csrf
 
                 <!-- Step 1: Order Details -->
                 <div x-show="step === 1" class="bg-background-200 shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Order Details</h2>
+                    {{-- Insert @foreach? to display all the books from the cart that are located on the LocalStorage--}}
+                    <div class="bg-background-50 w-full shadow-md rounded-lg p-2 flex flex-wrap justify-center items-center">
+                        <div class="bg-background-200 w-full md:w-5/12 shadow-md rounded-lg p-6 m-2">
+                            <label class="block text-text-900">Book Name:</label>
+                            <label class="block text-text-900">Unit Price:</label>
+                            <label class="block text-text-900">Quantity:</label>
+                        </div>
+                        <div class="bg-background-200 w-full md:w-5/12 shadow-md rounded-lg p-6 m-2">
+                            <label class="block text-text-900">Book Name:</label>
+                            <label class="block text-text-900">Unit Price:</label>
+                            <label class="block text-text-900">Quantity:</label>
+                        </div>
+                    </div>
+                    <div class="bg-background-50 w-1/5 shadow-md rounded-lg p-6 flex flex-wrap m-4">
+                            <label class="block text-text-900">Total Price:</label>
+                    </div>
                     <input type="checkbox" id="confirm" name="confirm" value="Confirm Order Details" required x-model="orderDetailsConfirmed">
                     <label>Confirm Order Details</label>
                     <div x-show="showError" class="mt-4" x-cloak>
