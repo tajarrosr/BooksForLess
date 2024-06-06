@@ -119,6 +119,7 @@
 
         reloadCart();
         updateCartItemCount();
+        localStorage.setItem('cart', JSON.stringify(listCard));
     }
 
     // Function to remove all instances of a book from the cart

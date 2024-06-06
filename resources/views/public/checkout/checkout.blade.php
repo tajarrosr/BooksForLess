@@ -5,9 +5,6 @@
     <x-nav/>
 
     <main class="container mx-auto mt-10 bg-background-100 p-4 rounded-2xl">
-        <div>
-
-        </div>
         <div x-data="{
             step: 1,
             orderDetailsConfirmed: false,
@@ -20,6 +17,7 @@
                 zip: ''
             },
             paymentMethod: '',
+            totalPrice: 0,
             isBillingComplete() {
                 return this.billing.name !== '' && this.billing.email !== '' &&
                     this.billing.phone_number !== '' && this.billing.address !== '' &&
@@ -52,21 +50,12 @@
                 <!-- Step 1: Order Details -->
                 <div x-show="step === 1" class="bg-background-200 shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Order Details</h2>
-                    {{-- Insert @foreach? to display all the books from the cart that are located on the LocalStorage--}}
-                    <div class="bg-background-50 w-full shadow-md rounded-lg p-2 flex flex-wrap justify-center items-center">
-                        <div class="bg-background-200 w-full md:w-5/12 shadow-md rounded-lg p-6 m-2">
-                            <label class="block text-text-900">Book Name:</label>
-                            <label class="block text-text-900">Unit Price:</label>
-                            <label class="block text-text-900">Quantity:</label>
-                        </div>
-                        <div class="bg-background-200 w-full md:w-5/12 shadow-md rounded-lg p-6 m-2">
-                            <label class="block text-text-900">Book Name:</label>
-                            <label class="block text-text-900">Unit Price:</label>
-                            <label class="block text-text-900">Quantity:</label>
-                        </div>
+                    <div id="order-details-container" class="bg-background-50 w-full shadow-md rounded-lg p-2 flex flex-wrap justify-center items-center">
+                        <!-- Cart items will be injected here by JavaScript -->
                     </div>
                     <div class="bg-background-50 w-1/5 shadow-md rounded-lg p-6 flex flex-wrap m-4">
-                            <label class="block text-text-900">Total Price:</label>
+                        <label class="block text-text-900">Total Price:</label>
+                        <label id="total-price" class="block text-text-900">₱0.00</label>
                     </div>
                     <input type="checkbox" id="confirm" name="confirm" value="Confirm Order Details" required x-model="orderDetailsConfirmed">
                     <label>Confirm Order Details</label>
@@ -81,7 +70,6 @@
                 <div x-show="step === 2" class="bg-background-200 shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Billing Information</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
                         <div class="space-y-4">
                             <div>
                                 <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
@@ -190,4 +178,38 @@
     </footer>
 
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const cartItems = JSON.parse(localStorage.getItem('cart'));
+        const orderDetailsContainer = document.getElementById('order-details-container');
+        const totalPriceElement = document.getElementById('total-price');
+
+        if (cartItems && cartItems.length > 0) {
+            let total = 0;
+            cartItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('bg-background-200', 'w-full', 'shadow-md', 'rounded-lg', 'p-6', 'm-2');
+
+                itemElement.innerHTML = `
+                    <label class="block text-text-900">Book Name: ${item.book_title}</label>
+                    <label class="block text-text-900">Unit Price: ₱${item.book_price}</label>
+                    <label class="block text-text-900">Quantity: ${item.quantity}</label>
+                `;
+
+                orderDetailsContainer.appendChild(itemElement);
+
+                total += parseFloat(item.book_price) * parseFloat(item.quantity); // Ensure the prices are parsed as floats
+            });
+
+            totalPriceElement.innerText = '₱' + total.toFixed(2);
+
+            // Update totalPrice in Alpine.js data
+            Alpine.store('totalPrice', total.toFixed(2));
+        } else {
+            orderDetailsContainer.innerHTML = '<p>Your cart is empty.</p>';
+        }
+    });
+
+</script>
 @include('partials.__footer')
