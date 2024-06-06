@@ -50,6 +50,17 @@
                 <!-- Step 1: Order Details -->
                 <div x-show="step === 1" class="bg-background-200 shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Order Details</h2>
+                    {{-- Insert @foreach? to display all the books from the cart that are located on the LocalStorage--}}
+                    <div class="bg-background-50 shadow-md rounded-lg p-6 flex flex-wrap">
+                        <div class="bg-background-200 shadow-md rounded-lg p-6">
+                            <label class="block text-text-900">Book Name:</label>
+                            <label class="block text-text-900">Unit Price:</label>
+                            <label class="block text-text-900">Quantity:</label>
+                        </div>
+                        <div class="receipt bg-background-200 shadow-md rounded-lg p-6">
+                            
+                        </div>
+                    </div>
                     <input type="checkbox" id="confirm" name="confirm" value="Confirm Order Details" required x-model="orderDetailsConfirmed">
                     <label>Confirm Order Details</label>
                     <div x-show="showError" class="mt-4" x-cloak>
