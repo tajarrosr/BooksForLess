@@ -1,5 +1,6 @@
 @include('partials.__header')
-<body class="bg-background-300 h-full">
+
+<body class="bg-background-300 h-screen">
 
     <x-nav/>
 
@@ -61,40 +62,49 @@
                 <!-- Step 2: Billing Information -->
                 <div x-show="step === 2" class="bg-background-200 shadow-md rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Billing Information</h2>
-                    <div class="mb-4">
-                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                        <input type="text" name="name" id="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.name">
-                        @error('name')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" id="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.email">
-                        @error('email')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                        <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input type="text" name="phone_number" id="phone_number" pattern="\d{0,11}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.phone_number">
-                        @error('phone_number')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                        <input type="text" name="address" id="address" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.address">
-                        @error('address')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                        <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                        <input type="text" name="city" id="city" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.city">
-                        @error('city')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                        <label for="zip" class="block text-sm font-medium text-gray-700">Zip Code</label>
-                        <input type="number" name="zip" id="zip" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.zip">
-                        @error('zip')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                        <div x-show="showError" class="mt-4" x-cloak>
-                            <template x-if="step === 2 && !isBillingComplete()">
-                                <p class="text-red-500 text-sm">Please fill out all billing information to proceed.</p>
-                            </template>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                        <div class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                                <input type="text" name="name" id="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.name">
+                                @error('name')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" name="email" id="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.email">
+                                @error('email')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                            </div>
+                            <div>
+                                <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                <input type="text" name="phone_number" id="phone_number" pattern="\d{0,11}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.phone_number">
+                                @error('phone_number')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                            </div>
                         </div>
+
+                        <!-- Address, City, Zip Code -->
+                        <div class="space-y-4">
+                            <div>
+                                <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                                <input type="text" name="address" id="address" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.address">
+                                @error('address')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                            </div>
+                            <div>
+                                <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                                <input type="text" name="city" id="city" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.city">
+                                @error('city')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                            </div>
+                            <div>
+                                <label for="zip" class="block text-sm font-medium text-gray-700">Zip Code</label>
+                                <input type="number" name="zip" id="zip" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required x-model="billing.zip">
+                                @error('zip')<span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div x-show="showError" class="mt-4" x-cloak>
+                        <template x-if="step === 2 && !isBillingComplete()">
+                            <p class="text-red-500 text-sm">Please fill out all billing information to proceed.</p>
+                        </template>
                     </div>
                 </div>
 
