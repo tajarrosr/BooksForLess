@@ -65,7 +65,7 @@
         @foreach ($books as $book)
         <div class="bg-accent-100 shadow-md rounded-lg p-4 flex flex-col justify-between"> <!-- Added flex utilities -->
             <div> <!-- Wrapping content to allow vertical alignment -->
-                <img src="{{$book->book_tmb}}" alt="Book Cover" class="rounded-xl mx-auto">
+                <img src="{{ asset('storage/' . $book->book_tmb) }}" alt="Book Cover" class="rounded-xl mx-auto w-30 h-30">
                 <h3 class="text-lg font-semibold mt-2 text-text-950">{{$book->book_title}}</h3>
                 <p class="text-secondary-600">{{$book->book_author}}</p>
                 <p class="text-secondary-600">₱{{$book->book_price}}</p>
@@ -173,7 +173,7 @@
             listItem.classList.add('grid', 'grid-cols-4', 'bg-accent-100', 'shadow-md', 'rounded-lg', 'p-2', 'w-11/12', 'mb-2', 'mx-auto', 'text-text-950', 'gap-1');
 
             listItem.innerHTML = `
-                <img src="${book.book_tmb}" alt="Book Cover" class="item-cover rounded-xl w-auto col-start-1 col-end-2 row-span-5">
+            <img src="{{ asset('storage') }}/${book.book_tmb}" alt="Book Cover" class="item-cover rounded-xl col-span-1 w-full h-auto">
                 <span class="item-title font-bold col-start-2 col-end-5 row-span-2">${book.book_title}</span>
                 <span class="item-author text-sm col-start-2 col-end-5 row-span-1">Author: ${book.book_author}</span>
                 <span class="item-price text-sm col-start-2 col-end-5 row-span-1">Unit Price: ${book.book_price}</span>
