@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="util-h1-wrapper-props flex justify-center">
-                        <button class="w-1/2 font-iphone hover:font-bold border border-solid border-accent-900 rounded-2xl px-4 py-2 bg-primary-500 hover:bg-primary-400 text-text-900">
+                        <button class="w-3/12 font-iphone hover:font-bold border border-solid border-accent-900 rounded-2xl px-4 py-2 bg-primary-500 hover:shadow-2xl hover:bg-primary-400 text-text-900">
                             <a href="{{ route('show-all.books') }}">Shop Now!</a>
                         </button>
                     </div>
