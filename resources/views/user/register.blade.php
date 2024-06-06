@@ -13,7 +13,7 @@
                     </ul>
                 </div>
             @endif
-            <form method="POST" action="{{ route('register') }}">
+            <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4">
                     <label for="first_name" class="sr-only">First Name</label>
@@ -37,7 +37,7 @@
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                         <button type="button" onclick="togglePasswordVisibility('password')" class="focus:outline-none">
                             <svg id="password-toggle-icon" class="h-5 w-5 text-text-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9m9-9a9 9 0 019 9m0 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9m9-9a9 9 0 019 9m0 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9m9-9a9 9 0 019 9m0 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9" />
                             </svg>
                         </button>
                     </div>
@@ -48,10 +48,15 @@
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                         <button type="button" onclick="togglePasswordVisibility('password_confirmation')" class="focus:outline-none">
                             <svg id="password-confirmation-toggle-icon" class="h-5 w-5 text-text-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9m9-9a9 9 0 019 9m0 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9m9-9a9 9 0 019 9m0 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9m9-9a9 9 0 019 9m0 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9m9-9a9 9 0 019 9" />
                             </svg>
                         </button>
                     </div>
+                </div>
+                <div class="mb-4">
+                    <label for="picture" class="sr-only">Profile Picture</label>
+                    <div class="text-text-900 mb-2 text-center">Please insert a profile picture (JPEG, JPG, PNG)</div>
+                    <input id="picture" name="picture" type="file" class="appearance-none rounded w-full px-3 py-2 bg-background-100 border border-accent-300 text-text-900 focus:outline-none focus:ring-accent-500 focus:border-accent-500 sm:text-sm" accept="image/jpeg,image/jpg,image/png">
                 </div>
                 <div>
                     <button type="submit" class="w-full py-3 px-4 border border-transparent text-lg font-bold rounded-md text-text-50 bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Register</button>

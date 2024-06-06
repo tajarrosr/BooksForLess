@@ -4,9 +4,9 @@
         <div class="w-10 rounded-full">
             @if(Auth::check())
                 <!-- User is authenticated, fetch their avatar from the database -->
-                @if(!empty(Auth::user()->avatar))
+                @if(!empty(Auth::user()->picture))
                     <!-- If the user has an avatar stored in the database -->
-                    <img src="{{ asset('path/to/avatars/' . Auth::user()->avatar) }}" alt="User Avatar">
+                    <img src="{{ asset(Auth::user()->picture) }}" alt="User Avatar">
                 @else
                     <!-- If the user does not have an avatar stored in the database, use a default avatar -->
                     <img src="{{ asset('path/to/default/avatar.svg') }}" alt="Default Avatar">
@@ -37,10 +37,10 @@
     </div>
     <ul tabindex="0" class="font-iphone menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
         <li>
-        <a href="{{route('login')}}" class="justify-between">
-            Login
-            <span class="badge bg-badge-800 font-semibold text-text-50 dark:text-text-950">New</span>
-        </a>
+            <a href="{{route('login')}}" class="justify-between">
+                Login
+                <span class="badge bg-badge-800 font-semibold text-text-50 dark:text-text-950">New</span>
+            </a>
         </li>
         <li><a href="{{route('register')}}">Register</a></li>
         <li><a>Logout</a></li>

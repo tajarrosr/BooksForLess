@@ -17,27 +17,32 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'picture' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+    
+        $user = new User();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+    
+        if ($request->hasFile('picture')) {
+            $image = $request->file('picture');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('assets/images/profile'), $imageName);
+            $user->picture = 'assets/images/profile/' . $imageName;
         }
-
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
+    
+        $user->save();
+    
+        return redirect()->route('login')->with('success', 'Registration successful. Please login.');
     }
 
     public function showLoginForm()
@@ -50,7 +55,7 @@ class UserController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
+            return redirect()->intended(route('show-all.books'));
         }
 
         return redirect()->back()->withErrors(['username' => 'The provided credentials do not match our records.']);
