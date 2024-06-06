@@ -179,7 +179,7 @@
                             <p><strong>Selected Payment Method:</strong> <span x-text="paymentMethod"></span></p>
                         </div>
                     </div>
-                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">Submit</button>
+                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">Place Order</button>
                 </div>
             </form>
         </div>
