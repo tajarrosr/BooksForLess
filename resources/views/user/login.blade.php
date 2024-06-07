@@ -25,6 +25,7 @@
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                         <button type="button" onclick="togglePasswordVisibility('password')" class="focus:outline-none">
                             <svg id="password-toggle-icon" class="h-5 w-5 text-text-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9m9-9a9 9 0 019 9m0 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9" />
                             </svg>
                         </button>
