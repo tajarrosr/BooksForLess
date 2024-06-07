@@ -43,7 +43,7 @@
                 <div class="h-2 bg-blue-500 rounded-full" :style="'width:' + ((step - 1) * 33.33) + '%'"></div>
             </div>
 
-            <!-- Multi-Step Form -->
+            <!-- * Multi-Step Form -->
             <form action="{{ route('checkout.process') }}" method="POST">
                 @csrf
 
@@ -166,6 +166,7 @@
                             <h3 class="text-lg font-semibold mb-2">Payment Method</h3>
                             <p><strong>Selected Payment Method:</strong> <span x-text="paymentMethod"></span></p>
                         </div>
+                        
                     </div>
                     <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">Place Order</button>
                 </div>
