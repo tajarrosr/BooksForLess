@@ -52,13 +52,48 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
         $credentials = $request->only('username', 'password');
 
+        // Try to authenticate with username first
         if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
             return redirect()->intended(route('show-all.books'));
         }
 
-        return redirect()->back()->withErrors(['username' => 'The provided credentials do not match our records.']);
+        // If username fails, try with email
+        $credentials = [
+            'email' => $request->username,
+            'password' => $request->password
+        ];
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('show-all.books'));
+        }
+
+        return redirect()->back()->withErrors([
+            'username' => 'The provided credentials do not match our records.',
+        ])->withInput($request->except('password'));
+    }
+
+    public function logout(Request $request)
+    {
+        try {
+            Auth::logout();
+            
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            
+            return redirect()->route('show-all.books')->with('success', 'You have been logged out successfully.');
+        } catch (\Exception $e) {
+            // If there's any error, still redirect to browse books
+            return redirect()->route('show-all.books');
+        }
     }
 
     public function index()

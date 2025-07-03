@@ -11,12 +11,17 @@ class Book extends Model
 
     protected $fillable = [
         'book_title',
-        'book_author',
+        'book_author', 
         'book_genres',
         'book_desc',
         'book_price',
         'book_stock',
         'book_isbn',
-        'book_tmb',
+        'book_tmb'
+    ];
+
+    protected $casts = [
+        'book_genres' => 'array',
+        'book_price' => 'decimal:2'
     ];
 }

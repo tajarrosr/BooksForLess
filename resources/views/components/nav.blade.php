@@ -1,20 +1,18 @@
-{{-- * NAVIGATION BAR --}}
-<div class="navbar sticky top-0 z-5 bg-background-50 nav-item transition-all duration-300">
-    {{-- ? DARK MODE BUTTON --}}
-    <x-dark-toggle/>
-
-    {{-- ? BROWSE BOOKS BUTTON --}}
-    <x-browse-books-button/>
-    
-    {{-- ? LOGO BUTTON TO HOME --}}
-    <x-home-button/>
-    
-    <div class="flex-none">
-
-        {{-- ? BAG/CART ICON BUTTON --}}
-        <x-cart-icon-button/>
-
-        {{-- ? USER ICON BUTTON --}}
-        <x-account-button/>
+<div class="bg-white shadow-sm border-b sticky top-0 z-50 w-full">
+    <div class="w-full px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16 w-full">
+            <!-- Left side - Dark toggle, Browse button, AND Logo -->
+            <div class="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+                <x-dark-toggle/>
+                <x-browse-books-button/>
+                <x-home-button/>
+            </div>
+            
+            <!-- Right side - Cart and Account -->
+            <div class="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+                <x-cart-icon-button/>
+                <x-account-button/>
+            </div>
+        </div>
     </div>
 </div>

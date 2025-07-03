@@ -8,11 +8,9 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to landing page
-Route::redirect('/', '/');
-
 Route::get('/', function () {
     return view('public.landing');
- })->name('landing');
+})->name('landing');
 
 // Route For Browse Products
 Route::get('/browse-books', [BooksController::class, 'index'])->name('show-all.books');
@@ -28,8 +26,6 @@ Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login
 // Route for Admin Dashboard
 Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-    
-    
     
     // Inventory Routes
     Route::get('/admin/inventory', [BooksController::class, 'indexAdmin'])->name('admin.inventory.index');
@@ -53,7 +49,6 @@ Route::get('/checkout', [CheckoutController::class, 'checkoutPage'])->name('chec
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
 Route::get('/order-confirmed', [CheckoutController::class, 'success'])->name('checkout.order_confirmed');
 
-
 // CUSTOMERS OR USERS ROUTES
 // Route for User Registration
 Route::get('register', [UserController::class, 'showRegistrationForm'])->name('register');
@@ -62,3 +57,7 @@ Route::post('register', [UserController::class, 'register']);
 // Route for User Login
 Route::get('login', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('login', [UserController::class, 'login']);
+
+// Route for User Logout - Both GET and POST methods for better compatibility
+Route::post('logout', [UserController::class, 'logout'])->name('logout');
+Route::get('logout', [UserController::class, 'logout'])->name('logout.get');

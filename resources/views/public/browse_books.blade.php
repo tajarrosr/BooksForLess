@@ -46,39 +46,50 @@
         }
     </style>
 
-<body class="bg-background-50 transition-all duration-300">
-    
-    {{-- * NAVIGATION BAR --}}
+<body class="bg-gray-50 min-h-screen">
     <x-nav/>
-
-    {{-- * WEBPAGE TITLE --}}
-    <header class="page-title text-center font-butler-stencil">
-        <h1 class="uppercase text-5xl text-text-700 py-12 shadow-lg">browse books</h1>
+    
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <h1 class="text-4xl font-bold text-gray-900 text-center">Discover Amazing Books</h1>
+            <p class="text-gray-600 text-center mt-2">Find your next favorite read from our curated collection</p>
+        </div>
     </header>
 
-
-    {{-- * ADD TO CART SLIDER (LEFT) --}}
     <x-cart-slider/>
 
-        {{-- * PRODUCTS IN A GRID --}}
-    <section class="grid-container grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-auto">
-        @foreach ($books as $book)
-        <div class="bg-accent-100 shadow-md rounded-lg p-4 flex flex-col justify-between"> <!-- Added flex utilities -->
-            <div> <!-- Wrapping content to allow vertical alignment -->
-                <img src="{{ asset('storage/' . $book->book_tmb) }}" alt="Book Cover" class="rounded-xl mx-auto w-30 h-30">
-                <h3 class="text-lg font-semibold mt-2 text-text-950">{{$book->book_title}}</h3>
-                <p class="text-secondary-600">{{$book->book_author}}</p>
-                <p class="text-secondary-600">₱{{$book->book_price}}</p>
-                <p class="text-success-700 font-bold">In Stock: {{$book->book_stock}}</p>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            @foreach ($books as $book)
+            <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                <div class="aspect-w-3 aspect-h-4 bg-gray-100 overflow-hidden">
+                    <img src="{{ asset('storage/' . $book->book_tmb) }}" 
+                         alt="{{ $book->book_title }}" 
+                         class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                </div>
+                
+                <div class="p-4">
+                    <h3 class="font-semibold text-gray-900 text-lg mb-1 line-clamp-2">{{ $book->book_title }}</h3>
+                    <p class="text-gray-600 text-sm mb-2">by {{ $book->book_author }}</p>
+                    
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-2xl font-bold text-green-600">₱{{ number_format($book->book_price, 2) }}</span>
+                        <span class="text-sm text-green-700 bg-green-100 px-2 py-1 rounded-full">
+                            {{ $book->book_stock }} in stock
+                        </span>
+                    </div>
+                    
+                    <button onclick="addToCart({{$book}})" 
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Add to Cart
+                    </button>
+                </div>
             </div>
-            <button onclick="addToCart({{$book}})" class="bg-primary-500 text-text-900 dark:text-text-50 px-4 py-2 rounded hover:bg-primary-300 font-iphone font-semibold hover:font-serif mt-4">Add to Cart</button>
+            @endforeach
         </div>
-        @endforeach
-        <x-scroll-to-top/>
-    </section>
-
-
         
+        <x-scroll-to-top/>
+    </main>
 </body>
     
 

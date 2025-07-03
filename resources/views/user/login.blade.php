@@ -1,42 +1,67 @@
 @include('partials.__header')
-<body class="bg-background-100 font-iphone">
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
     <x-nav/>
-    <div class="container mx-auto p-8">
-        <div class="max-w-md mx-auto bg-background-200 p-8 rounded-lg shadow-lg">
-            <h2 class="text-4xl font-bold mb-6 text-center text-text-900 font-butler">Customer Login</h2>
+    <div class="w-full max-w-md">
+        <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
+                <p class="text-gray-600">Sign in to your account</p>
+            </div>
+            
             @if ($errors->any())
-                <div class="mb-4">
-                    <ul class="list-disc list-inside text-sm text-error-700">
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <ul class="text-sm text-red-600 space-y-1">
                         @foreach ($errors->all() as $error)
-                            <li class="text-center list-none">{{ $error }}</li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                                {{ $error }}
+                            </li>
                         @endforeach
                     </ul>
                 </div>
             @endif
-            <form method="POST" action="{{ route('login') }}">
+            
+            <form method="POST" action="{{ route('login') }}" class="space-y-6">
                 @csrf
-                <div class="mb-4">
-                    <label for="username" class="sr-only">Username or Email Address</label>
-                    <input id="username" name="username" type="text" required class="appearance-none rounded w-full px-3 py-2 bg-background-50 border border-accent-300 text-secondary-900 focus:outline-none focus:ring-accent-500 focus:border-accent-500 sm:text-sm" placeholder="Username or Email Address" value="{{ old('username') }}">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username or Email</label>
+                    <input id="username" name="username" type="text" required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
+                           placeholder="Enter your username or email" 
+                           value="{{ old('username') }}">
                 </div>
-                <div class="mb-4 relative">
-                    <label for="password" class="sr-only">Password</label>
-                    <input id="password" name="password" type="password" required class="appearance-none rounded w-full px-3 py-2 bg-background-50 border border-accent-300 text-secondary-900 focus:outline-none focus:ring-accent-500 focus:border-accent-500 sm:text-sm" placeholder="Password">
-                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                        <button type="button" onclick="togglePasswordVisibility('password')" class="focus:outline-none">
-                            <svg id="password-toggle-icon" class="h-5 w-5 text-text-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9m9-9a9 9 0 019 9m0 0a9 9 0 01-9 9m0 0a9 9 0 01-9-9" />
+                
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <div class="relative">
+                        <input id="password" name="password" type="password" required 
+                               class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
+                               placeholder="Enter your password">
+                        <button type="button" onclick="togglePasswordVisibility('password')" 
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <svg id="password-toggle-icon" class="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
                         </button>
                     </div>
                 </div>
-                <div>
-                    <button type="submit" class="w-full py-3 px-4 border border-transparent text-lg font-bold rounded-md text-text-50 bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">Login</button>
-                </div>
+                
+                <button type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    Sign In
+                </button>
             </form>
-            <div class="mt-6 text-center">
-                <a href="{{ route('register') }}" class="text-accent-600 hover:text-accent-500 hover:decoration-4">Don't have an account? Register</a>
+            
+            <div class="mt-8 text-center">
+                <p class="text-gray-600">
+                    Don't have an account? 
+                    <a href="{{ route('register') }}" class="text-blue-600 hover:text-blue-700 font-medium hover:underline">
+                        Create one here
+                    </a>
+                </p>
             </div>
         </div>
     </div>
@@ -46,10 +71,10 @@
             const icon = document.getElementById(`${fieldId}-toggle-icon`);
             if (field.type === 'password') {
                 field.type = 'text';
-                icon.classList.replace('text-gray-500', 'text-gray-700');
+                icon.classList.replace('text-gray-400', 'text-gray-600');
             } else {
                 field.type = 'password';
-                icon.classList.replace('text-gray-700', 'text-gray-500');
+                icon.classList.replace('text-gray-600', 'text-gray-400');
             }
         }
     </script>
