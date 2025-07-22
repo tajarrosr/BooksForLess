@@ -14,10 +14,6 @@
     </div>
 
     <div class="website-content">
-        {{-- * NAVBAR - Responsive navigation --}}
-        <div id="navbar" class="w-full" style="opacity: 0; visibility: hidden;">
-            <x-nav/>
-        </div>
 
         <div class="container font-butler">
             <div class="util-hero-props text-text-950">

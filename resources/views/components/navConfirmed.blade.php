@@ -10,10 +10,6 @@
     </div>
     
     <div class="flex-none">
-        {{-- ? DARK MODE BUTTON --}}
-        <x-dark-toggle/>
-
-
         {{-- ? ACCOUNT AVATAR BUTTON --}}
         <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
@@ -33,4 +29,4 @@
         </ul>
         </div>
     </div>
-    </div>
+</div>

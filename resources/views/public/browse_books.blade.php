@@ -49,7 +49,7 @@
 <body class="bg-gray-50 min-h-screen">
     <x-nav/>
     
-    <header class="bg-white shadow-sm border-b">
+    <header class="shadow-sm border-b">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <h1 class="text-4xl font-bold text-gray-900 text-center">Discover Amazing Books</h1>
             <p class="text-gray-600 text-center mt-2">Find your next favorite read from our curated collection</p>
