@@ -30,8 +30,21 @@
     <div class="form-group">
         <label for="book_genre" class="custom-label block">Genre</label>
         <select name="book_genre[]" id="book_genre" class="form-control custom-input w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-white" multiple="multiple" required>
+            @php
+                $selectedGenres = [];
+                if (is_array($book->book_genres)) {
+                    $selectedGenres = $book->book_genres;
+                } elseif (is_string($book->book_genres)) {
+                    $decoded = json_decode($book->book_genres, true);
+                    if (is_array($decoded)) {
+                        $selectedGenres = $decoded;
+                    } else {
+                        $selectedGenres = [$book->book_genres];
+                    }
+                }
+            @endphp
             @foreach(config('book_genres') as $genre)
-                <option value="{{ $genre }}" {{ in_array($genre, json_decode($book->book_genres, true)) ? 'selected' : '' }}>{{ $genre }}</option>
+                <option value="{{ $genre }}" {{ in_array($genre, $selectedGenres) ? 'selected' : '' }}>{{ $genre }}</option>
             @endforeach
         </select>
     </div>

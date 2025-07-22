@@ -1,82 +1,176 @@
-@include('partials.__header')
-<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-    <x-nav/>
-    <div class="w-full max-w-md">
-        <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-                <p class="text-gray-600">Sign in to your account</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BooksForLess</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/user_styles.css') }}" rel="stylesheet">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+        
+        .auth-card {
+            background: var(--bg-color);
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .auth-subtitle {
+            color: #6b7280;
+        }
+        
+        .show-password {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .auth-links {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .auth-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-danger {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+        }
+        
+        .alert-success {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #16a34a;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Welcome Back</h1>
+                <p class="auth-subtitle">Sign in to your BooksForLess account</p>
             </div>
             
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            
             @if ($errors->any())
-                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <ul class="text-sm text-red-600 space-y-1">
+                <div class="alert alert-danger">
+                    <ul style="margin: 0; padding-left: 1.5rem;">
                         @foreach ($errors->all() as $error)
-                            <li class="flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $error }}
-                            </li>
+                            <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif
             
-            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+            <form method="POST" action="{{ route('login') }}">
                 @csrf
-                <div>
-                    <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username or Email</label>
-                    <input id="username" name="username" type="text" required 
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
-                           placeholder="Enter your username or email" 
-                           value="{{ old('username') }}">
+                
+                <div class="form-group">
+                    <label for="username" class="form-label">Username or Email</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="form-input" 
+                        value="{{ old('username') }}" 
+                        required 
+                        autofocus
+                        placeholder="Enter your username or email"
+                    >
                 </div>
                 
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                    <div class="relative">
-                        <input id="password" name="password" type="password" required 
-                               class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
-                               placeholder="Enter your password">
-                        <button type="button" onclick="togglePasswordVisibility('password')" 
-                                class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                            <svg id="password-toggle-icon" class="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </button>
-                    </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input" 
+                        required
+                        placeholder="Enter your password"
+                    >
                 </div>
                 
-                <button type="submit" 
-                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                    Sign In
+                <div class="show-password">
+                    <input type="checkbox" id="show_password" onchange="togglePassword()">
+                    <label for="show_password">Show Password</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
             </form>
             
-            <div class="mt-8 text-center">
-                <p class="text-gray-600">
-                    Don't have an account? 
-                    <a href="{{ route('register') }}" class="text-blue-600 hover:text-blue-700 font-medium hover:underline">
-                        Create one here
-                    </a>
-                </p>
+            <div class="auth-links">
+                <p>Don't have an account? <a href="{{ route('register') }}" class="auth-link">Sign up here</a></p>
+                <p><a href="{{ route('show-all.books') }}" class="auth-link">Continue as Guest</a></p>
             </div>
         </div>
     </div>
+    
     <script>
-        function togglePasswordVisibility(fieldId) {
-            const field = document.getElementById(fieldId);
-            const icon = document.getElementById(`${fieldId}-toggle-icon`);
-            if (field.type === 'password') {
-                field.type = 'text';
-                icon.classList.replace('text-gray-400', 'text-gray-600');
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const showPasswordCheckbox = document.getElementById('show_password');
+            
+            if (showPasswordCheckbox.checked) {
+                passwordField.type = 'text';
             } else {
-                field.type = 'password';
-                icon.classList.replace('text-gray-600', 'text-gray-400');
+                passwordField.type = 'password';
             }
         }
+        
+        // Apply theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+            }
+        });
     </script>
 </body>
-@include('partials.__footer')
+</html>

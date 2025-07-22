@@ -1,256 +1,630 @@
-@include('partials.__header')
-
-    <style scoped>
-
-        .cart-container {
-            @apply fixed top-0 right-0 h-full bg-white transition-all duration-300 z-50;
-            width: 30%; /* Set the width of the drawer */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Books - BooksForLess</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/landing-page/BOOKS4LESS-LOGO.png') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/user_styles.css') }}" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-
-        /* CSS for the navbar */
-        .navbar {
-            @apply transition-margin-left duration-300;
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="books" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><rect fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" width="20" height="20"/></pattern></defs><rect width="100" height="100" fill="url(%23books)"/></svg>');
+            opacity: 0.3;
         }
-
-        /* CSS for the main content area */
-        .main-content {
-            @apply transition-margin-right duration-300;
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
-        .active .cart {
-            left: calc(100% - 40%);
-        }
-
-        .active .container {
-            transform: translateX(-200px);
-            -webkit-transform: translateX(-200px);
-            -moz-transform: translateX(-200px);
-            -ms-transform: translateX(-200px);
-            -o-transform: translateX(-200px);
-        }
-
-        .cart .check-out div{
-            background-color: var(rgb(--background-700));
-            color: var(rgb(--text-50));
-            width: 100%;
-            height: 70px;
-            display: flex; 
-            justify-content: center;
-            align-items: center;
+        
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .search-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: -2rem 1rem 3rem;
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .search-grid {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 1rem;
+            align-items: end;
+        }
+        
+        .search-input-wrapper {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+        
+        .filter-select {
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1rem;
+            min-width: 150px;
             cursor: pointer;
         }
-
-        .item-1 {
-            grid-row: 1 / 2;
-            grid-column: 1 / 2;
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+        
+        .book-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .book-image-wrapper {
+            position: relative;
+            height: 320px;
+            overflow: hidden;
+        }
+        
+        .book-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .book-card:hover .book-image {
+            transform: scale(1.05);
+        }
+        
+        .book-stock-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--success-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .book-stock-badge.out-of-stock {
+            background: var(--error-color);
+        }
+        
+        .book-info {
+            padding: 1.5rem;
+        }
+        
+        .book-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .book-author {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .book-genres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .genre-tag {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .book-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .book-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .book-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .add-to-cart-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -3px rgba(59, 130, 246, 0.3);
+        }
+        
+        .add-to-cart-btn:disabled {
+            background: #6b7280;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #6b7280;
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .scroll-to-top:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 3rem 0 2rem;
+            }
+            
+            .search-section {
+                margin: -1.5rem 1rem 2rem;
+                padding: 1.5rem;
+            }
+            
+            .search-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+                padding: 0 0.5rem;
+            }
+            
+            .book-info {
+                padding: 1rem;
+            }
+            
+            .scroll-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 45px;
+                height: 45px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .books-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+            
+            .search-section {
+                margin: -1rem 0.5rem 1.5rem;
+                padding: 1rem;
+            }
         }
     </style>
-
-<body class="bg-gray-50 min-h-screen">
-    <x-nav/>
+</head>
+<body>
+    @include('components.navbar')
+    @include('components.cart-slider')
     
-    <header class="shadow-sm border-b">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 class="text-4xl font-bold text-gray-900 text-center">Discover Amazing Books</h1>
-            <p class="text-gray-600 text-center mt-2">Find your next favorite read from our curated collection</p>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Discover Amazing Books</h1>
+            <p class="hero-subtitle">Find your next favorite read from our collection of preowned books at unbeatable prices</p>
         </div>
-    </header>
-
-    <x-cart-slider/>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            @foreach ($books as $book)
-            <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
-                <div class="aspect-w-3 aspect-h-4 bg-gray-100 overflow-hidden">
-                    <img src="{{ asset('storage/' . $book->book_tmb) }}" 
-                         alt="{{ $book->book_title }}" 
-                         class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+    </section>
+    
+    <!-- Search Section -->
+    <div class="container">
+        <div class="search-section">
+            <div class="search-grid">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Search by title, author, or genre..." 
+                        class="search-input"
+                        onkeyup="filterBooks()"
+                    >
                 </div>
-                
-                <div class="p-4">
-                    <h3 class="font-semibold text-gray-900 text-lg mb-1 line-clamp-2">{{ $book->book_title }}</h3>
-                    <p class="text-gray-600 text-sm mb-2">by {{ $book->book_author }}</p>
-                    
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-2xl font-bold text-green-600">₱{{ number_format($book->book_price, 2) }}</span>
-                        <span class="text-sm text-green-700 bg-green-100 px-2 py-1 rounded-full">
-                            {{ $book->book_stock }} in stock
-                        </span>
-                    </div>
-                    
-                    <button onclick="addToCart({{$book}})" 
-                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                        Add to Cart
-                    </button>
-                </div>
+                <select id="genre-filter" class="filter-select" onchange="filterBooks()">
+                    <option value="">All Genres</option>
+                    @foreach(config('book_genres') as $genre)
+                        <option value="{{ $genre }}">{{ $genre }}</option>
+                    @endforeach
+                </select>
+                <select id="sort-filter" class="filter-select" onchange="sortBooks()">
+                    <option value="title">Sort by Title</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="author">Sort by Author</option>
+                </select>
             </div>
-            @endforeach
         </div>
         
-        <x-scroll-to-top/>
-    </main>
-</body>
+        <!-- Books Grid -->
+        <div class="books-grid" id="books-container">
+            @forelse($books as $book)
+                <div class="book-card" 
+                     data-title="{{ strtolower($book->book_title) }}" 
+                     data-author="{{ strtolower($book->book_author) }}" 
+                     data-price="{{ $book->book_price }}" 
+                     data-genres="{{ strtolower(is_array($book->book_genres) ? implode(',', $book->book_genres) : $book->book_genres) }}">
+                    
+                    <div class="book-image-wrapper">
+                        <img 
+                            src="{{ asset('storage/' . $book->book_tmb) }}" 
+                            alt="{{ $book->book_title }}" 
+                            class="book-image"
+                            onerror="this.src='{{ asset('assets/images/placeholder-book.jpg') }}'"
+                        >
+                        <div class="book-stock-badge {{ $book->book_stock <= 0 ? 'out-of-stock' : '' }}">
+                            {{ $book->book_stock > 0 ? $book->book_stock . ' in stock' : 'Out of stock' }}
+                        </div>
+                    </div>
+                    
+                    <div class="book-info">
+                        <h3 class="book-title">{{ $book->book_title }}</h3>
+                        <p class="book-author">by {{ $book->book_author }}</p>
+                        
+                        <div class="book-genres">
+                            @if(is_array($book->book_genres))
+                                @foreach(array_slice($book->book_genres, 0, 2) as $genre)
+                                    <span class="genre-tag">{{ $genre }}</span>
+                                @endforeach
+                                @if(count($book->book_genres) > 2)
+                                    <span class="genre-tag">+{{ count($book->book_genres) - 2 }}</span>
+                                @endif
+                            @else
+                                <span class="genre-tag">{{ $book->book_genres }}</span>
+                            @endif
+                        </div>
+                        
+                        <p class="book-description">{{ $book->book_desc }}</p>
+                        
+                        <div class="book-footer">
+                            <div class="book-price">₱{{ number_format($book->book_price, 2) }}</div>
+                            @if($book->book_stock > 0)
+                                <button 
+                                    class="add-to-cart-btn"
+                                    onclick="addToCart({{ $book->id }}, '{{ addslashes($book->book_title) }}', '{{ addslashes($book->book_author) }}', {{ $book->book_price }}, '{{ asset('storage/' . $book->book_tmb) }}')"
+                                >
+                                    <i class="fas fa-cart-plus"></i>
+                                    Add to Cart
+                                </button>
+                            @else
+                                <button class="add-to-cart-btn" disabled>
+                                    <i class="fas fa-times"></i>
+                                    Out of Stock
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <i class="fas fa-book empty-icon"></i>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">No Books Available</h3>
+                    <p>Check back later for new arrivals!</p>
+                </div>
+            @endforelse
+        </div>
+        
+        <!-- No Results Message -->
+        <div id="no-results" class="empty-state" style="display: none;">
+            <i class="fas fa-search empty-icon"></i>
+            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">No Books Found</h3>
+            <p>Try adjusting your search or filter criteria.</p>
+            <button onclick="clearFilters()" class="btn btn-primary" style="margin-top: 1rem;">
+                <i class="fas fa-refresh"></i> Clear Filters
+            </button>
+        </div>
+    </div>
     
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scroll-to-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
-<script>
-    const openCart = document.querySelector(".open-cart");
-    const closeCart = document.querySelector(".close-cart");
-    const checkOut = document.querySelector(".check-out");
-    const cartTotal = document.querySelector(".total");
-    const listCart = document.querySelector(".list-cart");
-    const body = document.querySelector("body");
-
-    // * passes the retrieved data from local_db to client-side (js)
-    const books = @json($books);
-
-    // Function to round up numbers to 2 decimal places
-    const roundUp = (num) => {
-        return Math.round((num + Number.EPSILON) * 100) / 100;
-    }
-
-    let listCard = [];
-
-    // Function to add a book to the cart
-    const addToCart = (book) => {
-        const existingBookIndex = listCard.findIndex(item => item.book_title === book.book_title);
-
-        if (existingBookIndex !== -1) {
-            if (listCard[existingBookIndex].quantity < book.book_stock) {
-                listCard[existingBookIndex].quantity++;
-            } else {
-                alert("You can't add more of this book. Limited stock available.");
-            }
-        } else {
-            listCard.push({
-                ...book,
-                quantity: 1
+    <script>
+        let allBooks = [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeBooks();
+            initializeScrollButton();
+            showLoadingAnimation();
+        });
+        
+        function initializeBooks() {
+            const bookCards = document.querySelectorAll('.book-card');
+            allBooks = Array.from(bookCards).map(card => ({
+                element: card,
+                title: card.dataset.title,
+                author: card.dataset.author,
+                price: parseFloat(card.dataset.price),
+                genres: card.dataset.genres
+            }));
+        }
+        
+        function initializeScrollButton() {
+            window.addEventListener('scroll', function() {
+                const scrollBtn = document.getElementById('scroll-to-top');
+                if (window.pageYOffset > 300) {
+                    scrollBtn.style.display = 'flex';
+                } else {
+                    scrollBtn.style.display = 'none';
+                }
             });
         }
-
-        reloadCart();
-        updateCartItemCount();
-        localStorage.setItem('cart', JSON.stringify(listCard));
-    }
-
-    // Function to remove all instances of a book from the cart
-    const removeAll = (bookTitle) => {
-        listCard = listCard.filter(book => book.book_title !== bookTitle);
-        reloadCart();
-        updateCartItemCount();
-    }
-
-    // Function to update the quantity of a book in the cart
-    const updateQuantity = (bookTitle) => {
-        const bookIndex = listCard.findIndex(item => item.book_title === bookTitle);
-
-        if (bookIndex !== -1) {
-            if (listCard[bookIndex].quantity < listCard[bookIndex].book_stock) {
-                listCard[bookIndex].quantity++;
-            } else {
-                alert("You can't add more of this book. Limited stock available.");
-            }
+        
+        function showLoadingAnimation() {
+            // Add loading animation to images
+            const images = document.querySelectorAll('.book-image');
+            images.forEach(img => {
+                img.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                });
+            });
         }
-
-        reloadCart();
-        updateCartItemCount();
-    }
-
-    // Function to remove one instance of a book from the cart
-    const removeOneFromCart = (bookTitle) => {
-        const bookIndex = listCard.findIndex(item => item.book_title === bookTitle);
-
-        if (bookIndex !== -1) {
-            if (listCard[bookIndex].quantity > 1) {
-                listCard[bookIndex].quantity--;
-            } else {
-                listCard = listCard.filter(book => book.book_title !== bookTitle);
-            }
+        
+        function filterBooks() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const genreFilter = document.getElementById('genre-filter').value.toLowerCase();
+            const noResults = document.getElementById('no-results');
+            
+            let visibleCount = 0;
+            
+            allBooks.forEach(book => {
+                const matchesSearch = book.title.includes(searchTerm) || 
+                                    book.author.includes(searchTerm) || 
+                                    book.genres.includes(searchTerm);
+                const matchesGenre = !genreFilter || book.genres.includes(genreFilter);
+                
+                if (matchesSearch && matchesGenre) {
+                    book.element.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    book.element.style.display = 'none';
+                }
+            });
+            
+            noResults.style.display = visibleCount === 0 ? 'block' : 'none';
         }
-
-        reloadCart();
-        updateCartItemCount();
-    }
-
-    // Function to reload the cart display
-    const reloadCart = () => {
-        listCart.innerHTML = "";
-        let total = 0;
-        let subtotalForEachBook = {};
-
-        const cartList = document.createElement('ul');
-
-        listCard.forEach(book => {
-            const listItem = document.createElement('li');
-            listItem.classList.add('grid', 'grid-cols-4', 'bg-accent-100', 'shadow-md', 'rounded-lg', 'p-2', 'w-11/12', 'mb-2', 'mx-auto', 'text-text-950', 'gap-1');
-
-            listItem.innerHTML = `
-            <img src="{{ asset('storage') }}/${book.book_tmb}" alt="Book Cover" class="item-cover rounded-xl col-span-1 w-full h-auto">
-                <span class="item-title font-bold col-start-2 col-end-5 row-span-2">${book.book_title}</span>
-                <span class="item-author text-sm col-start-2 col-end-5 row-span-1">Author: ${book.book_author}</span>
-                <span class="item-price text-sm col-start-2 col-end-5 row-span-1">Unit Price: ${book.book_price}</span>
-                <div class="relative col-start-2 col-end-5">
-                    <span class="item-subtotal relative text-sm col-start-2 col-end-5">Subtotal: ${book.book_price * book.quantity}</span>
-                    <span class="item-quantity text-text-900 dark:text-text-950 text-3xl p-2 col-start-4 absolute col-end-5 right-1 bottom-0">×${book.quantity}</span>
+        
+        function sortBooks() {
+            const sortBy = document.getElementById('sort-filter').value;
+            const container = document.getElementById('books-container');
+            
+            const sortedBooks = [...allBooks].sort((a, b) => {
+                switch(sortBy) {
+                    case 'title':
+                        return a.title.localeCompare(b.title);
+                    case 'author':
+                        return a.author.localeCompare(b.author);
+                    case 'price-low':
+                        return a.price - b.price;
+                    case 'price-high':
+                        return b.price - a.price;
+                    default:
+                        return 0;
+                }
+            });
+            
+            sortedBooks.forEach(book => {
+                container.appendChild(book.element);
+            });
+        }
+        
+        function clearFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('genre-filter').value = '';
+            document.getElementById('sort-filter').value = 'title';
+            filterBooks();
+            sortBooks();
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Enhanced add to cart with animation
+        function addToCart(bookId, title, author, price, image) {
+            const existingItem = cart.find(item => item.id === bookId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: bookId,
+                    title: title,
+                    author: author,
+                    price: parseFloat(price),
+                    image: image,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            // Show success animation
+            showAddToCartSuccess();
+        }
+        
+        function showAddToCartSuccess() {
+            // Create and show a toast notification
+            const toast = document.createElement('div');
+            toast.innerHTML = `
+                <div style="position: fixed; top: 100px; right: 20px; background: var(--success-color); color: white; padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; transform: translateX(100%); transition: transform 0.3s ease;">
+                    <i class="fas fa-check-circle" style="margin-right: 0.5rem;"></i>
+                    Book added to cart!
                 </div>
-                <strong class="bg-badge-800 text-text-50 text-2xl font-bold dark:text-text-50 px-4 py-2 rounded hover:bg-primary-300 col-start-1 col-end-6 justify-center items-center" onclick="removeAll('${book.book_title}')">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" class="fill-text-50"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                </strong>
-                <button onclick="updateQuantity('${book.book_title}')" class="bg-success-700 text-text-50 text-2xl font-bold dark:text-text-50 px-4 py-2 rounded hover:bg-primary-300 col-start-5 row-start-1 row-span-3 w-full h-full">+</button>
-                <button onclick="removeOneFromCart('${book.book_title}')" class="bg-error-700 text-text-50 text-2xl font-bold dark:text-text-50 px-4 py-4 rounded hover:bg-primary-300 col-start-5 col-end-6 row-start-4 row-span-2 w-full h-full">-</button>
             `;
-            cartList.appendChild(listItem);
-
-            const subtotal = book.book_price * book.quantity;
-
-            if (subtotalForEachBook.hasOwnProperty(book.book_title)) {
-                subtotalForEachBook[book.book_title] += subtotal;
-            } else {
-                subtotalForEachBook[book.book_title] = subtotal;
-            }
-        });
-
-        total = Object.values(subtotalForEachBook).reduce((acc, curr) => acc + curr, 0);
-        total = roundUp(total);
-        const stringTotal = "₱" + String(total);
-
-        cartTotal.innerHTML = stringTotal;
-        listCart.appendChild(cartList);
-    };
-
-    const getTotalItemsInCart = () => {
-        let totalItems = 0;
-        listCard.forEach(book => {
-            totalItems += book.quantity;
-        });
-        return totalItems;
-    };
-
-    const updateCartItemCount = () => {
-        const cartItemCountElement = document.getElementById('cart-item-count');
-        const totalItemsInCart = getTotalItemsInCart();
-        cartItemCountElement.innerText = totalItemsInCart;
-    };
-
-    const toggleCartDrawer = () => {
-        const cartContainer = document.querySelector('.cart-container');
-        const mainContent = document.querySelector('.main-content');
-        const navbar = document.querySelector('.navbar');
-
-        document.body.classList.toggle('active');
-
-        if (document.body.classList.contains('active')) {
-            mainContent.classList.add('md:mr-1/3');
-            mainContent.classList.add('-ml-1/3');
-            navbar.classList.add('md:mr-1/3');
-            navbar.classList.add('-ml-1/3');
-        } else {
-            mainContent.classList.remove('md:mr-1/3');
-            mainContent.classList.remove('-ml-1/3');
-            navbar.classList.remove('md:mr-1/3');
-            navbar.classList.remove('-ml-1/3');
+            
+            document.body.appendChild(toast);
+            
+            // Animate in
+            setTimeout(() => {
+                toast.firstElementChild.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Animate out and remove
+            setTimeout(() => {
+                toast.firstElementChild.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
         }
-    };
-</script>
-
-@include('partials.__footer')
+        
+        function updateCartCount() {
+            // Update cart count display logic here
+        }
+    </script>
+</body>
+</html>

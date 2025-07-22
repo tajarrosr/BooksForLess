@@ -22,6 +22,11 @@ class CheckoutController extends Controller
             'payment_method' => 'required|in:Gcash,PayPal,MayaPay,COD',
         ]);
         
+        // Store order data in session for confirmation page
+        if ($request->session()->has('cart_data')) {
+            $request->session()->flash('order_data', $request->session()->get('cart_data'));
+        }
+        
         return redirect()->route('checkout.order_confirmed');
     }
 
@@ -31,4 +36,3 @@ class CheckoutController extends Controller
         return view('public.checkout.order_confirmed');
     }
 }
-

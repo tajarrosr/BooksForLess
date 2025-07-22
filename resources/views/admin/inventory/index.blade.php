@@ -27,6 +27,27 @@
                 </thead>
                 <tbody class="custom-bg">
                     @foreach($books as $book)
+                        @php
+                            // Get the actual Book model instance to use the casting
+                            $bookModel = \App\Models\Book::find($book->id);
+                            $genres = [];
+                            
+                            if ($bookModel && is_array($bookModel->book_genres)) {
+                                $genres = $bookModel->book_genres;
+                            } else {
+                                // Fallback for direct database query results
+                                if (is_string($book->book_genres)) {
+                                    $decoded = json_decode($book->book_genres, true);
+                                    if (is_array($decoded)) {
+                                        $genres = $decoded;
+                                    } else {
+                                        $genres = [$book->book_genres];
+                                    }
+                                }
+                            }
+                            
+                            $genreString = is_array($genres) && !empty($genres) ? implode(', ', $genres) : 'No genres';
+                        @endphp
                         <tr class="border">
                             <td class="py-2 px-4 text-center">
                                 <a href="{{ asset('storage/' . $book->book_tmb) }}" target="_blank">
@@ -35,7 +56,7 @@
                             </td>
                             <td class="py-2 px-4 text-center">{{ $book->book_title }}</td>
                             <td class="py-2 px-4 text-center">{{ $book->book_author }}</td>
-                            <td class="py-2 px-4 text-center">{{ implode(', ', json_decode($book->book_genres)) }}</td>
+                            <td class="py-2 px-4 text-center">{{ $genreString }}</td>
                             <td class="py-2 px-4 text-center">{{ Str::limit($book->book_desc, 50) }}</td>
                             <td class="py-2 px-4 text-right">₱{{ number_format($book->book_price, 2) }}</td>
                             <td class="py-2 px-4 text-center">{{ $book->book_stock }}</td>

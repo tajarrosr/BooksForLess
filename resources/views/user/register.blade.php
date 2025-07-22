@@ -1,140 +1,283 @@
-@include('partials.__header')
-<body class="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
-    <x-nav/>
-    <div class="w-full max-w-lg">
-        <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
-                <p class="text-gray-600">Join our community of book lovers</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - BooksForLess</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/user_styles.css') }}" rel="stylesheet">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+        
+        .auth-card {
+            background: var(--bg-color);
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .auth-subtitle {
+            color: #6b7280;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .show-password {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .auth-links {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .auth-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-danger {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px dashed var(--border-color);
+            border-radius: 0.5rem;
+            background-color: var(--card-bg);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-input:hover {
+            border-color: var(--primary-color);
+            background-color: var(--bg-color);
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Join BooksForLess and start your reading journey</p>
             </div>
             
             @if ($errors->any())
-                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <ul class="text-sm text-red-600 space-y-1">
+                <div class="alert alert-danger">
+                    <ul style="margin: 0; padding-left: 1.5rem;">
                         @foreach ($errors->all() as $error)
-                            <li class="flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $error }}
-                            </li>
+                            <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif
             
-            <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data" class="space-y-6">
+            <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                 @csrf
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="first_name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
-                        <input id="first_name" name="first_name" type="text" required 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors" 
-                               placeholder="First name" 
-                               value="{{ old('first_name') }}">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input 
+                            type="text" 
+                            id="first_name" 
+                            name="first_name" 
+                            class="form-input" 
+                            value="{{ old('first_name') }}" 
+                            required 
+                            autofocus
+                            placeholder="Enter your first name"
+                        >
                     </div>
-                    <div>
-                        <label for="last_name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
-                        <input id="last_name" name="last_name" type="text" required 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors" 
-                               placeholder="Last name" 
-                               value="{{ old('last_name') }}">
-                    </div>
-                </div>
-                
-                <div>
-                    <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
-                    <input id="username" name="username" type="text" required 
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors" 
-                           placeholder="Choose a username" 
-                           value="{{ old('username') }}">
-                </div>
-                
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                    <input id="email" name="email" type="email" required 
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors" 
-                           placeholder="your@email.com" 
-                           value="{{ old('email') }}">
-                </div>
-                
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                    <div class="relative">
-                        <input id="password" name="password" type="password" required 
-                               class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors" 
-                               placeholder="Create a password">
-                        <button type="button" onclick="togglePasswordVisibility('password')" 
-                                class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                            <svg id="password-toggle-icon" class="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </button>
+                    
+                    <div class="form-group">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input 
+                            type="text" 
+                            id="last_name" 
+                            name="last_name" 
+                            class="form-input" 
+                            value="{{ old('last_name') }}" 
+                            required
+                            placeholder="Enter your last name"
+                        >
                     </div>
                 </div>
                 
-                <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
-                    <div class="relative">
-                        <input id="password_confirmation" name="password_confirmation" type="password" required 
-                               class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors" 
-                               placeholder="Confirm your password">
-                        <button type="button" onclick="togglePasswordVisibility('password_confirmation')" 
-                                class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                            <svg id="password-confirmation-toggle-icon" class="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </button>
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="form-input" 
+                        value="{{ old('username') }}" 
+                        required
+                        placeholder="Choose a unique username"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input" 
+                        value="{{ old('email') }}" 
+                        required
+                        placeholder="Enter your email address"
+                    >
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input" 
+                            required
+                            placeholder="Create a password"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password_confirmation" class="form-label">Confirm Password</label>
+                        <input 
+                            type="password" 
+                            id="password_confirmation" 
+                            name="password_confirmation" 
+                            class="form-input" 
+                            required
+                            placeholder="Confirm your password"
+                        >
                     </div>
                 </div>
                 
-                <div>
-                    <label for="picture" class="block text-sm font-medium text-gray-700 mb-2">Profile Picture</label>
-                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors">
-                        <div class="space-y-1 text-center">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                            <div class="flex text-sm text-gray-600">
-                                <label for="picture" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
-                                    <span>Upload a file</span>
-                                    <input id="picture" name="picture" type="file" class="sr-only" accept="image/jpeg,image/jpg,image/png">
-                                </label>
-                                <p class="pl-1">or drag and drop</p>
-                            </div>
-                            <p class="text-xs text-gray-500">PNG, JPG, JPEG up to 2MB</p>
+                <div class="form-group">
+                    <label for="picture" class="form-label">Profile Picture (Optional)</label>
+                    <div class="file-input-wrapper">
+                        <input 
+                            type="file" 
+                            id="picture" 
+                            name="picture" 
+                            accept="image/*"
+                            style="display: none;"
+                            onchange="updateFileName(this)"
+                        >
+                        <div class="file-input" onclick="document.getElementById('picture').click()">
+                            <i class="fas fa-cloud-upload-alt" style="margin-right: 0.5rem;"></i>
+                            <span id="file-name">Click to upload profile picture</span>
                         </div>
                     </div>
                 </div>
                 
-                <button type="submit" 
-                        class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                    Create Account
+                <div class="show-password">
+                    <input type="checkbox" id="show_password" onchange="togglePassword()">
+                    <label for="show_password">Show Passwords</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i> Create Account
                 </button>
             </form>
             
-            <div class="mt-8 text-center">
-                <p class="text-gray-600">
-                    Already have an account? 
-                    <a href="{{ route('login') }}" class="text-green-600 hover:text-green-700 font-medium hover:underline">
-                        Sign in here
-                    </a>
-                </p>
+            <div class="auth-links">
+                <p>Already have an account? <a href="{{ route('login') }}" class="auth-link">Sign in here</a></p>
+                <p><a href="{{ route('show-all.books') }}" class="auth-link">Continue as Guest</a></p>
             </div>
         </div>
     </div>
+    
     <script>
-        function togglePasswordVisibility(fieldId) {
-            const field = document.getElementById(fieldId);
-            const icon = document.getElementById(`${fieldId}-toggle-icon`);
-            if (field.type === 'password') {
-                field.type = 'text';
-                icon.classList.replace('text-gray-400', 'text-gray-600');
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('password_confirmation');
+            const showPasswordCheckbox = document.getElementById('show_password');
+            
+            if (showPasswordCheckbox.checked) {
+                passwordField.type = 'text';
+                confirmPasswordField.type = 'text';
             } else {
-                field.type = 'password';
-                icon.classList.replace('text-gray-600', 'text-gray-400');
+                passwordField.type = 'password';
+                confirmPasswordField.type = 'password';
             }
         }
+        
+        function updateFileName(input) {
+            const fileName = document.getElementById('file-name');
+            if (input.files && input.files[0]) {
+                fileName.textContent = input.files[0].name;
+            } else {
+                fileName.textContent = 'Click to upload profile picture';
+            }
+        }
+        
+        // Apply theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+            }
+        });
     </script>
 </body>
-@include('partials.__footer')
+</html>

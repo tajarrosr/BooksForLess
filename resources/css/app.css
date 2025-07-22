@@ -1,355 +1,83 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
-/** FONT DEFINITIONS */
-@font-face {
-    font-family: 'Butler';
-    src: url('Butler-UltraLight.woff2') format('woff2'),
-        url('Butler-UltraLight.woff') format('woff');
-    font-weight: 200;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler';
-    src: url('Butler-Medium.woff2') format('woff2'),
-        url('Butler-Medium.woff') format('woff');
-    font-weight: 500;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler';
-    src: url('Butler-Light.woff2') format('woff2'),
-        url('Butler-Light.woff') format('woff');
-    font-weight: 300;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler';
-    src: url('Butler-Black.woff2') format('woff2'),
-        url('Butler-Black.woff') format('woff');
-    font-weight: 900;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler';
-    src: url('Butler-Bold.woff2') format('woff2'),
-        url('Butler-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler';
-    src: url('Butler-ExtraBold.woff2') format('woff2'),
-        url('Butler-ExtraBold.woff') format('woff');
-    font-weight: 800;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler';
-    src: url('Butler.woff2') format('woff2'),
-        url('Butler.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler Stencil';
-    src: url('ButlerStencil-Medium.woff2') format('woff2'),
-        url('ButlerStencil-Medium.woff') format('woff');
-    font-weight: 500;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler Stencil';
-    src: url('ButlerStencil.woff2') format('woff2'),
-        url('ButlerStencil.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler Stencil';
-    src: url('ButlerStencil-ExtraBold.woff2') format('woff2'),
-        url('ButlerStencil-ExtraBold.woff') format('woff');
-    font-weight: 800;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler Stencil';
-    src: url('ButlerStencil-Black.woff2') format('woff2'),
-        url('ButlerStencil-Black.woff') format('woff');
-    font-weight: 900;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler Stencil';
-    src: url('ButlerStencil-UltraLight.woff2') format('woff2'),
-        url('ButlerStencil-UltraLight.woff') format('woff');
-    font-weight: 200;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler Stencil';
-    src: url('ButlerStencil-Bold.woff2') format('woff2'),
-        url('ButlerStencil-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Butler Stencil';
-    src: url('ButlerStencil-Light.woff2') format('woff2'),
-        url('ButlerStencil-Light.woff') format('woff');
-    font-weight: 300;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Voguella';
-    src: url('/public/assets/fonts/serif/voguella/Voguella.ttf') format('ttf');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-  font-family: 'Stonewaller';
-  src: url('/public/assets/fonts/serif/stonewaller/Stonewaller.ttf') format('ttf');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Elegante Classica';
-  src: url('/public/assets/fonts/serif/elegante_classica/EleganteClassica.ttf') format('ttf');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Iphone';
-  src: url('/public/assets/fonts/serif/iPhone/iPhone/MYRIADPRO-BOLD.otf') format('otf');
-  font-weight: bold; font-style: normal;
-}
-
-@font-face {
-  font-family: 'Iphone';
-  src: url('/public/assets/fonts/serif/iPhone/iPhone/MYRIADPRO-REGULAR.otf') format('otf');
-  font-weight: normal; font-style: normal;
-}
-
-@font-face {
-  font-family: 'Iphone';
-  src: url('/public/assets/fonts/serif/iPhone/iPhone/MYRIADPRO-SEMIBOLD.otf') format('otf');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.merriweather-light {
-  font-family: "Merriweather", serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.merriweather-regular {
-  font-family: "Merriweather", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.merriweather-bold {
-  font-family: "Merriweather", serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.merriweather-black {
-  font-family: "Merriweather", serif;
-  font-weight: 900;
-  font-style: normal;
-}
-
-.merriweather-light-italic {
-  font-family: "Merriweather", serif;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.merriweather-regular-italic {
-  font-family: "Merriweather", serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.merriweather-bold-italic {
-  font-family: "Merriweather", serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.merriweather-black-italic {
-  font-family: "Merriweather", serif;
-  font-weight: 900;
-  font-style: italic;
-}
-
-
-/** LAYER COLOR DEFINITIONS */
-@layer base {
-  :root {
-    --text-50: 249 248 235;
-    --text-100: 243 241 216;
-    --text-200: 231 227 177;
-    --text-300: 219 214 138;
-    --text-400: 207 200 99;
-    --text-500: 195 186 60;
-    --text-600: 156 149 48;
-    --text-700: 117 112 36;
-    --text-800: 78 74 24;
-    --text-900: 39 37 12;
-    --text-950: 20 19 6;
-    
-    --background-50: 248 247 236;
-    --background-100: 241 240 218;
-    --background-200: 227 224 181;
-    --background-300: 214 209 143;
-    --background-400: 200 194 106;
-    --background-500: 186 178 69;
-    --background-600: 149 143 55;
-    --background-700: 112 107 41;
-    --background-800: 74 71 28;
-    --background-900: 37 36 14;
-    --background-950: 19 18 7;
-    
-    --primary-50: 252 251 233;
-    --primary-100: 249 248 210;
-    --primary-200: 243 240 165;
-    --primary-300: 237 233 120;
-    --primary-400: 231 225 75;
-    --primary-500: 224 218 31;
-    --primary-600: 180 174 24;
-    --primary-700: 135 131 18;
-    --primary-800: 90 87 12;
-    --primary-900: 45 44 6;
-    --primary-950: 22 22 3;
-    
-    --secondary-50: 251 248 233;
-    --secondary-100: 248 241 211;
-    --secondary-200: 241 227 167;
-    --secondary-300: 234 213 123;
-    --secondary-400: 226 200 80;
-    --secondary-500: 219 186 36;
-    --secondary-600: 175 149 29;
-    --secondary-700: 132 111 21;
-    --secondary-800: 88 74 14;
-    --secondary-900: 44 37 7;
-    --secondary-950: 22 19 4;
-    
-    --accent-50: 254 249 230;
-    --accent-100: 253 244 206;
-    --accent-200: 252 233 156;
-    --accent-300: 250 222 107;
-    --accent-400: 249 211 57;
-    --accent-500: 247 199 8;
-    --accent-600: 198 160 6;
-    --accent-700: 148 120 5;
-    --accent-800: 99 80 3;
-    --accent-900: 49 40 2;
-    --accent-950: 25 20 1;
-    
-    --error: 225, 29, 72;
-    --success: 22, 163, 74;
-    --badge: 189, 17, 54;
-    --white: 248, 247, 236;
-  }
-  .dark {
-    --text-50: 20 19 6;
-    --text-100: 39 37 12;
-    --text-200: 78 74 24;
-    --text-300: 117 112 36;
-    --text-400: 156 149 48;
-    --text-500: 195 186 60;
-    --text-600: 207 200 99;
-    --text-700: 219 214 138;
-    --text-800: 231 227 177;
-    --text-900: 243 241 216;
-    --text-950: 249 248 235;
-    
-    --background-50: 19 18 7;
-    --background-100: 37 36 14;
-    --background-200: 74 71 28;
-    --background-300: 112 107 41;
-    --background-400: 149 143 55;
-    --background-500: 186 178 69;
-    --background-600: 200 194 106;
-    --background-700: 214 209 143;
-    --background-800: 227 224 181;
-    --background-900: 241 240 218;
-    --background-950: 248 247 236;
-    
-    --primary-50: 22 22 3;
-    --primary-100: 45 44 6;
-    --primary-200: 90 87 12;
-    --primary-300: 135 131 18;
-    --primary-400: 180 174 24;
-    --primary-500: 224 218 31;
-    --primary-600: 231 225 75;
-    --primary-700: 237 233 120;
-    --primary-800: 243 240 165;
-    --primary-900: 249 248 210;
-    --primary-950: 252 251 233;
-    
-    --secondary-50: 22 19 4;
-    --secondary-100: 44 37 7;
-    --secondary-200: 88 74 14;
-    --secondary-300: 132 111 21;
-    --secondary-400: 175 149 29;
-    --secondary-500: 219 186 36;
-    --secondary-600: 226 200 80;
-    --secondary-700: 234 213 123;
-    --secondary-800: 241 227 167;
-    --secondary-900: 248 241 211;
-    --secondary-950: 251 248 233;
-    
-    --accent-50: 25 20 1;
-    --accent-100: 49 40 2;
-    --accent-200: 99 80 3;
-    --accent-300: 148 120 5;
-    --accent-400: 198 160 6;
-    --accent-500: 247 199 8;
-    --accent-600: 249 211 57;
-    --accent-700: 250 222 107;
-    --accent-800: 252 233 156;
-    --accent-900: 253 244 206;
-    --accent-950: 254 249 230;
-
-    --error: 190 18 60;
-    --success: 21 128 61;
-    --badge: 172 8 44;
-    --white: 12, 12, 11;
-    
-  }
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background-color: rgb(var(--white));
+/* Landing page specific background pattern */
+.landing-page {
   opacity: 1;
-  background-image:  linear-gradient(rgb(var(--accent-600)) 1px, transparent 1px), linear-gradient(to right, rgb(var(--accent-600)) 1px,  rgb(var(--white)) 1px);
+  background-image: linear-gradient(rgb(var(--accent-600)) 1px, transparent 1px),
+    linear-gradient(to right, rgb(var(--accent-600)) 1px, rgb(var(--white)) 1px);
   background-size: 20px 20px;
 }
 
+/* Landing page specific styles */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-imgs {
+  display: flex;
+  gap: 20px;
+}
+
+.img {
+  width: 150px;
+  height: 200px;
+  overflow: hidden;
+}
+
+.util-img-props {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.util-hero-props {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.util-h1-wrapper-props h1 {
+  font-size: 4rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.util-emphasis-props {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.util-footer-props {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.util-items-props {
+  width: 100px;
+  height: 150px;
+}
+
+.util-items-props img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}

@@ -57,7 +57,7 @@ class BooksController extends Controller
         Book::create([
             'book_title' => $request->book_title,
             'book_author' => $request->book_author,
-            'book_genres' => json_encode($request->book_genre),
+            'book_genres' => $request->book_genre, // Let the model handle the casting
             'book_desc' => $request->book_desc,
             'book_price' => $request->book_price,
             'book_stock' => $request->book_stock,
@@ -76,17 +76,41 @@ class BooksController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'book_title' => 'required',
+            'book_author' => 'required',
+            'book_genre' => ['required', 'array'],
+            'book_genre.*' => [Rule::in(config('book_genres'))],
+            'book_desc' => 'required',
+            'book_price' => 'required|numeric',
+            'book_stock' => 'required|integer',
+            'book_isbn' => 'required',
+            'book_tmb' => 'nullable|image',
+        ]);
+
         // Find the book by ID
         $book = Book::findOrFail($id);
+
+        // Handle file upload if present
+        $path = $book->book_tmb; // Keep existing image by default
+        if ($request->hasFile('book_tmb')) {
+            // Delete old image if it exists
+            if ($book->book_tmb) {
+                Storage::disk('public')->delete($book->book_tmb);
+            }
+            $path = $request->file('book_tmb')->store('pictures', 'public');
+        }
 
         // Update the book attributes
         $book->update([
             'book_title' => $request->book_title,
             'book_author' => $request->book_author,
-            'book_genre' => $request->book_genre,
+            'book_genres' => $request->book_genre, // Let the model handle the casting
             'book_desc' => $request->book_desc,
             'book_price' => $request->book_price,
             'book_stock' => $request->book_stock,
+            'book_isbn' => $request->book_isbn,
+            'book_tmb' => $path,
         ]);
 
         // Redirect back with a success message
