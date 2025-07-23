@@ -1,143 +1,104 @@
-@extends('layouts.app')
+@extends('layouts.minimal')
 
-@section('title', 'BooksForLess - Affordable Books for Everyone')
+@section('title', 'BooksForLess - Premium Books at Unbeatable Prices')
 
 @section('content')
-<!-- Hero Section -->
-<div class="hero min-h-screen hero-gradient relative overflow-hidden">
-    <div class="hero-overlay bg-opacity-20"></div>
-    <div class="hero-content text-center text-neutral-content z-10">
-        <div class="max-w-4xl hero-content animate-fade-in">
-            <h1 class="mb-8 text-5xl md:text-7xl font-bold leading-tight">
-                Discover Amazing Books at 
-                <span class="text-accent">Unbeatable Prices</span>
-            </h1>
-            <p class="mb-8 text-xl md:text-2xl font-light max-w-2xl mx-auto leading-relaxed">
-                Find your next favorite read from our vast collection of affordable books. 
-                From bestsellers to hidden gems, we have something for every reader.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('show-all.books') }}" class="btn btn-lg btn-primary btn-gradient shadow-lg">
-                    <i class="fas fa-search"></i>
-                    Browse Books
-                </a>
-                <a href="{{ route('register') }}" class="btn btn-lg btn-outline btn-accent">
-                    <i class="fas fa-user-plus"></i>
-                    Join Now
-                </a>
-            </div>
-        </div>
+<!-- Hero Section Only -->
+<section class="relative min-h-screen flex items-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+        <img src="{{ asset('assets/images/landing-page/banner.jpg') }}" 
+             alt="Amazing Stories Background" 
+             class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/20 via-transparent to-slate-900/20"></div>
     </div>
-    
-    <!-- Floating Books Animation -->
+
+    <!-- Floating Elements Overlay -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-20 left-10 animate-bounce-gentle opacity-20">
-            <i class="fas fa-book text-6xl text-white"></i>
+        <div class="absolute top-1/4 left-1/4 animate-float-modern opacity-20" style="animation-delay: 0s;">
+            <i class="fas fa-book text-6xl text-indigo-300"></i>
         </div>
-        <div class="absolute top-40 right-20 animate-bounce-gentle opacity-20" style="animation-delay: 1s;">
-            <i class="fas fa-book-open text-4xl text-white"></i>
+        <div class="absolute top-1/3 right-1/4 animate-float-modern opacity-20" style="animation-delay: 2s;">
+            <i class="fas fa-feather-alt text-4xl text-indigo-300"></i>
         </div>
-        <div class="absolute bottom-40 left-20 animate-bounce-gentle opacity-20" style="animation-delay: 2s;">
-            <i class="fas fa-bookmark text-5xl text-white"></i>
+        <div class="absolute bottom-1/4 left-1/3 animate-float-modern opacity-20" style="animation-delay: 4s;">
+            <i class="fas fa-scroll text-5xl text-indigo-300"></i>
+        </div>
+        <div class="absolute bottom-1/3 right-1/3 animate-float-modern opacity-20" style="animation-delay: 1s;">
+            <i class="fas fa-quill-pen text-3xl text-indigo-300"></i>
         </div>
     </div>
-</div>
 
-<!-- Features Section -->
-<section class="py-20 bg-base-200">
-    <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gradient">Why Choose BooksForLess?</h2>
-            <p class="text-xl text-base-content/70 max-w-2xl mx-auto">
-                We make reading affordable and accessible for everyone
-            </p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="card bg-base-100 shadow-xl stat-card">
-                <div class="card-body text-center">
-                    <div class="mx-auto w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-                        <i class="fas fa-dollar-sign text-3xl text-primary"></i>
+    <div class="container-modern relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <!-- Hero Content -->
+            <div class="text-center lg:text-left space-y-8">
+                <div class="space-y-6">
+                    <div class="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg">
+                        <div class="w-2 h-2 bg-accent rounded-full animate-pulse-modern"></div>
+                        <span class="text-accent font-semibold text-sm">Premium Book Collection</span>
                     </div>
-                    <h3 class="card-title justify-center text-2xl mb-4">Affordable Prices</h3>
-                    <p class="text-base-content/70">Get the best deals on books with prices up to 70% off retail.</p>
+                    
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-none">
+                        Discover
+                        <span class="block text-accent">Amazing</span>
+                        <span class="block">Stories</span>
+                    </h1>
+                    
+                    <p class="text-xl md:text-2xl text-white leading-relaxed max-w-2xl">
+                        Immerse yourself in extraordinary worlds with our curated collection of premium books at prices that won't break the bank.
+                    </p>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-6">
+                    <a href="{{ route('show-all.books') }}" class="btn-primary-modern group shadow-2xl">
+                        <i class="fas fa-compass mr-3 group-hover:rotate-180 transition-transform duration-500"></i>
+                        Explore Collection
+                    </a>
                 </div>
             </div>
             
-            <div class="card bg-base-100 shadow-xl stat-card">
-                <div class="card-body text-center">
-                    <div class="mx-auto w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mb-6">
-                        <i class="fas fa-shipping-fast text-3xl text-success"></i>
+            <!-- Hero Visual - Genre Cards -->
+            <div class="relative">
+                <div class="relative z-10">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="space-y-6">
+                            <div class="card-floating p-6 bg-white/90 backdrop-blur-sm shadow-2xl">
+                                <div class="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center mb-4">
+                                    <i class="fas fa-book-open text-white text-xl"></i>
+                                </div>
+                                <h3 class="text-slate-800 font-bold text-lg mb-2">Fiction</h3>
+                                <p class="text-slate-600 text-sm">Escape into imaginary worlds</p>
+                            </div>
+                            <div class="card-floating p-6 bg-white/90 backdrop-blur-sm shadow-2xl" style="animation-delay: 0.2s;">
+                                <div class="w-12 h-12 bg-pink-500 rounded-2xl flex items-center justify-center mb-4">
+                                    <i class="fas fa-heart text-white text-xl"></i>
+                                </div>
+                                <h3 class="text-slate-800 font-bold text-lg mb-2">Romance</h3>
+                                <p class="text-slate-600 text-sm">Love stories that inspire</p>
+                            </div>
+                        </div>
+                        <div class="space-y-6 pt-12">
+                            <div class="card-floating p-6 bg-white/90 backdrop-blur-sm shadow-2xl" style="animation-delay: 0.4s;">
+                                <div class="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center mb-4">
+                                    <i class="fas fa-rocket text-white text-xl"></i>
+                                </div>
+                                <h3 class="text-slate-800 font-bold text-lg mb-2">Sci-Fi</h3>
+                                <p class="text-slate-600 text-sm">Future possibilities</p>
+                            </div>
+                            <div class="card-floating p-6 bg-white/90 backdrop-blur-sm shadow-2xl" style="animation-delay: 0.6s;">
+                                <div class="w-12 h-12 bg-secondary rounded-2xl flex items-center justify-center mb-4">
+                                    <i class="fas fa-search text-white text-xl"></i>
+                                </div>
+                                <h3 class="text-slate-800 font-bold text-lg mb-2">Mystery</h3>
+                                <p class="text-slate-600 text-sm">Thrilling adventures</p>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="card-title justify-center text-2xl mb-4">Fast Delivery</h3>
-                    <p class="text-base-content/70">Quick and reliable shipping to get your books to you as soon as possible.</p>
                 </div>
-            </div>
-            
-            <div class="card bg-base-100 shadow-xl stat-card">
-                <div class="card-body text-center">
-                    <div class="mx-auto w-20 h-20 bg-info/10 rounded-full flex items-center justify-center mb-6">
-                        <i class="fas fa-book text-3xl text-info"></i>
-                    </div>
-                    <h3 class="card-title justify-center text-2xl mb-4">Vast Collection</h3>
-                    <p class="text-base-content/70">Thousands of titles across all genres and categories.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Popular Categories -->
-<section class="py-20">
-    <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gradient">Popular Categories</h2>
-            <p class="text-xl text-base-content/70 max-w-2xl mx-auto">
-                Explore books by your favorite genres
-            </p>
-        </div>
-        
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            @php
-                $categories = [
-                    ['name' => 'Fiction', 'icon' => 'fas fa-magic', 'color' => 'primary'],
-                    ['name' => 'Romance', 'icon' => 'fas fa-heart', 'color' => 'error'],
-                    ['name' => 'Mystery', 'icon' => 'fas fa-search', 'color' => 'neutral'],
-                    ['name' => 'Sci-Fi', 'icon' => 'fas fa-rocket', 'color' => 'info'],
-                    ['name' => 'Self-Help', 'icon' => 'fas fa-lightbulb', 'color' => 'warning'],
-                    ['name' => 'Children', 'icon' => 'fas fa-child', 'color' => 'success']
-                ];
-            @endphp
-            
-            @foreach($categories as $category)
-            <a href="{{ route('show-all.books') }}" class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                <div class="card-body items-center text-center p-6">
-                    <div class="w-16 h-16 bg-{{ $category['color'] }}/10 rounded-full flex items-center justify-center mb-4">
-                        <i class="{{ $category['icon'] }} text-2xl text-{{ $category['color'] }}"></i>
-                    </div>
-                    <h3 class="card-title text-sm">{{ $category['name'] }}</h3>
-                </div>
-            </a>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-<!-- Call to Action -->
-<section class="py-20 hero-gradient">
-    <div class="container mx-auto px-4 text-center">
-        <div class="max-w-4xl mx-auto text-white">
-            <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Start Reading?</h2>
-            <p class="text-xl mb-8 opacity-90">Join thousands of book lovers who save money on their favorite reads</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('show-all.books') }}" class="btn btn-lg btn-accent shadow-lg">
-                    <i class="fas fa-book-open"></i>
-                    Start Shopping
-                </a>
-                <a href="{{ route('register') }}" class="btn btn-lg btn-outline btn-accent">
-                    <i class="fas fa-user-plus"></i>
-                    Create Account
-                </a>
+                
+                <!-- Background Glow -->
+                <div class="absolute inset-0 bg-gradient-to-r from-accent/10 to-secondary/10 rounded-3xl blur-3xl"></div>
             </div>
         </div>
     </div>
