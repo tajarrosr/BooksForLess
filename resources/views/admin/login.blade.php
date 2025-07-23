@@ -3,78 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style scoped>
-        @keyframes slideIn {
-            from {
-                transform: translateX(-1rem);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+    <title>Admin Login - BooksForLess</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
         }
-
-        .animate-slide-in {
-            animation: slideIn 0.5s ease-out forwards;
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
     </style>
 </head>
-<body style="background-image: url('/assets/images/admin/admin_login_big.jpg'); background-size: cover; background-position: center;">
-    <div class="flex justify-center items-center min-h-screen p-4">
-        <div class="max-w-4xl w-full bg-white p-8 rounded-lg shadow-lg transform translate-y-0 opacity-100 transition-transform duration-500 animate-slide-in flex flex-col md:flex-row">
-            <div class="w-full md:w-1/2 bg-cover bg-center" style="background-image: url('/assets/images/admin/admin_login_small.jpg');"></div>
-
-            <div class="w-full md:w-1/2 p-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8">Admin Login</h2>
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="login-card">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold text-primary">
+                                <i class="fas fa-user-shield me-2"></i>Admin Login
+                            </h2>
+                            <p class="text-muted">Access the admin dashboard</p>
+                        </div>
+                        
+                        <form method="POST" action="{{ route('admin.login.post') }}">
+                            @csrf
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                           id="email" name="email" value="{{ old('email') }}" required autofocus>
+                                </div>
+                                @error('email')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                                           id="password" name="password" required>
+                                </div>
+                                @error('password')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <div class="text-center mt-4">
+                            <a href="{{ route('landing') }}" class="text-decoration-none">
+                                <i class="fas fa-arrow-left me-1"></i>Back to Website
+                            </a>
+                        </div>
                     </div>
-                @endif
-                <form method="POST" action="{{ route('admin.login') }}">
-                    @csrf
-                    <div class="mb-4">
-                        <input id="email" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-3 bg-gray-100 border-none placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" value="{{ old('email') }}" placeholder="Email">
-                    </div>
-                    <div class="mb-4">
-                        <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-3 bg-gray-100 border-none placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" placeholder="Password">
-                    </div>
-                    <div class="mb-4">
-                        <input type="checkbox" class="form-check-input" id="show_password">
-                        <label class="form-check-label" for="show_password">Show Password</label>
-                    </div>
-                    <div class="mb-4">
-                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                        <label class="form-check-label" for="remember">Remember Me</label>
-                    </div>
-                    <div>
-                        <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg hover:bg-gradient-to-r focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300">
-                            Login
-                        </button>
-                    </div>
-                </form>
-                <div class="mt-3">
-                    No account yet? <a href="{{ route('admin.register') }}" class="text-blue-500 hover:text-blue-700 font-bold">Register here</a>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        document.getElementById('show_password').addEventListener('change', function () {
-            const passwordField = document.getElementById('password');
-            if (this.checked) {
-                passwordField.type = 'text';
-            } else {
-                passwordField.type = 'password';
-            }
-        });
-    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

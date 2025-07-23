@@ -1,184 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmed - BooksForLess</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="{{ asset('assets/css/user_styles.css') }}" rel="stylesheet">
-    <style>
-        .success-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            padding: 2rem;
-        }
-        
-        .success-card {
-            background: var(--bg-color);
-            padding: 4rem 3rem;
-            border-radius: 1rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 500px;
-            width: 100%;
-        }
-        
-        .success-icon {
-            width: 80px;
-            height: 80px;
-            background: #10b981;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 2rem;
-            animation: bounce 1s ease-in-out;
-        }
-        
-        .success-title {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--text-color);
-            margin-bottom: 1rem;
-        }
-        
-        .success-message {
-            color: #6b7280;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-        
-        .order-details {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            margin-bottom: 2rem;
-            text-align: left;
-        }
-        
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-        
-        .detail-row:last-child {
-            margin-bottom: 0;
-            font-weight: bold;
-            border-top: 1px solid var(--border-color);
-            padding-top: 0.5rem;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .success-card {
-                padding: 3rem 2rem;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="success-container">
-        <div class="success-card">
-            <div class="success-icon">
-                <i class="fas fa-check" style="color: white; font-size: 2rem;"></i>
-            </div>
-            
-            <h1 class="success-title">Order Confirmed!</h1>
-            
-            <p class="success-message">
-                Thank you for your order! We've received your purchase and will process it shortly. 
-                You'll receive a confirmation email with your order details and tracking information.
-            </p>
-            
-            <div class="order-details" id="order-summary">
-                <!-- Order details will be populated by JavaScript -->
-            </div>
-            
-            <div class="action-buttons">
-                <a href="{{ route('show-all.books') }}" class="btn btn-primary">
-                    <i class="fas fa-book"></i> Continue Shopping
-                </a>
-                <a href="{{ route('landing') }}" class="btn btn-secondary">
-                    <i class="fas fa-home"></i> Back to Home
-                </a>
+@extends('layouts.app')
+
+@section('title', 'Order Confirmed - BooksForLess')
+
+@section('content')
+<div class="min-h-screen bg-base-200 py-12">
+    <div class="container mx-auto px-4">
+        <div class="max-w-2xl mx-auto">
+            <div class="card bg-base-100 shadow-2xl">
+                <div class="card-body text-center py-16">
+                    <div class="mb-8">
+                        <div class="w-24 h-24 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-check-circle text-5xl text-success"></i>
+                        </div>
+                        <h1 class="text-4xl font-bold text-success mb-4">Order Confirmed!</h1>
+                        <p class="text-xl text-base-content/70 mb-8">
+                            Thank you for your purchase. Your order has been successfully placed.
+                        </p>
+                    </div>
+                    
+                    <div class="alert alert-info mb-8">
+                        <i class="fas fa-info-circle text-2xl"></i>
+                        <div class="text-left">
+                            <h3 class="font-bold text-lg mb-2">What's Next?</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center">
+                                    <i class="fas fa-envelope w-4 mr-2"></i>
+                                    You'll receive an order confirmation email shortly
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-shipping-fast w-4 mr-2"></i>
+                                    We'll process and ship your order within 1-2 business days
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-truck w-4 mr-2"></i>
+                                    You'll receive tracking information once your order ships
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="{{ route('show-all.books') }}" class="btn btn-primary btn-lg btn-gradient">
+                            <i class="fas fa-book"></i>
+                            Continue Shopping
+                        </a>
+                        <a href="{{ route('landing') }}" class="btn btn-outline btn-lg">
+                            <i class="fas fa-home"></i>
+                            Back to Home
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
+@endsection
+
+@push('scripts')
+<script>
+    localStorage.removeItem('cart');
+    sessionStorage.removeItem('cart_data');
     
-    <script>
-        // Clear cart after successful order
-        localStorage.removeItem('cart');
-        
-        // Display order summary from cart data if available
-        document.addEventListener('DOMContentLoaded', function() {
-            const orderSummary = document.getElementById('order-summary');
-            const orderData = sessionStorage.getItem('lastOrder');
-            
-            if (orderData) {
-                const order = JSON.parse(orderData);
-                const total = order.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                const shipping = total > 1000 ? 0 : 50;
-                const finalTotal = total + shipping;
-                
-                orderSummary.innerHTML = `
-                    <h3 style="margin-bottom: 1rem; color: var(--text-color);">Order Summary</h3>
-                    <div class="detail-row">
-                        <span>Items (${order.reduce((sum, item) => sum + item.quantity, 0)}):</span>
-                        <span>₱${total.toFixed(2)}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span>Shipping:</span>
-                        <span>${shipping === 0 ? 'FREE' : '₱' + shipping.toFixed(2)}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span>Total:</span>
-                        <span>₱${finalTotal.toFixed(2)}</span>
-                    </div>
-                `;
-                
-                // Clear the session storage
-                sessionStorage.removeItem('lastOrder');
-            } else {
-                orderSummary.innerHTML = `
-                    <h3 style="margin-bottom: 1rem; color: var(--text-color);">Order Summary</h3>
-                    <p style="color: #6b7280; text-align: center;">Order details will be sent to your email.</p>
-                `;
-            }
-        });
-        
-        // Apply theme
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
-            }
-        });
-    </script>
-</body>
-</html>
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) {
+        cartCount.textContent = '0';
+    }
+</script>
+@endpush

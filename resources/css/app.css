@@ -1,83 +1,84 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 
-
-/* Landing page specific background pattern */
-.landing-page {
-  opacity: 1;
-  background-image: linear-gradient(rgb(var(--accent-600)) 1px, transparent 1px),
-    linear-gradient(to right, rgb(var(--accent-600)) 1px, rgb(var(--white)) 1px);
-  background-size: 20px 20px;
+@layer base {
+  html {
+    font-family: "Inter", system-ui, sans-serif;
+  }
 }
 
-/* Landing page specific styles */
-.loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@layer components {
+  .book-card {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-2;
+  }
+
+  .hero-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .btn-gradient {
+    @apply bg-gradient-to-r from-primary to-secondary text-white font-semibold;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
-.loader-imgs {
-  display: flex;
-  gap: 20px;
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-.img {
-  width: 150px;
-  height: 200px;
-  overflow: hidden;
+::-webkit-scrollbar-track {
+  @apply bg-base-200;
 }
 
-.util-img-props {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/30 rounded-full;
 }
 
-.util-hero-props {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 2rem;
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary/50;
 }
 
-.util-h1-wrapper-props h1 {
-  font-size: 4rem;
-  font-weight: bold;
-  margin: 1rem 0;
+/* Toast animations */
+.toast {
+  animation: slideInRight 0.3s ease-out;
 }
 
-.util-emphasis-props {
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
-.util-footer-props {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  padding: 2rem;
-}
-
-.util-items-props {
-  width: 100px;
-  height: 150px;
-}
-
-.util-items-props img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0.5rem;
+/* Loading spinner */
+.loading-spinner {
+  @apply inline-block w-4 h-4 border-2 border-current border-r-transparent rounded-full animate-spin;
 }

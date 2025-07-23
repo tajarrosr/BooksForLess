@@ -1,338 +1,259 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - BooksForLess</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="{{ asset('assets/css/user_styles.css') }}" rel="stylesheet">
-    <style>
-        .checkout-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .checkout-grid {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 3rem;
-        }
-        
-        .checkout-section {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 1rem;
-            border: 1px solid var(--border-color);
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-            color: var(--text-color);
-        }
-        
-        .order-item {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .order-item:last-child {
-            border-bottom: none;
-        }
-        
-        .item-image {
-            width: 60px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 0.5rem;
-        }
-        
-        .item-details {
-            flex: 1;
-        }
-        
-        .item-title {
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-        
-        .item-author {
-            color: #6b7280;
-            font-size: 0.875rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .item-price {
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-        
-        .order-summary {
-            border-top: 1px solid var(--border-color);
-            padding-top: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-        
-        .summary-total {
-            font-size: 1.25rem;
-            font-weight: bold;
-            border-top: 1px solid var(--border-color);
-            padding-top: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        
-        .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .payment-option {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .payment-option:hover {
-            border-color: var(--primary-color);
-        }
-        
-        .payment-option.selected {
-            border-color: var(--primary-color);
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        
-        .payment-option input[type="radio"] {
-            margin-right: 0.75rem;
-        }
-        
-        .empty-cart {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: #6b7280;
-        }
-        
-        @media (max-width: 768px) {
-            .checkout-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .payment-methods {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    @include('components.navbar')
-    
-    <div class="checkout-container">
+@extends('layouts.app')
+
+@section('title', 'Checkout - BooksForLess')
+
+@section('content')
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-6xl mx-auto">
         <div class="text-center mb-8">
-            <h1 style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem; color: var(--text-color);">
-                Checkout
-            </h1>
-            <p style="color: #6b7280;">Complete your order</p>
+            <h1 class="text-4xl font-bold text-gradient mb-2">Checkout</h1>
+            <p class="text-base-content/70">Complete your order</p>
         </div>
         
-        <div id="checkout-content">
-            <!-- Content will be populated by JavaScript -->
-        </div>
-    </div>
-    
-    <script>
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            renderCheckout();
-        });
-        
-        function renderCheckout() {
-            const checkoutContent = document.getElementById('checkout-content');
-            
-            if (cart.length === 0) {
-                checkoutContent.innerHTML = `
-                    <div class="empty-cart">
-                        <i class="fas fa-shopping-cart" style="font-size: 4rem; margin-bottom: 1rem;"></i>
-                        <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Your cart is empty</h3>
-                        <p style="margin-bottom: 2rem;">Add some books to your cart before checking out.</p>
-                        <a href="{{ route('show-all.books') }}" class="btn btn-primary">
-                            <i class="fas fa-book"></i> Browse Books
-                        </a>
-                    </div>
-                `;
-                return;
-            }
-            
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const shipping = subtotal > 1000 ? 0 : 50;
-            const total = subtotal + shipping;
-            
-            checkoutContent.innerHTML = `
-                <div class="checkout-grid">
-                    <div class="checkout-section">
-                        <h2 class="section-title">Billing Information</h2>
-                        
-                        <form method="POST" action="{{ route('checkout.process') }}" id="checkout-form">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Checkout Form -->
+            <div class="lg:col-span-2">
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body p-8">
+                        <form method="POST" action="{{ route('checkout.process') }}" class="space-y-6">
                             @csrf
                             
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                                <div class="form-group">
-                                    <label for="name" class="form-label">Full Name</label>
-                                    <input type="text" id="name" name="name" class="form-input" required>
+                            <!-- Billing Information -->
+                            <div>
+                                <h3 class="text-xl font-bold mb-4 flex items-center">
+                                    <i class="fas fa-user mr-2 text-primary"></i>
+                                    Billing Information
+                                </h3>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text font-semibold">Full Name</span>
+                                        </label>
+                                        <input type="text" name="name" value="{{ old('name') }}" 
+                                               class="input input-bordered @error('name') input-error @enderror" required>
+                                        @error('name')
+                                            <label class="label">
+                                                <span class="label-text-alt text-error">{{ $message }}</span>
+                                            </label>
+                                        @enderror
+                                    </div>
+                                    
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text font-semibold">Email</span>
+                                        </label>
+                                        <input type="email" name="email" value="{{ old('email') }}" 
+                                               class="input input-bordered @error('email') input-error @enderror" required>
+                                        @error('email')
+                                            <label class="label">
+                                                <span class="label-text-alt text-error">{{ $message }}</span>
+                                            </label>
+                                        @enderror
+                                    </div>
                                 </div>
                                 
-                                <div class="form-group">
-                                    <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" id="email" name="email" class="form-input" required>
+                                <div class="form-control mb-4">
+                                    <label class="label">
+                                        <span class="label-text font-semibold">Phone Number</span>
+                                    </label>
+                                    <input type="tel" name="phone_number" value="{{ old('phone_number') }}" 
+                                           class="input input-bordered @error('phone_number') input-error @enderror" required>
+                                    @error('phone_number')
+                                        <label class="label">
+                                            <span class="label-text-alt text-error">{{ $message }}</span>
+                                        </label>
+                                    @enderror
+                                </div>
+                                
+                                <div class="form-control mb-4">
+                                    <label class="label">
+                                        <span class="label-text font-semibold">Address</span>
+                                    </label>
+                                    <textarea name="address" rows="3" 
+                                              class="textarea textarea-bordered @error('address') textarea-error @enderror" 
+                                              required>{{ old('address') }}</textarea>
+                                    @error('address')
+                                        <label class="label">
+                                            <span class="label-text-alt text-error">{{ $message }}</span>
+                                        </label>
+                                    @enderror
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text font-semibold">City</span>
+                                        </label>
+                                        <input type="text" name="city" value="{{ old('city') }}" 
+                                               class="input input-bordered @error('city') input-error @enderror" required>
+                                        @error('city')
+                                            <label class="label">
+                                                <span class="label-text-alt text-error">{{ $message }}</span>
+                                            </label>
+                                        @enderror
+                                    </div>
+                                    
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text font-semibold">ZIP Code</span>
+                                        </label>
+                                        <input type="text" name="zip" value="{{ old('zip') }}" 
+                                               class="input input-bordered @error('zip') input-error @enderror" required>
+                                        @error('zip')
+                                            <label class="label">
+                                                <span class="label-text-alt text-error">{{ $message }}</span>
+                                            </label>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
                             
-                            <div class="form-group">
-                                <label for="phone_number" class="form-label">Phone Number</label>
-                                <input type="tel" id="phone_number" name="phone_number" class="form-input" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="address" class="form-label">Address</label>
-                                <input type="text" id="address" name="address" class="form-input" required>
-                            </div>
-                            
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                                <div class="form-group">
-                                    <label for="city" class="form-label">City</label>
-                                    <input type="text" id="city" name="city" class="form-input" required>
+                            <!-- Payment Method -->
+                            <div>
+                                <h3 class="text-xl font-bold mb-4 flex items-center">
+                                    <i class="fas fa-credit-card mr-2 text-primary"></i>
+                                    Payment Method
+                                </h3>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="payment_method" value="Gcash" class="radio radio-primary" required>
+                                        <div class="card bg-base-200 p-4 ml-3 hover:bg-base-300 transition-colors">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-mobile-alt text-2xl text-primary mr-3"></i>
+                                                <span class="font-semibold">GCash</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="payment_method" value="PayPal" class="radio radio-primary" required>
+                                        <div class="card bg-base-200 p-4 ml-3 hover:bg-base-300 transition-colors">
+                                            <div class="flex items-center">
+                                                <i class="fab fa-paypal text-2xl text-primary mr-3"></i>
+                                                <span class="font-semibold">PayPal</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="payment_method" value="MayaPay" class="radio radio-primary" required>
+                                        <div class="card bg-base-200 p-4 ml-3 hover:bg-base-300 transition-colors">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-credit-card text-2xl text-primary mr-3"></i>
+                                                <span class="font-semibold">Maya</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="payment_method" value="COD" class="radio radio-primary" required>
+                                        <div class="card bg-base-200 p-4 ml-3 hover:bg-base-300 transition-colors">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-money-bill text-2xl text-primary mr-3"></i>
+                                                <span class="font-semibold">Cash on Delivery</span>
+                                            </div>
+                                        </div>
+                                    </label>
                                 </div>
-                                
-                                <div class="form-group">
-                                    <label for="zip" class="form-label">ZIP Code</label>
-                                    <input type="text" id="zip" name="zip" class="form-input" required>
-                                </div>
+                                @error('payment_method')
+                                    <div class="text-error text-sm mt-2">{{ $message }}</div>
+                                @enderror
                             </div>
                             
-                            <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem; color: var(--text-color);">
-                                Payment Method
-                            </h3>
-                            
-                            <div class="payment-methods">
-                                <label class="payment-option" onclick="selectPayment(this)">
-                                    <input type="radio" name="payment_method" value="Gcash" required>
-                                    <div>
-                                        <i class="fas fa-mobile-alt" style="color: #007bff; margin-right: 0.5rem;"></i>
-                                        GCash
-                                    </div>
-                                </label>
-                                
-                                <label class="payment-option" onclick="selectPayment(this)">
-                                    <input type="radio" name="payment_method" value="PayPal" required>
-                                    <div>
-                                        <i class="fab fa-paypal" style="color: #0070ba; margin-right: 0.5rem;"></i>
-                                        PayPal
-                                    </div>
-                                </label>
-                                
-                                <label class="payment-option" onclick="selectPayment(this)">
-                                    <input type="radio" name="payment_method" value="MayaPay" required>
-                                    <div>
-                                        <i class="fas fa-credit-card" style="color: #00d4aa; margin-right: 0.5rem;"></i>
-                                        Maya Pay
-                                    </div>
-                                </label>
-                                
-                                <label class="payment-option" onclick="selectPayment(this)">
-                                    <input type="radio" name="payment_method" value="COD" required>
-                                    <div>
-                                        <i class="fas fa-money-bill-wave" style="color: #28a745; margin-right: 0.5rem;"></i>
-                                        Cash on Delivery
-                                    </div>
-                                </label>
+                            <div class="flex flex-col sm:flex-row gap-4 pt-6">
+                                <button type="submit" class="btn btn-primary btn-lg flex-1 btn-gradient">
+                                    <i class="fas fa-check"></i>
+                                    Place Order
+                                </button>
+                                <a href="{{ route('show-all.books') }}" class="btn btn-outline btn-lg">
+                                    <i class="fas fa-arrow-left"></i>
+                                    Continue Shopping
+                                </a>
                             </div>
-                            
-                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem; padding: 1rem;">
-                                <i class="fas fa-credit-card"></i> Place Order - ₱${total.toFixed(2)}
-                            </button>
                         </form>
                     </div>
-                    
-                    <div class="checkout-section">
-                        <h2 class="section-title">Order Summary</h2>
-                        
-                        <div style="max-height: 400px; overflow-y: auto; margin-bottom: 1rem;">
-                            ${cart.map(item => `
-                                <div class="order-item">
-                                    <img src="${item.image}" alt="${item.title}" class="item-image">
-                                    <div class="item-details">
-                                        <div class="item-title">${item.title}</div>
-                                        <div class="item-author">by ${item.author}</div>
-                                        <div class="item-price">₱${item.price.toFixed(2)} × ${item.quantity}</div>
-                                    </div>
-                                    <div style="text-align: right;">
-                                        <div style="font-weight: bold;">₱${(item.price * item.quantity).toFixed(2)}</div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                        
-                        <div class="order-summary">
-                            <div class="summary-row">
-                                <span>Subtotal:</span>
-                                <span>₱${subtotal.toFixed(2)}</span>
-                            </div>
-                            <div class="summary-row">
-                                <span>Shipping:</span>
-                                <span>${shipping === 0 ? 'FREE' : '₱' + shipping.toFixed(2)}</span>
-                            </div>
-                            ${shipping === 0 ? '<div style="font-size: 0.875rem; color: #10b981; margin-bottom: 0.5rem;">Free shipping on orders over ₱1,000!</div>' : ''}
-                            <div class="summary-row summary-total">
-                                <span>Total:</span>
-                                <span>₱${total.toFixed(2)}</span>
+                </div>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="card bg-base-100 shadow-xl sticky top-24">
+                    <div class="card-header bg-primary text-primary-content p-4 rounded-t-2xl">
+                        <h3 class="card-title">
+                            <i class="fas fa-shopping-cart"></i>
+                            Order Summary
+                        </h3>
+                    </div>
+                    <div class="card-body p-6">
+                        <div id="cartSummary">
+                            <div class="text-center text-base-content/50 py-8">
+                                <i class="fas fa-shopping-cart text-4xl mb-4"></i>
+                                <p>Your cart is empty</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            `;
-        }
-        
-        function selectPayment(label) {
-            // Remove selected class from all payment options
-            document.querySelectorAll('.payment-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked option
-            label.classList.add('selected');
-        }
-        
-        // Pre-fill form if user is logged in
-        @auth
-            document.addEventListener('DOMContentLoaded', function() {
-                const nameField = document.getElementById('name');
-                const emailField = document.getElementById('email');
-                
-                if (nameField) nameField.value = '{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}';
-                if (emailField) emailField.value = '{{ Auth::user()->email }}';
-            });
-        @endauth
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
 
-        document.getElementById('checkout-form').addEventListener('submit', function(e) {
-            // Store cart data in session storage for order confirmation
-            sessionStorage.setItem('lastOrder', JSON.stringify(cart));
+@push('scripts')
+<script>
+    function loadCartSummary() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const summaryDiv = document.getElementById('cartSummary');
+        
+        if (cart.length === 0) {
+            summaryDiv.innerHTML = `
+                <div class="text-center text-base-content/50 py-8">
+                    <i class="fas fa-shopping-cart text-4xl mb-4"></i>
+                    <p>Your cart is empty</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let total = 0;
+        let html = '<div class="space-y-4">';
+        
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            
+            html += `
+                <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
+                    <div class="flex-1">
+                        <div class="font-semibold text-sm line-clamp-2">${item.title}</div>
+                        <div class="text-xs text-base-content/70">Qty: ${item.quantity}</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold">₱${itemTotal.toFixed(2)}</div>
+                    </div>
+                </div>
+            `;
         });
-    </script>
-</body>
-</html>
+        
+        html += `
+            </div>
+            <div class="divider"></div>
+            <div class="flex justify-between items-center text-lg font-bold">
+                <span>Total:</span>
+                <span class="text-primary">₱${total.toFixed(2)}</span>
+            </div>
+        `;
+        
+        summaryDiv.innerHTML = html;
+        
+        sessionStorage.setItem('cart_data', JSON.stringify({
+            items: cart,
+            total: total
+        }));
+    }
+    
+    loadCartSummary();
+</script>
+@endpush

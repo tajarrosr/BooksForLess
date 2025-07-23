@@ -1,50 +1,88 @@
-@extends('admin.layouts.app')
+@extends('layouts.admin')
+
+@section('title', 'Edit Customer - BooksForLess')
 
 @section('content')
-<title>Edit - Customers Management</title>
-<div class="container mt-8">
-    <h2 class="mb-4 text-3xl font-bold text-center dark:text-white">Edit Customer</h2>
-    <div class="card shadow-lg">
-        <div class="card-body p-4">
-            @if ($errors->any())
-                <div class="mb-4">
-                    <ul class="list-disc list-inside text-sm text-red-600">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-user-edit me-2"></i>Edit Customer</h1>
+    <a href="{{ route('admin.customers.index') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Customers
+    </a>
+</div>
 
-            <form method="POST" action="{{ route('admin.customers.update', $user->id) }}">
-                @csrf
-                @method('PUT')
-
-                <div class="mb-4">
-                    <label for="first_name" class="block text-gray-700 dark:text-gray-300">First Name</label>
-                    <input type="text" id="first_name" name="first_name" value="{{ old('first_name', $user->first_name) }}" class="w-full p-2 border border-gray-300 rounded mt-1">
+<div class="card">
+    <div class="card-body">
+        <form action="{{ route('admin.customers.update', $user->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control @error('first_name') is-invalid @enderror" 
+                               id="first_name" name="first_name" value="{{ old('first_name', $user->first_name) }}" required>
+                        @error('first_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
-
-                <div class="mb-4">
-                    <label for="last_name" class="block text-gray-700 dark:text-gray-300">Last Name</label>
-                    <input type="text" id="last_name" name="last_name" value="{{ old('last_name', $user->last_name) }}" class="w-full p-2 border border-gray-300 rounded mt-1">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control @error('last_name') is-invalid @enderror" 
+                               id="last_name" name="last_name" value="{{ old('last_name', $user->last_name) }}" required>
+                        @error('last_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
-
-                <div class="mb-4">
-                    <label for="username" class="block text-gray-700 dark:text-gray-300">Username</label>
-                    <input type="text" id="username" name="username" value="{{ old('username', $user->username) }}" class="w-full p-2 border border-gray-300 rounded mt-1">
+            </div>
+            
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control @error('username') is-invalid @enderror" 
+                       id="username" name="username" value="{{ old('username', $user->username) }}" required>
+                @error('username')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                       id="email" name="email" value="{{ old('email', $user->email) }}" required>
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            
+            <div class="mb-3">
+                <label for="password" class="form-label">New Password (Leave blank to keep current)</label>
+                <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                       id="password" name="password">
+                @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            
+            <div class="mb-3">
+                <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                <input type="password" class="form-control" 
+                       id="password_confirmation" name="password_confirmation">
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Update Customer
+                    </button>
+                    <a href="{{ route('admin.customers.index') }}" class="btn btn-secondary ms-2">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </a>
                 </div>
-
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700 dark:text-gray-300">Email</label>
-                    <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" class="w-full p-2 border border-gray-300 rounded mt-1">
-                </div>
-
-                <div class="flex justify-end">
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Update</button>
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 @endsection

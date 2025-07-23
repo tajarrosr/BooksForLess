@@ -1,57 +1,106 @@
-@extends('admin.layouts.app')
+@extends('layouts.admin')
+
+@section('title', 'Customer Management - BooksForLess')
 
 @section('content')
-<title>Admin - Customers Management</title>
-<div class="container mt-8">
-    <h2 class="mb-4 text-3xl font-bold text-center dark:text-white">Customer List</h2>
-    <div class="card shadow-lg">
-        <div class="card-body p-0">
-            <table class="table-auto w-full mb-0">
-                <thead class="custom-bg text-color">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-users me-2"></i>Customer Management</h1>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h5 class="mb-0">Registered Customers</h5>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchCustomers" placeholder="Search customers...">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
                     <tr>
-                        <th class="py-2 px-4 text-center">ID</th>
-                        <th class="py-2 px-4 text-center">Last Name</th>
-                        <th class="py-2 px-4 text-center">First Name</th>
-                        <th class="py-2 px-4 text-center">Username</th>
-                        <th class="py-2 px-4 text-center">Email</th>
-                        <th class="py-2 px-4 text-center">Actions</th>
+                        <th>Profile</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Joined</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody class="custom-bg">
-                    @foreach($users as $user)
-                        <tr class="border">
-                            <td class="py-2 px-4 text-center">{{ $user->id }}</td>
-                            <td class="py-2 px-4 text-center">{{ $user->last_name }}</td>
-                            <td class="py-2 px-4 text-center">{{ $user->first_name }}</td>
-                            <td class="py-2 px-4 text-center">{{ $user->username }}</td>
-                            <td class="py-2 px-4 text-center">{{ $user->email }}</td>
-                            <td class="py-2 px-4 text-center">
-                                <a href="{{ route('admin.customers.edit', $user->id) }}" class="btn btn-warning btn-sm bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600">Edit</a>
-                                <form action="{{ route('admin.customers.destroy', $user->id) }}" method="POST" style="display:inline-block;" class="delete-form">
+                <tbody>
+                    @forelse($users as $user)
+                    <tr>
+                        <td>
+                            @if($user->picture)
+                                <img src="{{ asset($user->picture) }}" 
+                                     alt="{{ $user->first_name }}" 
+                                     class="rounded-circle" 
+                                     style="width: 40px; height: 40px; object-fit: cover;">
+                            @else
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" 
+                                     style="width: 40px; height: 40px;">
+                                    {{ strtoupper(substr($user->first_name, 0, 1)) }}
+                                </div>
+                            @endif
+                        </td>
+                        <td>
+                            <strong>{{ $user->first_name }} {{ $user->last_name }}</strong>
+                        </td>
+                        <td>{{ $user->username }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->created_at->format('M j, Y') }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{{ route('admin.customers.edit', $user->id) }}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('admin.customers.destroy', $user->id) }}" 
+                                      method="POST" class="d-inline"
+                                      onsubmit="return confirm('Are you sure you want to delete this customer?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600">Delete</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </form>
-                            </td>
-                        </tr>
-                    @endforeach
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+                            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                            <h5>No customers found</h5>
+                            <p class="text-muted">No customers have registered yet.</p>
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+@endsection
 
+@push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const deleteForms = document.querySelectorAll('.delete-form');
-        deleteForms.forEach(function(form) {
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                if (confirm('Are you sure you want to delete this customer?')) {
-                    form.submit();
-                }
-            });
+    // Simple search functionality
+    document.getElementById('searchCustomers').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+        
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
         });
     });
 </script>
-@endsection
+@endpush

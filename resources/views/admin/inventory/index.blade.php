@@ -1,121 +1,127 @@
-@extends('admin.layouts.app')
+@extends('layouts.admin')
 
-@section('title', 'Inventory Management')
+@section('title', 'Inventory Management - BooksForLess')
 
 @section('content')
-<title>Admin - Books Inventory</title>
-<div class="container mt-8"> 
-    <h2 class="mb-4 text-3xl font-bold text-center dark:text-white">Books Inventory Management</h2>
-    <div class="flex justify-end mb-6">
-        <a href="{{ route('admin.inventory.create') }}" class="btn btn-primary bg-blue-500 text-white py-2 px-4 rounded-md shadow hover:bg-blue-600">Add New Book</a>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-boxes me-2"></i>Inventory Management</h1>
+    <a href="{{ route('admin.inventory.create') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Add New Book
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h5 class="mb-0">Books Inventory</h5>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchBooks" placeholder="Search books...">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card shadow-lg">
-        <div class="card-body p-0">
-            <table class="table-auto w-full mb-0">
-                <thead class="custom-bg text-color">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
                     <tr>
-                        <th class="py-2 px-4 text-center">Image</th>
-                        <th class="py-2 px-4 text-center">Title</th>
-                        <th class="py-2 px-4 text-center">Author</th>
-                        <th class="py-2 px-4 text-center">Genre</th>
-                        <th class="py-2 px-4 text-center">Description</th>
-                        <th class="py-2 px-4 text-center">Price</th>
-                        <th class="py-2 px-4 text-center">Stock</th>
-                        <th class="py-2 px-4 text-center">ISBN</th>
-                        <th class="py-2 px-4 text-center">Actions</th>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Genres</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody class="custom-bg">
-                    @foreach($books as $book)
-                        @php
-                            // Get the actual Book model instance to use the casting
-                            $bookModel = \App\Models\Book::find($book->id);
-                            $genres = [];
-                            
-                            if ($bookModel && is_array($bookModel->book_genres)) {
-                                $genres = $bookModel->book_genres;
-                            } else {
-                                // Fallback for direct database query results
-                                if (is_string($book->book_genres)) {
-                                    $decoded = json_decode($book->book_genres, true);
-                                    if (is_array($decoded)) {
-                                        $genres = $decoded;
-                                    } else {
-                                        $genres = [$book->book_genres];
-                                    }
-                                }
-                            }
-                            
-                            $genreString = is_array($genres) && !empty($genres) ? implode(', ', $genres) : 'No genres';
-                        @endphp
-                        <tr class="border">
-                            <td class="py-2 px-4 text-center">
-                                <a href="{{ asset('storage/' . $book->book_tmb) }}" target="_blank">
-                                    <img src="{{ asset('storage/' . $book->book_tmb) }}" alt="{{ $book->book_title }}" class="w-20 h-28 object-cover rounded-md shadow-md">
+                <tbody>
+                    @forelse($books as $book)
+                    <tr>
+                        <td>
+                            <img src="{{ asset('storage/' . $book->book_tmb) }}" 
+                                 alt="{{ $book->book_title }}" 
+                                 class="img-thumbnail" 
+                                 style="width: 50px; height: 60px; object-fit: cover;"
+                                 onerror="this.src='https://via.placeholder.com/50x60/f8f9fa/6c757d?text=No+Image'">
+                        </td>
+                        <td>
+                            <strong>{{ Str::limit($book->book_title, 30) }}</strong><br>
+                            <small class="text-muted">ISBN: {{ $book->book_isbn }}</small>
+                        </td>
+                        <td>{{ $book->book_author }}</td>
+                        <td>₱{{ number_format($book->book_price, 2) }}</td>
+                        <td>
+                            @if($book->book_stock <= 5)
+                                <span class="badge bg-warning">{{ $book->book_stock }}</span>
+                            @elseif($book->book_stock <= 0)
+                                <span class="badge bg-danger">Out of Stock</span>
+                            @else
+                                <span class="badge bg-success">{{ $book->book_stock }}</span>
+                            @endif
+                        </td>
+                        <td>
+                            @foreach(array_slice(json_decode($book->book_genres, true), 0, 2) as $genre)
+                                <span class="badge bg-light text-dark me-1">{{ $genre }}</span>
+                            @endforeach
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{{ route('admin.inventory.edit', $book->id) }}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i>
                                 </a>
-                            </td>
-                            <td class="py-2 px-4 text-center">{{ $book->book_title }}</td>
-                            <td class="py-2 px-4 text-center">{{ $book->book_author }}</td>
-                            <td class="py-2 px-4 text-center">{{ $genreString }}</td>
-                            <td class="py-2 px-4 text-center">{{ Str::limit($book->book_desc, 50) }}</td>
-                            <td class="py-2 px-4 text-right">₱{{ number_format($book->book_price, 2) }}</td>
-                            <td class="py-2 px-4 text-center">{{ $book->book_stock }}</td>
-                            <td class="py-2 px-4 text-center">{{ $book->book_isbn }}</td>
-                            <td class="py-2 px-4 text-center">
-                                <a href="{{ route('admin.inventory.edit', $book->id) }}" class="btn btn-warning btn-sm bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600">Edit</a>
-                                <form action="{{ route('admin.inventory.destroy', $book->id) }}" method="POST" style="display:inline-block;" class="delete-form">
+                                <form action="{{ route('admin.inventory.destroy', $book->id) }}" 
+                                      method="POST" class="d-inline"
+                                      onsubmit="return confirm('Are you sure you want to delete this book?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600">Delete</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </form>
-                            </td>
-                        </tr>
-                    @endforeach
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            <i class="fas fa-book fa-3x text-muted mb-3"></i>
+                            <h5>No books found</h5>
+                            <p class="text-muted">Start by adding your first book to the inventory.</p>
+                            <a href="{{ route('admin.inventory.create') }}" class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i>Add New Book
+                            </a>
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
+        
+        @if($books->hasPages())
+            <div class="d-flex justify-content-center mt-4">
+                {{ $books->links() }}
+            </div>
+        @endif
     </div>
 </div>
+@endsection
 
-<!-- Scroll-to-Top Button -->
-<button id="scrollToTopBtn" class="btn btn-primary fixed bottom-4 right-4 z-50 bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-blue-600">
-    &#8679;
-</button>
-
+@push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const deleteForms = document.querySelectorAll('.delete-form');
-        deleteForms.forEach(function(form) {
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                if (confirm('Are you sure you want to delete this book?')) {
-                    form.submit();
-                }
-            });
-        });
-
-        // Scroll-to-Top Button Functionality
-        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                scrollToTopBtn.style.display = 'flex';
-            } else {
-                scrollToTopBtn.style.display = 'none';
-            }
-        });
-
-        scrollToTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+    // Simple search functionality
+    document.getElementById('searchBooks').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+        
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
         });
     });
 </script>
-
-<style>
-    #scrollToTopBtn {
-        display: none;
-    }
-</style>
-@endsection
+@endpush
