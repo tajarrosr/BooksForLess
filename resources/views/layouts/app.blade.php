@@ -30,11 +30,8 @@
 
                 <!-- Desktop Navigation -->
                 <div class="hidden lg:flex items-center space-x-12">
-                    <a href="{{ route('landing') }}" class="nav-link-modern">Home</a>
                     <a href="{{ route('show-all.books') }}" class="nav-link-modern">Discover</a>
-                    <a href="#" class="nav-link-modern">Categories</a>
                     <a href="#" class="nav-link-modern">About</a>
-                    <a href="#" class="nav-link-modern">Contact</a>
                 </div>
 
                 <!-- Right Side -->
@@ -126,11 +123,8 @@
         <div id="mobile-menu" class="lg:hidden backdrop-modern border-t border-white/10 hidden">
             <div class="container-modern py-6">
                 <div class="space-y-4">
-                    <a href="{{ route('landing') }}" class="block py-3 text-text hover:text-accent font-medium transition-colors">Home</a>
                     <a href="{{ route('show-all.books') }}" class="block py-3 text-text hover:text-accent font-medium transition-colors">Discover</a>
-                    <a href="#" class="block py-3 text-text hover:text-accent font-medium transition-colors">Categories</a>
                     <a href="#" class="block py-3 text-text hover:text-accent font-medium transition-colors">About</a>
-                    <a href="#" class="block py-3 text-text hover:text-accent font-medium transition-colors">Contact</a>
                 </div>
             </div>
         </div>
