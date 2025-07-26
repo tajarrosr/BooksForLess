@@ -17,6 +17,22 @@ class BooksController extends Controller
         return view('public.browse_books', compact('books'));
     }
 
+    // Show a single book's details
+    public function show(Book $book)
+    {
+        return view('public.book_details', compact('book'));
+    }
+
+    // Search books by title or author
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $books = Book::where('book_title', 'like', '%' . $query . '%')
+                     ->orWhere('book_author', 'like', '%' . $query . '%')
+                     ->get();
+        return view('public.browse_books', compact('books'));
+    }
+
     // * admin front-end
     public function indexAdmin()
     {

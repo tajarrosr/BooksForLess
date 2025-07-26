@@ -33,6 +33,11 @@
     @apply translate-x-full;
   }
 
+  /* Compact Button Styles */
+  .btn-compact-primary {
+    @apply px-4 py-2 bg-accent text-white rounded-xl font-semibold text-sm hover:bg-accent/90 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-accent/25;
+  }
+
   .btn-secondary-modern {
     @apply btn-modern bg-secondary text-white shadow-2xl hover:shadow-secondary/25;
   }
@@ -129,6 +134,11 @@
 
   .nav-link-modern:hover::after {
     @apply w-full;
+  }
+
+  /* Compact Navigation Links */
+  .nav-link-compact {
+    @apply text-text hover:text-accent font-medium transition-all duration-300 text-sm px-3 py-2 rounded-lg hover:bg-white/20;
   }
 
   /* Animations */

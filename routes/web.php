@@ -14,6 +14,10 @@ Route::get('/', function () {
 
 // Route For Browse Products
 Route::get('/browse-books', [BooksController::class, 'index'])->name('show-all.books');
+// Route for single book details
+Route::get('/books/{book}', [BooksController::class, 'show'])->name('show.book.details');
+// Route for searching books
+Route::get('/search', [BooksController::class, 'search'])->name('books.search');
 
 // Route for Admin Registration
 Route::get('admin/registration', [AdminController::class, 'showRegistrationForm']);
