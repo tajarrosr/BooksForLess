@@ -85,24 +85,37 @@ function updateCartCount() {
   }
 }
 
-function addToCart(bookId, title, price, image) {
+function addToCart(bookId, title, price, image, stock) {
   const existingItem = cart.find((item) => item.id === bookId)
 
   if (existingItem) {
-    existingItem.quantity += 1
+    if (existingItem.quantity < stock) {
+      existingItem.quantity += 1
+      showToast("Book quantity increased!", "success")
+    } else {
+      showToast("Cannot add more than available stock!", "warning")
+      return // Prevent adding if stock limit reached
+    }
   } else {
-    cart.push({
-      id: bookId,
-      title: title,
-      price: price,
-      image: image,
-      quantity: 1,
-    })
+    if (stock > 0) {
+      // Only add if there's stock available
+      cart.push({
+        id: bookId,
+        title: title,
+        price: price,
+        image: image,
+        quantity: 1,
+        stock: stock, // Store stock in cart item
+      })
+      showToast("Book added to cart!", "success")
+    } else {
+      showToast("This book is out of stock!", "error")
+      return // Prevent adding if out of stock
+    }
   }
 
   localStorage.setItem("cart", JSON.stringify(cart))
   updateCartCount()
-  showToast("Book added to cart!", "success")
 
   // Add button animation
   const button = event.target
@@ -117,12 +130,19 @@ function showToast(message, type = "info") {
   const toast = document.createElement("div")
   toast.className = `toast-notification fixed top-4 right-4 z-50 px-6 py-4 rounded-xl shadow-lg transform translate-x-full transition-transform duration-300`
 
-  const bgColor = type === "success" ? "bg-green-500" : type === "error" ? "bg-red-500" : "bg-primary-500"
+  const bgColor =
+    type === "success"
+      ? "bg-green-500"
+      : type === "error"
+        ? "bg-red-500"
+        : type === "warning"
+          ? "bg-yellow-500"
+          : "bg-primary-500"
   toast.classList.add(bgColor, "text-white")
 
   toast.innerHTML = `
     <div class="flex items-center space-x-3">
-      <i class="fas fa-${type === "success" ? "check-circle" : type === "error" ? "exclamation-circle" : "info-circle"}"></i>
+      <i class="fas fa-${type === "success" ? "check-circle" : type === "error" ? "exclamation-circle" : type === "warning" ? "exclamation-triangle" : "info-circle"}"></i>
       <span class="font-medium">${message}</span>
     </div>
   `

@@ -46,7 +46,7 @@
                 <div class="sidebar d-flex flex-column p-3">
                     <div class="text-center mb-4">
                         <h4 class="text-white">
-                            <i class="fas fa-book-open me-2"></i>BooksForLess
+                            <img src="{{ asset('assets/images/logo.png') }}" alt="BooksForLess Logo" class="me-2" style="width: 40px; height: 40px; object-fit: contain; display: inline-block;">BooksForLess
                         </h4>
                         <small class="text-white-50">Admin Panel</small>
                     </div>
@@ -58,7 +58,7 @@
                         </a>
                         <a class="nav-link {{ request()->routeIs('admin.inventory.*') ? 'active' : '' }}" 
                            href="{{ route('admin.inventory.index') }}">
-                            <i class="fas fa-books me-2"></i>Inventory
+                            <i class="fas fa-boxes me-2"></i>Inventory
                         </a>
                         <a class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}" 
                            href="{{ route('admin.customers.index') }}">

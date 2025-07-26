@@ -204,7 +204,7 @@
 @push('scripts')
 <script>
     function loadCartSummary() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
         const summaryDiv = document.getElementById('cartSummary');
         
         if (cart.length === 0) {
@@ -225,13 +225,21 @@
             total += itemTotal;
             
             html += `
-                <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 bg-base-200 rounded-lg gap-2">
                     <div class="flex-1">
                         <div class="font-semibold text-sm line-clamp-2">${item.title}</div>
-                        <div class="text-xs text-base-content/70">Qty: ${item.quantity}</div>
+                        <div class="text-xs text-base-content/70">Price: ₱${item.price.toFixed(2)}</div>
                     </div>
-                    <div class="text-right">
-                        <div class="font-bold">₱${itemTotal.toFixed(2)}</div>
+                    <div class="flex items-center gap-2 mt-2 sm:mt-0">
+                        <div class="join">
+                            <button class="btn btn-xs btn-ghost join-item" onclick="updateItemQuantity(${item.id}, -1)">-</button>
+                            <input type="text" value="${item.quantity}" class="input input-xs input-bordered w-10 text-center join-item" readonly />
+                            <button class="btn btn-xs btn-ghost join-item" onclick="updateItemQuantity(${item.id}, 1)">+</button>
+                        </div>
+                        <div class="font-bold text-right w-20">₱${itemTotal.toFixed(2)}</div>
+                        <button class="btn btn-xs btn-error btn-outline" onclick="removeItemFromCart(${item.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             `;
@@ -252,6 +260,57 @@
             items: cart,
             total: total
         }));
+    }
+
+    function removeItemFromCart(bookId) {
+        const idToRemove = parseInt(bookId); // Ensure bookId is an integer
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart = cart.filter(item => item.id !== idToRemove);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCartSummary(); // Re-render the summary
+        if (window.updateCartCounters) { // Check if global function exists
+            window.updateCartCounters(); // Update global cart count
+        }
+        if (window.showToast) {
+            window.showToast('Item removed from cart!', 'info');
+        }
+    }
+
+    function updateItemQuantity(bookId, delta) {
+        const idToUpdate = parseInt(bookId); // Ensure bookId is an integer
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const itemIndex = cart.findIndex(item => item.id === idToUpdate);
+
+        if (itemIndex > -1) {
+            const currentQuantity = cart[itemIndex].quantity;
+            const itemStock = cart[itemIndex].stock; // Get stock from the cart item
+            let newQuantity = currentQuantity + delta;
+
+            if (delta > 0) { // Increasing quantity
+                if (newQuantity > itemStock) {
+                    if (window.showToast) {
+                        window.showToast(`Cannot add more than available stock (${itemStock})!`, 'warning');
+                    }
+                    newQuantity = itemStock; // Cap at available stock
+                }
+            } else { // Decreasing quantity
+                if (newQuantity < 1) {
+                    newQuantity = 1; // Prevent quantity from going below 1
+                }
+            }
+            
+            cart[itemIndex].quantity = newQuantity;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCartSummary(); // Re-render the summary
+            if (window.updateCartCounters) { // Check if global function exists
+                window.updateCartCounters(); // Update global cart count
+            }
+            if (window.showToast && delta > 0 && newQuantity === itemStock && currentQuantity < itemStock) {
+                window.showToast('Reached maximum available stock!', 'warning');
+            } else if (window.showToast && delta < 0) {
+                window.showToast('Cart quantity updated!', 'success');
+            }
+        }
     }
     
     loadCartSummary();

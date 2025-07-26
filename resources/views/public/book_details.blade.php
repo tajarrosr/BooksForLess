@@ -55,7 +55,7 @@
                     <div class="text-4xl font-bold text-primary">₱{{ number_format($book->book_price, 2) }}</div>
                     <div class="flex gap-3">
                         <button class="btn btn-primary btn-lg" 
-                                onclick="checkAuthAndAddToCart({{ $book->id }}, '{{ addslashes($book->book_title) }}', {{ $book->book_price }}, '{{ asset('storage/' . $book->book_tmb) }}')"
+                                onclick="checkAuthAndAddToCart({{ $book->id }}, '{{ addslashes($book->book_title) }}', {{ $book->book_price }}, '{{ asset('storage/' . $book->book_tmb) }}', {{ $book->book_stock }})"
                                 {{ $book->book_stock <= 0 ? 'disabled' : '' }}>
                             <i class="fas fa-cart-plus mr-2"></i>
                             {{ $book->book_stock <= 0 ? 'Out of Stock' : 'Add to Cart' }}
@@ -93,10 +93,10 @@
 
 @push('scripts')
 <script>
-    function checkAuthAndAddToCart(bookId, title, price, image) {
+    function checkAuthAndAddToCart(bookId, title, price, image, stock) {
         if (window.isAuthenticated) {
             // User is logged in, proceed to add to cart
-            addToCart(bookId, title, price, image);
+            addToCart(bookId, title, price, image, stock);
         } else {
             // User is not logged in, show the modal
             document.getElementById('auth_modal').showModal();
